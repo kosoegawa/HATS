@@ -1,4 +1,4 @@
-# Foobar
+# Introduction
 
 HLA Allele To Serotype (HATS) was developed with Perl 5.10 on CentOS 7. The program was developed using the reference sequences based on IPD-IMGT/HLA Database release version 3.38.0.
 
