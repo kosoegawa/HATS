@@ -62,18 +62,18 @@ hla_prot.fasta.3.44.0
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## REFERENCES
-IPD-IMGT/HLA Database:
+#input/hla_prot.fasta file was downloaded from https://github.com/ANHIG/IMGTHLA/ and saved in input directory for test.
+#IPD-IMGT/HLA Database:
 https://pubmed.ncbi.nlm.nih.gov/31667505/
-input/hla_prot.fasta file was downloaded from https://github.com/ANHIG/IMGTHLA/ and saved in input directory for test.
 
-CWD2.0, CIWD3.0 and European CWD catalogues were downloaded from the following literatures, formatted and saved in CWD2, CIWD and EURCWD directories, respectively.
-CWD 2.0 catalogue:
+#CWD2.0, CIWD3.0 and European CWD catalogues were downloaded from the following literatures, formatted and saved in CWD2, CIWD and EURCWD directories, respectively.
+#CWD 2.0 catalogue:
 https://pubmed.ncbi.nlm.nih.gov/23510415/
 
-CIWD 3.0 catalogue:
+#CIWD 3.0 catalogue:
 https://pubmed.ncbi.nlm.nih.gov/31970929/
 
-European CWD catalogue:
+#European CWD catalogue:
 https://pubmed.ncbi.nlm.nih.gov/28102034/
 
 ## License
