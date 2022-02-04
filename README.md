@@ -53,6 +53,9 @@ hla_prot.fasta.3.44.0
 # Generate HLA-DPA1 allele to serotype table
 ./runDPA1.pl
 
+# Untruncated HLA allele to serotype table is saved in RESULTS directory
+# Truncated two-field HLA allele to serotype table is saved in TWORESULTS directory
+
 ```
 
 ## Contributing
