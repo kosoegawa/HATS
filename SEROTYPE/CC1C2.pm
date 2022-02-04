@@ -1,0 +1,67 @@
+#!/usr/bin/perl -w
+
+# Author: Kazutoyo Osoegawa, Ph.D.
+# Developed at Stanford Blood Center
+# email: kazutoyo@stanford.edu
+# phone: 650-724-0169
+
+# module: CC1C2.pm 
+# This module was developed to capture HLA-C Bw4 and Bw6 alleles
+# last modified and documented on January 28 2022
+
+package CC1C2;
+use strict;
+
+my @c1c2 = (2,76,77,80);
+#my @c1c2 = (2,76,80,82);
+my %c1c2;
+my %ref;
+$ref{"C-0102"} = "HLA00401";	# C*01:02:01:01
+$ref{"C-0202"} = "HLA00404";	# C*02:02:01
+$ref{"C-0310"} = "HLA:HLA01076";	# C*03:10
+$ref{"C-1404"} = "HLA00465";	# C*14:04
+$ref{"B-7301"} = "HLA00392";	# B*73:01:01:01
+#$ref{"C-1212"} = "HLA01878";	# C*12:12, C1 Bw6
+#$ref{"C-0669"} = "HLA07131";	# C*06:69, C2 Bw6, this is required, do not delete
+$c1c2{"C-0102"} = "C1"; $c1c2{"C-0202"} = "C2";
+$c1c2{"C-0310"} = "Uncertain";
+$c1c2{"C-1404"} = "Uncertain";
+$c1c2{"B-7301"} = "Uncertain";
+#$c1c2{"C-1212"} = "Bw6"; $c1c2{"C-0669"} = "Bw6";
+
+sub HLAC {
+	my $gene = "C";
+	return $gene;
+}
+
+sub HLAC_LEADER {
+	my $leader = 23;		# C specific
+	return $leader;
+}
+
+sub RESIDUES {
+	my @residues = @c1c2;
+	my $residues_ref = \@residues;
+	return $residues_ref;
+}
+
+sub REF {
+	my $ref_ref = \%ref;
+	return $ref_ref;
+}
+
+sub C1C2 {
+	my $c1c2_ref = \%c1c2;
+	return $c1c2_ref;
+}
+
+sub PARTIAL {		# partial sequence
+	my %partial;
+	my $partial_ref = \%partial;
+	my $seq = "N" x 25;	#change the number of missing nucleotide
+		
+	return $partial_ref;
+}
+
+
+1;
