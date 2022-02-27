@@ -7,16 +7,14 @@
 
 # module: ASSIGNED_SHORT.pm 
 # This module was developed to print table
-# last modified and documented on February 24 2022
+# last modified and documented on January 24 2022
 
 package ASSIGNED_SHORT;
 use strict;
 use GROUP_SORT;
-use ORGANIZE;
 
 my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
-
 
 my %antigen;
 my $antigen_ref = \%antigen;
@@ -521,7 +519,7 @@ sub COMBINED {
 
 			}
 			else {
-				print FILE ",UNA,None,None,None";
+				print FILE ",UA,None,None,None";
 				if ( exists $ciwd_ref->{ $twoField } ) {
 					print FILE "," . $ciwd_ref->{ $twoField} . ",";
 				}
@@ -560,11 +558,6 @@ sub COMBINED {
 sub COMBINED_TWO {
 	my ($database,$nullAllele_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$basetype_ref,$cross_ref,
 	$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2,$c1c2_ref) = @_;
-
-	my $file = "input/hla_nom_p.txt";
-	my $group_ref = ORGANIZE::PGROUP( $file, $gene );
-
-
 	print "TWO FIELD COMBINED\n";
 	my @combined;
 	my $combined_ref = \@combined;
@@ -576,10 +569,10 @@ sub COMBINED_TWO {
 
 	open(FILE, ">output/" . $gene . "_TwoField_Serotype_Table_IMGT_HLA_" . $database . "_" . $date . ".csv");
 	if (( $gene eq "B" ) || ( $gene eq "C" )) {
-		print FILE "Allele,P_GROUP,COMMENT,Serotype,WHOAccepted,Broad,CIWD3.0,CWD2.0,EURCWD,Bw4/Bw6,C1/C2\n";
+		print FILE "Allele,COMMENT,Serotype,WHOAccepted,Broad,CIWD3.0,CWD2.0,EURCWD,Bw4/Bw6,C1/C2\n";
 	}
 	else {
-		print FILE "Allele,P_GROUP,COMMENT,Serotype,WHOAccepted,Broad,CIWD3.0,CWD2.0,EURCWD,Bw46C12DR5X\n";
+		print FILE "Allele,COMMENT,Serotype,WHOAccepted,Broad,CIWD3.0,CWD2.0,EURCWD,Bw46C12DR5X\n";
 	}
 	my %twoField;
 
@@ -615,13 +608,7 @@ sub COMBINED_TWO {
 					$lax = "SEROTYPE";
 				}
 				if ( exists $cross_ref->{ $allele } ) {		# cross-reactivity
-					if ( exists $group_ref->{ $twoField } ) {
-						print FILE $twoField . "," . $group_ref->{ $twoField } . ",";
-						print FILE $lax . "_C," . $serotype . "," . $who . ",";
-					}
-					else {
-						print FILE $twoField . ",," . $lax . "_C," . $serotype . "," . $who . ",";
-					}
+					print FILE $twoField . "," . $lax . "_C," . $serotype . "," . $who . ",";
 					my $test_broad = 0;
 					foreach my $broad ( @broad ) {
 						if ( $broad_ref->{ $group } eq $broad ) {
@@ -672,22 +659,10 @@ sub COMBINED_TWO {
 				}
 				else {	# no cross-reactive
 					if (( $serotype eq "A-0305" ) && ( $allele =~ /A\*11/ )) {	# request from MFV on February 10 2021
-						if ( exists $group_ref->{ $twoField } ) {
-							print FILE $twoField . "," . $group_ref->{ $twoField } . ",";
-							print FILE $lax . "," . $serotype . ",A11";
-						}
-						else {
-							print FILE $twoField . ",," . $lax . "," . $serotype . ",A11,";
-						}
+						print FILE $twoField . "," . $lax . "," . $serotype . ",A11,";
 					}
 					else {
-						if ( exists $group_ref->{ $twoField } ) {
-							print FILE $twoField . "," . $group_ref->{ $twoField } . ",";
-							print FILE $lax . "," . $serotype . "," . $who . ",";
-						}
-						else {
-							print FILE $twoField . ",," . $lax . "," . $serotype . "," . $who . ",";
-						}
+						print FILE $twoField . "," . $lax . "," . $serotype . "," . $who . ",";
 						my $test_broad = 0;
 						foreach my $broad ( @broad ) {
 							if ( $broad_ref->{ $group } eq $broad ) {
@@ -749,23 +724,10 @@ sub COMBINED_TWO {
 				}
 				my $full = ",FULL,";
 				if (( $serotype eq "A-0305" ) && ( $allele =~ /A\*11/ )) {	# request from MFV on February 10 2021
-					if ( exists $group_ref->{ $twoField } ) {
-						print FILE $twoField . "," . $group_ref->{ $twoField };
-						print FILE $full . $serotype . ",A11,";
-					}
-					else {
-						print FILE $twoField . ",";
-						print FILE $full . $serotype . ",A11,";
-					}
+					print FILE $twoField . $full . $serotype . ",A11,";
 				}
 				else {
-					if ( exists $group_ref->{ $twoField } ) {
-						print FILE $twoField . "," . $group_ref->{ $twoField };
-						print FILE $full  . $serotype . "," . $who . ",";
-					}
-					else {
-						print FILE $twoField . "," . $full  . $serotype . "," . $who . ",";
-					}
+					print FILE $twoField . $full  . $serotype . "," . $who . ",";
 					my $test_broad = 0;
 					foreach my $broad ( @broad ) {
 						if ( $broad_ref->{ $group } eq $broad ) {
@@ -813,12 +775,7 @@ sub COMBINED_TWO {
 			}
 		}
 		elsif ( exists $short_ref->{ $allele } ) {	# short
-			if ( exists $group_ref->{ $twoField } ) {
-				print FILE $twoField . "," . $group_ref->{ $twoField } . ",";
-			}
-			else {
-				print FILE $twoField . ",,";
-			}
+			print FILE $twoField . ",";
 			my $num = scalar @{$short_ref->{ $allele }};
 			if ( $allele =~ /(\S+)\*(\d+):\d+:*\d*:*\d*/ ) {		#[1-9]+0* was important, B40
 				my $residue = 0;
@@ -1029,12 +986,7 @@ sub COMBINED_TWO {
 			}
 		}
 		else {		# no match
-			if ( exists $group_ref->{ $twoField } ) {
-				print FILE $twoField . "," . $group_ref->{ $twoField };
-			}
-			else {
-				print FILE $twoField . ",";
-			}
+			print FILE $twoField;
 			if (( $allele =~ /DRB1\*08:04:02/ ) || ( $allele =~ /DRB1\*04:20/ ) ||
 			( $allele =~ /DQB1\*05:03:02/ ) || ( $allele =~ /DQB1\*06:01:02/ ) || ( $allele =~ /DQB1\*06:05:02/ ) ||
 			( $allele =~ /DQB1\*06:06/ )) {	# missing key residues 9 - 14
@@ -1077,7 +1029,7 @@ sub COMBINED_TWO {
 
 			}
 			else {
-				print FILE ",UNA,None,None,None";
+				print FILE ",UA,None,None,None";
 				if ( exists $ciwd_ref->{ $twoField } ) {
 					print FILE "," . $ciwd_ref->{ $twoField} . ",";
 				}

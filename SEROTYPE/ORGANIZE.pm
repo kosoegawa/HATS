@@ -8,7 +8,7 @@
 # module: ORGANIZE.pm 
 # This module was developed to organize fasta file
 # CIWD was developed to add CIWD information in the final output
-# last modified and documented on February 24 2022
+# last modified and documented on February 22 2022
 
 package ORGANIZE;
 use strict;
@@ -164,38 +164,6 @@ sub ALLELE {
 		}
 	}
 	return $alleles_ref;
-}
-
-sub PGROUP {
-	my ( $file, $gene )= @_;
-	my @list = Openfile::open_file_from_list( $file );
-
-	my %group;
-	my $group_ref = \%group;
-	foreach my $line ( @list ) {
-		if ( $line =~ /#/ ) {
-			next;
-		}
-		elsif ( $line =~ /^$gene\*/ ) {
-			my @element = split(";", $line);
-			my @group = split("/", $element[1]);
-			foreach my $allele ( @group ) {
-				unless (( $allele =~ /N/ ) || ( $allele =~ /Q/ )) {
-					my $name = $element[0] . $allele;
-					if ($name =~ /($gene\*\d+:\d+)/ ) {
-						my $two = $1;
-						if ( scalar @element > 2 ) {
-							$group{ $two } = $gene . "*" .  $element[2];
-						}
-						else {
-							$group{ $two } = "";
-						}
-					}
-				}
-			}
-		}
-	}
-	return $group_ref;
 }
 
 
