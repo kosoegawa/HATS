@@ -195,7 +195,13 @@ sub BROAD {
 	my %broad;
 	foreach my $base ( keys %base ) {
 		unless (( $base{ $base } eq "Cw9" ) || ( $base{ $base } eq "Cw10" )) {
-			$broad{ $base } = $base{ $base };
+			if (( $base{ $base } eq "Cw12" ) || ( $base{ $base } eq "Cw14" ) || ( $base{ $base } eq "Cw15" ) ||
+			( $base{ $base } eq "Cw16" ) || ( $base{ $base } eq "Cw17" ) || ( $base{ $base } eq "Cw18" )) {
+				$broad{ $base } = "";
+			}
+			else {
+				$broad{ $base } = $base{ $base };
+			}
 		}
 		else {
 			$broad{ $base } = "Cw3";
