@@ -18,11 +18,11 @@ my @dpa1 = (50,55,58 .. 60);	#DPA1*01 & DPA1*03
 my %group;
 my %base;
 my %dpa1;
-$dpa1{"DPA01"} = "HLA00499";	# DPA1*01:03:01:01
-$dpa1{"DPA02"} = "HLA00504";	# DPA1*02:01:01:01
+$dpa1{"DPA-01"} = "HLA00499";	# DPA1*01:03:01:01
+$dpa1{"DPA-02"} = "HLA00504";	# DPA1*02:01:01:01
 
-$group{"DPA01"} = "DPA01"; $group{"DPA02"} = "DPA01";
-$base{"DPA01"} = "DPA01"; $base{"DPA02"} = "DPA02";
+$group{"DPA-01"} = "DPA01"; $group{"DPA-02"} = "DPA01";
+$base{"DPA-01"} = "DPA01"; $base{"DPA-02"} = "DPA02";
 
 my @subtype = ();	# modify here if serotype modified
 
@@ -113,10 +113,10 @@ sub KEY {
 	my %ref;
 	my $key_ref = \%ref;
 	for my $key ( sort keys %tmp ) {
-		if ( $key =~ /DPA01/ ) {
+		if ( $key =~ /DPA-01/ ) {
 			$ref{$key} = "DPA1\\*01";
 		}
-		elsif ( $key =~ /DPA02/ ) {
+		elsif ( $key =~ /DPA-02/ ) {
 			$ref{$key} = "DPA1\\*02";
 		}
 	}

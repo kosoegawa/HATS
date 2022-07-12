@@ -27,7 +27,7 @@ $ref{"B-7301"} = "HLA00392";	# B*73:01:01:01
 $c1c2{"C-0102"} = "C1"; $c1c2{"C-0202"} = "C2";
 $c1c2{"C-0310"} = "Uncertain";
 $c1c2{"C-1404"} = "Uncertain";
-$c1c2{"B-7301"} = "Uncertain";
+$c1c2{"B-7301"} = "C1";
 
 sub HLAB_LEADER {
 	my $leader = 23;		# A specific

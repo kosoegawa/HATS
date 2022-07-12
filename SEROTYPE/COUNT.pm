@@ -405,7 +405,7 @@ sub SUMMARY {
 
 	foreach my $line ( @list ) {
 		my @elements = split( ",", $line );
-		if ( $elements[1] eq "UA" ) {
+		if ( $elements[1] eq "UNA" ) {
 			$full_ref->{ "None" }->[0] = $full_ref->{ "None" }->[0] + 1;
 			next;
 		}
@@ -637,7 +637,7 @@ sub SUMMARY_TWO {
 	my %two;
 	foreach my $line ( @list ) {
 		my @elements = split( ",", $line );
-		if ( $elements[1] eq "UA" ) {
+		if ( $elements[1] eq "UNA" ) {
 			$full_ref->{ "None" }->[0] = $full_ref->{ "None" }->[0] + 1;
 			next;
 		}

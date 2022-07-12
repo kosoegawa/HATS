@@ -18,15 +18,15 @@ my @dr52 = (9, 10, 12, 13, 60);
 my %dr52;
 my %group;
 my %base;
-$dr52{"DR5201"} = "HLA00887";		# DRB3*01:01:02:01
-$dr52{"DR5202"} = "HLA00895";		# DRB3*02:02:01:01
-$group{"DR5201"} = "DR52";
-$group{"DR5202"} = "DR52";
-$base{"DR5201"} = "DR52";
-$base{"DR5202"} = "DR52";
+$dr52{"DR-5201"} = "HLA00887";		# DRB3*01:01:02:01
+$dr52{"DR-5202"} = "HLA00895";		# DRB3*02:02:01:01
+$group{"DR-5201"} = "DR52";
+$group{"DR-5202"} = "DR52";
+$base{"DR-5201"} = "DR52";
+$base{"DR-5202"} = "DR52";
 
 
-my @subtype = ("DR5202");	# modify here if serotype modified
+my @subtype = ("DR-5202");	# modify here if serotype modified
 
 sub DRB3 {
 	my $gene = "DRB3";
@@ -121,7 +121,7 @@ sub KEY {
 	my %ref;
 	my $key_ref = \%ref;
 	for my $key ( sort keys %tmp ) {
-		if ( $key =~ /DR52/ ) {
+		if ( $key =~ /DR-52/ ) {
 			$ref{$key} = "DRB3\\*";
 		}
 	}

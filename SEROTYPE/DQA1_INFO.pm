@@ -19,18 +19,18 @@ my @dqa2456 = (25,51,52,53,74,75);	#DQA1*01 & DQA1*03
 my %group;
 my %base;
 my %dqa13;
-$dqa13{"DQA01"} = "HLA00601";	# DQA1*01:01:01:01
-$dqa13{"DQA03"} = "HLA00608";	# DQA1*03:01:01
+$dqa13{"DQA-01"} = "HLA00601";	# DQA1*01:01:01:01
+$dqa13{"DQA-03"} = "HLA00608";	# DQA1*03:01:01
 my %dqa2456;
-$dqa2456{"DQA02"} = "HLA00607";	# DQA1*02:01:01:01
-$dqa2456{"DQA04"} = "HLA00612";	# DQA1*04:01:01:01
-$dqa2456{"DQA05"} = "HLA00613";	# DQA1*05:01:01:01
-$dqa2456{"DQA06"} = "HLA00620";	# DQA1*06:01:01:01
+$dqa2456{"DQA-02"} = "HLA00607";	# DQA1*02:01:01:01
+$dqa2456{"DQA-04"} = "HLA00612";	# DQA1*04:01:01:01
+$dqa2456{"DQA-05"} = "HLA00613";	# DQA1*05:01:01:01
+$dqa2456{"DQA-06"} = "HLA00620";	# DQA1*06:01:01:01
 
-$group{"DQA01"} = "DQA01"; $group{"DQA03"} = "DQA01";
-$group{"DQA02"} = "DQA02"; $group{"DQA04"} = "DQA02"; $group{"DQA05"} = "DQA02"; $group{"DQA06"} = "DQA02";
-$base{"DQA01"} = "DQA01"; $base{"DQA03"} = "DQA03";
-$base{"DQA02"} = "DQA02"; $base{"DQA04"} = "DQA04"; $base{"DQA05"} = "DQA05"; $base{"DQA06"} = "DQA06";
+$group{"DQA-01"} = "DQA01"; $group{"DQA-03"} = "DQA01";
+$group{"DQA-02"} = "DQA02"; $group{"DQA-04"} = "DQA02"; $group{"DQA-05"} = "DQA02"; $group{"DQA-06"} = "DQA02";
+$base{"DQA-01"} = "DQA01"; $base{"DQA-03"} = "DQA03";
+$base{"DQA-02"} = "DQA02"; $base{"DQA-04"} = "DQA04"; $base{"DQA-05"} = "DQA05"; $base{"DQA-06"} = "DQA06";
 
 my @subtype = ();	# modify here if serotype modified
 
@@ -133,19 +133,19 @@ sub KEY {
 	my %ref;
 	my $key_ref = \%ref;
 	for my $key ( sort keys %tmp ) {
-		if ( $key =~ /DQA01/ ) {
+		if ( $key =~ /DQA-01/ ) {
 			$ref{$key} = "DQA1\\*01";
 		}
-		elsif ( $key =~ /DQA02/ ) {
+		elsif ( $key =~ /DQA-02/ ) {
 			$ref{$key} = "DQA1\\*02";
 		}
-		elsif ( $key =~ /DQA03/ ) {
+		elsif ( $key =~ /DQA-03/ ) {
 			$ref{$key} = "DQA1\\*03";
 		}
-		elsif ( $key =~ /DQA04/ ) {
+		elsif ( $key =~ /DQA-04/ ) {
 			$ref{$key} = "DQA1\\*04";
 		}
-		elsif ( $key =~ /DQA05/ ) {
+		elsif ( $key =~ /DQA-05/ ) {
 			$ref{$key} = "DQA1\\*05";
 		}
 		else {
