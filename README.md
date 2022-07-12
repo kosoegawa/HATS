@@ -62,6 +62,8 @@ hla_prot.fasta.3.44.0
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## REFERENCES
+#Publication: https://pubmed.ncbi.nlm.nih.gov/35538616/
+
 #input/hla_prot.fasta file was downloaded from https://github.com/ANHIG/IMGTHLA/ and saved in input directory for test.
 
 #IPD-IMGT/HLA Database:
