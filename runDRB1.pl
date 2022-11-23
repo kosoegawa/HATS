@@ -153,7 +153,7 @@ $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$dr5231_ref,$dr5231_ref2 );
 @csv = glob("output/" . $gene . "_Serotype_Table_IMGT_HLA_*");
 foreach my $csv ( @csv ) {
 	my $whotype_ref = DRB1_INFO::WHO();
-	COUNT::SUMMARY($csv, $gene, $sero_ref, $null_ref, $qallele_ref, $basetype_ref, $whotype_ref);
+	COUNT::SUMMARY($csv, $gene, $null_ref, $qallele_ref, $whotype_ref);
 	COUNT::SUMMARY_TWO($csv, $gene, $sero_ref, $null_ref, $qallele_ref, $basetype_ref, $whotype_ref);
 }
 

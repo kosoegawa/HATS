@@ -8,7 +8,7 @@
 # module: runHlaB.pl 
 # Driver for HLA-B
 # If partial sequences are used as a reference, add the optional argument
-# last modified and documented on August 9 2020
+# last modified and documented on October 18 2022
 
 use strict;
 use lib '/data/kazu/workplace/serotype/SEROTYPE';
@@ -56,7 +56,7 @@ if ( $fasta_count > 0 ) {
 	unlink @fasta;
 }
 
-open ( FILE, ">output/" . $database . ".csv" );	#create an empty file to tage database version	
+open ( FILE, ">output/" . $database . ".csv" );	#create an empty file to tag database version	
 close FILE;
 
 my $fasta_ref = ORGANIZE::fasta( $file );	# organize fasta
@@ -153,7 +153,7 @@ $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2,$c1c2_ref );
 @csv = glob("output/" . $gene . "_Serotype_Table_IMGT_HLA_*");
 foreach my $csv ( @csv ) {
 	my $whotype_ref = HLAB_INFO::WHO();
-	COUNT::SUMMARY($csv, $gene, $sero_ref, $null_ref, $qallele_ref, $basetype_ref, $whotype_ref);
+	COUNT::SUMMARY($csv, $gene, $null_ref, $qallele_ref, $whotype_ref);
 	COUNT::SUMMARY_TWO($csv, $gene, $sero_ref, $null_ref, $qallele_ref, $basetype_ref, $whotype_ref);
 }
 

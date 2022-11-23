@@ -7,7 +7,7 @@
 
 # module: HLAB_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on January 23 2022
+# last modified and documented on October 18 2022
 # Included Bw6, Negative and Bw4
 
 package HLAB_INFO;
@@ -877,21 +877,19 @@ sub PARTIAL {		# partial sequence
 	return $partial_ref;
 }
 
+# modified on October 18 2022
 sub WHO {
 	my %who;
 	my $whotype_ref = \%who;
-	$who{"B-0702"} = "B7"; $who{"B-0703"} = "B703"; $who{"B-0801"} = "B8";
-	$who{"B-1302"} = "B13"; $who{"B-1801"} = "B18"; $who{"B-2705"} = "B27"; $who{"B-2708"} = "B2708"; $who{"B-3501"} = "B35";
-	$who{"B-3701"} = "B37"; $who{"B-3801"} = "B38"; $who{"B-3901"} = "B39"; $who{"B-4005"} = "B4005"; $who{"B-4101"} = "B41";
-	$who{"B-4201"} = "B42"; $who{"B-4402"} = "B44"; $who{"B-4501"} = "B45"; $who{"B-4601"} = "B46"; $who{"B-4701"} = "B47";
-	$who{"B-4801"} = "B48"; $who{"B-4901"} = "B49"; $who{"B-5001"} = "B50"; $who{"B-5101"} = "B51";
-	$who{"B-5201"} = "B52"; $who{"B-5301"} = "B53"; $who{"B-5401"} = "B54"; $who{"B-5501"} = "B55"; $who{"B-5501"} = "B55";
-	$who{"B-5601"} = "B56"; $who{"B-5701"} = "B57"; $who{"B-5801"} = "B58"; $who{"B-5901"} = "B59"; $who{"B-4001"} = "B60";
-	$who{"B-4002"} = "B61"; $who{"B-1501"} = "B62"; $who{"B-1517"} = "B63"; $who{"B-1401"} = "B64"; $who{"B-1402"} = "B65";
-	$who{"B-6701"} = "B67"; $who{"B-1510"} = "B71"; $who{"B-1503"} = "B72"; $who{"B-7301"} = "B73"; $who{"B-1502"} = "B75";
-	$who{"B-1512"} = "B76"; $who{"B-1514"} = "B76"; $who{"B-1513"} = "B77"; $who{"B-7801"} = "B67"; $who{"B-8101"} = "B81";
-	$who{"B-8201"} = "B82";# $who{"B-8301"} = "B83";
-
+	$who{"B-5101"} = "B51"; $who{"B-5102"} = "B5102"; $who{"B-5103"} = "B5103"; $who{"B-5201"} = "B52"; $who{"B-0702"} = "B7"; $who{"B-0703"} = "B703"; #B5, B7
+	$who{"B-0801"} = "B8"; $who{"B-4402"} = "B44"; $who{"B-4501"} = "B45"; $who{"B-1302"} = "B13"; $who{"B-1401"} = "B64"; $who{"B-1402"} = "B65"; # B8, B12, B13, B14
+	$who{"B-1501"} = "B62"; $who{"B-1516"} = "B63"; $who{"B-1517"} = "B63"; $who{"B-1502"} = "B75"; $who{"B-1512"} = "B76"; $who{"B-1514"} = "B76"; $who{"B-1513"} = "B77"; #B15
+	$who{"B-3801"} = "B38"; $who{"B-3901"} = "B3901"; $who{"B-3902"} = "B3902"; $who{"B-5701"} = "B57"; $who{"B-5801"} = "B58"; $who{"B-1801"} = "B18"; # B16, B17, B18
+	$who{"B-4005"} = "B4005"; $who{"B-4901"} = "B49"; $who{"B-5001"} = "B50"; $who{"B-5401"} = "B54"; $who{"B-5501"} = "B55";$who{"B-5601"} = "B56"; # B21, B22
+	$who{"B-2705"} = "B27"; $who{"B-2708"} = "B2708"; $who{"B-3501"} = "B35"; $who{"B-3701"} = "B37"; $who{"B-4001"} = "B60";$who{"B-4002"} = "B61"; # B27, B35, B37, B40 
+	$who{"B-4101"} = "B41"; $who{"B-4201"} = "B42"; $who{"B-4601"} = "B46"; $who{"B-4701"} = "B47"; $who{"B-4801"} = "B48"; $who{"B-5301"} = "B53"; # B41, B42, B46, B47, B48, B53
+	$who{"B-5901"} = "B59"; $who{"B-6701"} = "B67"; $who{"B-1510"} = "B71"; $who{"B-1503"} = "B72"; $who{"B-7301"} = "B73"; $who{"B-7801"} = "B78"; #B59, B67, B70, B73, B78
+	$who{"B-8101"} = "B81"; $who{"B-8201"} = "B82";# $who{"B-8301"} = "B83";
 	return $whotype_ref;
 }
 

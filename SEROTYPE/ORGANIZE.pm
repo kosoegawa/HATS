@@ -23,8 +23,7 @@ sub fasta {
 	my $key = "";
 	my $seq = "";
 	foreach my $line (@list) {
-		my $_ = $line;
-		if (/>/) {
+		if ($line =~ />/) {
 			$key = $line;
 			$seq = "";
 		}

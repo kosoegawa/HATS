@@ -7,8 +7,10 @@
 
 # module: COUNT.pm 
 # This module was developed to generate Summary table
-# last modified and documented on September 1 2021
+# last modified and documented on November 4 2022
 
+#no warnings 'experimental::smartmatch';
+#eliminated smartmatch
 package COUNT;
 use strict;
 use lib '/home/kazutoyo/KazuLib';		# for hidpl server
@@ -33,7 +35,7 @@ sub COUNT {		# deal with remaining serotypes with strict mode
 	my $unassign_total = 0;
 	my %outliers;
 
-	foreach my $basetype ( @$basetype_ref ) {
+	foreach my $basetype ( @$basetype_ref ) {	# e.g., @basetype = ("DQ5","DQ6","DQ2","DQ7","DQ8","DQ9","DQ4");
 		foreach my $type ( @{$sero_ref->[0]} ) {	# go through serotype
 			unless ( exists $base_ref->{ $type } ) {
 				print $type . "PROBLEM: PAY ATTENTION!!!\n";
@@ -328,11 +330,18 @@ sub TWOFIELD {		# deal with remaining serotypes with strict mode
 	close FILE;
 }
 
-
 sub SUMMARY {
-	my ($csv_ref, $gene, $sero_ref, $null_ref, $qallele_ref, $basetype_ref, $whotype_ref) = @_;
+	my ( $csv_ref, $gene, $null_ref, $qallele_ref, $whotype_ref ) = @_;
 	my @list = Openfile::open_file_from_list($csv_ref);
+	my @who_values = values %$whotype_ref;
+
 	my $header = shift @list;
+	my %full;
+	my $full_ref = \%full;
+
+	my %who;
+	my $who_ref = \%who;
+
 	my $common_full = 0;
 	my $inter_full = 0;
 	my $wd_full = 0;
@@ -352,42 +361,13 @@ sub SUMMARY {
 	my $common_ins = 0;	# in silico
 	my $inter_ins = 0;
 	my $wd_ins = 0;
-		
-	my %full;
-	my $full_ref = \%full;
-	$full_ref->{ "None" }->[0] = 0;		# FULL
-	$full_ref->{ "None" }->[1] = 0;		# Serotype
-	$full_ref->{ "None" }->[2] = 0;		# S
-	$full_ref->{ "None" }->[3] = 0;		# SC
-	$full_ref->{ "None" }->[4] = 0;		# InSilico
 
-	my %who;
-	my $who_ref = \%who;
-	
-	my @serotype;	#original name
-	my %unique;
-
-	my $antigen_ref = ASSIGNED_SHORT::ANTIGEN();
-	foreach my $type ( @{$sero_ref->[0]} ) {	# go through serotype, original name
-#		$type =~ s/\.\d+//;			# remove B76.1 or DQ7.1
-#		if ( $type eq "DR401" ) {	# DR4 fix
-#			$type = "DR4";
-#		}
-		my $official = "";
-		if ( exists $antigen_ref->{ $type } ) {
-			$official = $antigen_ref->{ $type };	# convert to official serotype, B-1501 => B62
+	foreach my $line ( @list ) {
+		my @elements = split( ",", $line );
+		my $type = $elements[2];
+		if (( $type eq "NULL" ) || ( $type eq "Questionable" )) {
+			next;
 		}
-		else {
-			$official = $type;
-		}
-		$type = $official;	#reassign $type value
-		unless ( exists $unique{ $type } ) {
-			push @serotype, $type;
-			$unique{ $type } = 0;
-		}
-	}
-
-	foreach my $type ( @serotype ) {	# go through serotype
 		unless ( exists $full_ref->{ $type } ) {
 			$full_ref->{ $type }->[0] = 0;		# FULL
 			$full_ref->{ $type }->[1] = 0;		# Serotype
@@ -395,104 +375,120 @@ sub SUMMARY {
 			$full_ref->{ $type }->[3] = 0;		# SC
 			$full_ref->{ $type }->[4] = 0;		# InSilico
 
-			$who_ref->{ $type }->[0] = 0;		# FULL
-			$who_ref->{ $type }->[1] = 0;		# Serotype
-			$who_ref->{ $type }->[2] = 0;		# S
-			$who_ref->{ $type }->[3] = 0;		# SC
-			$who_ref->{ $type }->[4] = 0;		# InSilico
+			if ( grep ( /^$type$/, @who_values ) ) {
+				$who_ref->{ $type }->[0] = 0;		# FULL
+				$who_ref->{ $type }->[1] = 0;		# Serotype
+				$who_ref->{ $type }->[2] = 0;		# S
+				$who_ref->{ $type }->[3] = 0;		# SC
+				$who_ref->{ $type }->[4] = 0;		# InSilico
+			}
+			elsif ( exists $whotype_ref->{ $type } ) {
+				$who_ref->{ $type }->[0] = 0;		# FULL
+				$who_ref->{ $type }->[1] = 0;		# Serotype
+				$who_ref->{ $type }->[2] = 0;		# S
+				$who_ref->{ $type }->[3] = 0;		# SC
+				$who_ref->{ $type }->[4] = 0;		# InSilico
+			}
 		}
-	}
 
-	foreach my $line ( @list ) {
-		my @elements = split( ",", $line );
 		if ( $elements[1] eq "UNA" ) {
-			$full_ref->{ "None" }->[0] = $full_ref->{ "None" }->[0] + 1;
+			$full_ref->{ $type }->[0] = $full_ref->{ $type }->[0] + 1;
 			next;
 		}
-		foreach my $type ( @serotype ) {	# go through original serotype
-#			$type =~ s/\.\d+//;
-			if ( $elements[2] eq $type ) {
-				if ( $elements[1] eq "FULL" ) {
-					$full_ref->{ $type }->[0] = $full_ref->{ $type }->[0] + 1;
-#					if ( $type ~~ @$basetype_ref ) {	#literal value lookup
-					if ( $whotype_ref->{$type} ~~ @$basetype_ref ) {	#literal value lookup
-						$who_ref->{ $type }->[0] = $who_ref->{ $type }->[0] + 1;
-					}
-					if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
-						$common_full++;
-					}
-					elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
-						$inter_full++;
-					}
-					elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
-						$wd_full++;
-					}
-				}
-				elsif ( $elements[1] eq "SEROTYPE" ) {
-					$full_ref->{ $type }->[1] = $full_ref->{ $type }->[1] + 1;
-#					if ( $type ~~ @$basetype_ref ) {	#literal value lookup
-					if ( $whotype_ref->{$type} ~~ @$basetype_ref ) {	#literal value lookup
-						$who_ref->{ $type }->[1] = $who_ref->{ $type }->[1] + 1;
-					}
-					if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
-						$common_sero++;
-					}
-					elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
-						$inter_sero++;
-					}
-					elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
-						$wd_sero++;
-					}
-				}
-				elsif ( $elements[1] eq "S" ) {
-					$full_ref->{ $type }->[2] = $full_ref->{ $type }->[2] + 1;
-#					if ( $type ~~ @$basetype_ref ) {	#literal value lookup
-					if ( $whotype_ref->{$type} ~~ @$basetype_ref ) {	#literal value lookup
-						$who_ref->{ $type }->[2] = $who_ref->{ $type }->[2] + 1;
-					}
-					if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
-						$common_short++;
-					}
-					elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
-						$inter_short++;
-					}
-					elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
-						$wd_short++;
-					}
-				}
-				elsif ( $elements[1] eq "SC" ) {
-					$full_ref->{ $type }->[3] = $full_ref->{ $type }->[3] + 1;
-#					if ( $type ~~ @$basetype_ref ) {	#literal value lookup
-					if ( $whotype_ref->{$type} ~~ @$basetype_ref ) {	#literal value lookup
-						$who_ref->{ $type }->[3] = $who_ref->{ $type }->[3] + 1;
-					}
-					if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
-						$common_sc++;
-					}
-					elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
-						$inter_sc++;
-					}
-					elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
-						$wd_sc++;
-					}
-				}
-				else {	# InSilico
-					$full_ref->{ $type }->[4] = $full_ref->{ $type }->[4] + 1;
-#					if ( $type ~~ @$basetype_ref ) {	#literal value lookup
-					if ( $whotype_ref->{$type} ~~ @$basetype_ref ) {	#literal value lookup
-						$who_ref->{ $type }->[4] = $who_ref->{ $type }->[4] + 1;
-					}
-					if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
-						$common_ins++;
-					}
-					elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
-						$inter_ins++;
-					}
-					elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
-						$wd_ins++;
-					}
-				}
+		elsif ( $elements[1] eq "FULL" ) {
+			$full_ref->{ $type }->[0] = $full_ref->{ $type }->[0] + 1;
+			if ( grep ( /^$type$/, @who_values ) ) {
+				$who_ref->{ $type }->[0] = $who_ref->{ $type }->[0] + 1;
 			}
+			elsif ( exists $whotype_ref->{ $type } ) {
+				$who_ref->{ $type }->[0] = $who_ref->{ $type }->[0] + 1;
+			}
+			if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+				$common_full++;
+			}
+			elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+				$inter_full++;
+			}
+			elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+				$wd_full++;
+			}
+			next;
+		}
+		elsif ( $elements[1] eq "SEROTYPE" ) {
+			$full_ref->{ $type }->[1] = $full_ref->{ $type }->[1] + 1;
+			if ( grep ( /^$type$/, @who_values ) ) {
+				$who_ref->{ $type }->[1] = $who_ref->{ $type }->[1] + 1;
+			}
+			elsif ( exists $whotype_ref->{ $type } ) {
+				$who_ref->{ $type }->[1] = $who_ref->{ $type }->[1] + 1;
+			}
+			if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+				$common_sero++;
+			}
+			elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+				$inter_sero++;
+			}
+			elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+				$wd_sero++;
+			}
+			next;
+		}
+		elsif ( $elements[1] eq "S" ) {
+			$full_ref->{ $type }->[2] = $full_ref->{ $type }->[2] + 1;
+			if ( grep ( /^$type$/, @who_values ) ) {
+				$who_ref->{ $type }->[2] = $who_ref->{ $type }->[2] + 1;
+			}
+			elsif ( exists $whotype_ref->{ $type } ) {
+				$who_ref->{ $type }->[2] = $who_ref->{ $type }->[2] + 1;
+			}
+			if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+				$common_short++;
+			}
+			elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+				$inter_short++;
+			}
+			elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+				$wd_short++;
+			}
+			next;
+		}
+		elsif ( $elements[1] eq "SC" ) {
+			$full_ref->{ $type }->[3] = $full_ref->{ $type }->[3] + 1;
+			if ( grep ( /^$type$/, @who_values ) ) {
+				$who_ref->{ $type }->[3] = $who_ref->{ $type }->[3] + 1;
+			}
+			elsif ( exists $whotype_ref->{ $type } ) {
+				$who_ref->{ $type }->[3] = $who_ref->{ $type }->[3] + 1;
+			}
+			if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+				$common_sc++;
+			}
+			elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+				$inter_sc++;
+			}
+			elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+				$wd_sc++;
+			}
+			next;
+		}
+		elsif ( $elements[1] eq "InSilico" ) {
+			$full_ref->{ $type }->[4] = $full_ref->{ $type }->[4] + 1;
+			if ( grep ( /^$type$/, @who_values ) ) {
+				$who_ref->{ $type }->[4] = $who_ref->{ $type }->[4] + 1;
+			}
+			elsif ( exists $whotype_ref->{ $type } ) {
+				$who_ref->{ $type }->[4] = $who_ref->{ $type }->[4] + 1;
+			}
+			if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+				$common_ins++;
+			}
+			elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+				$inter_ins++;
+			}
+			elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+				$wd_ins++;
+			}
+			next;
 		}
 	}
 
@@ -516,12 +512,15 @@ sub SUMMARY {
 			print FILE $full_ref->{ $type }->[2] . ",";		# S
 			print FILE $full_ref->{ $type }->[3] . ",";		# SC
 			print FILE $full_ref->{ $type }->[4] . "\n";		# InSilico
+
 			$full = $full + $full_ref->{ $type }->[0];
 			$sero = $sero + $full_ref->{ $type }->[1];
 			$short = $short + $full_ref->{ $type }->[2];
 			$sc = $sc + $full_ref->{ $type }->[3];
 			$ins = $ins + $full_ref->{ $type }->[4];
+
 			if ( exists $who_ref->{ $type } ) {
+#				print $type . "\t" . $who_ref-> { $type }->[0] . "\n";
 				$who_full = $who_full + $who_ref->{ $type }->[0];
 				$who_sero = $who_sero + $who_ref->{ $type }->[1];
 				$who_short = $who_short + $who_ref->{ $type }->[2];
@@ -530,12 +529,12 @@ sub SUMMARY {
 			}
 		}
 	}
+	if ( !exists $full_ref->{ "None" } ) {
+		$full_ref->{ "None" }->[0] = 0;
+	}
 	print FILE "None,";
-	print FILE $full_ref->{ "None" }->[0] . ",";		# FULL
-	print FILE $full_ref->{ "None" }->[1] . ",";		# Serotype
-	print FILE $full_ref->{ "None" }->[2] . ",";		# S
-	print FILE $full_ref->{ "None" }->[3] . ",";		# SC
-	print FILE $full_ref->{ "None" }->[4] . "\n\n";		# InSilico
+	print FILE $full_ref->{ "None" }->[0] . ",0,0,0,0\n\n";		# FULL
+
 	print FILE "AssignedTotal," . $full . "," . $sero . "," . $short . "," . $sc . "," . $ins . "\n";
 	print FILE "WHOAcceptedTotal," . $who_full . "," . $who_sero . "," . $who_short . "," . $who_sc . "," . $who_ins . "\n\n";
 	print FILE "CommonTotal," . $common_full . "," . $common_sero . "," . $common_short . "," . $common_sc . "," . $common_ins . "\n";
@@ -560,6 +559,7 @@ sub SUMMARY {
 
 	close FILE;
 }
+
 
 sub SUMMARY_TWO {
 	my ($csv_ref, $gene, $sero_ref, $null_ref, $qallele_ref, $basetype_ref, $whotype_ref) = @_;
@@ -600,10 +600,6 @@ sub SUMMARY_TWO {
 	my %unique;
 	my $antigen_ref = ASSIGNED_SHORT::ANTIGEN();
 	foreach my $type ( @{$sero_ref->[0]} ) {	# go through serotype
-#		$type =~ s/\.\d+//;			# remove B76.1 or DQ7.1
-#		if ( $type eq "DR401" ) {	# DR4 fix
-#			$type = "DR4";
-#		}
 		my $official = "";
 		if ( exists $antigen_ref->{ $type } ) {
 			$official = $antigen_ref->{ $type };	# convert to official serotype, B-1501 => B62
@@ -656,9 +652,10 @@ sub SUMMARY_TWO {
 					if ( $elements[2] eq $type ) {
 						if ( $elements[1] eq "FULL" ) {
 							$full_ref->{ $type }->[0] = $full_ref->{ $type }->[0] + 1;
-#							if ( $type ~~ @$basetype_ref ) {	#literal value lookup
-							if ( $whotype_ref->{$type} ~~ @$basetype_ref ) {	#literal value lookup
-								$who_ref->{ $type }->[0] = $who_ref->{ $type }->[0] + 1;
+							if ( exists $whotype_ref->{$type} ) {	
+								if ( grep( /^$whotype_ref->{$type}$/, @$basetype_ref )) {	#literal value lookup
+									$who_ref->{ $type }->[0] = $who_ref->{ $type }->[0] + 1;
+								}
 							}
 							# CIWD
 							if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
@@ -674,9 +671,10 @@ sub SUMMARY_TWO {
 #						elsif ( $elements[1] eq "Serotype" ) {
 						elsif ( $elements[1] eq "SEROTYPE" ) {
 							$full_ref->{ $type }->[1] = $full_ref->{ $type }->[1] + 1;
-#							if ( $type ~~ @$basetype_ref ) {	#literal value lookup
-							if ( $whotype_ref->{$type} ~~ @$basetype_ref ) {	#literal value lookup
-								$who_ref->{ $type }->[1] = $who_ref->{ $type }->[1] + 1;
+							if ( exists $whotype_ref->{$type} ) {	
+								if ( grep( /^$whotype_ref->{$type}$/, @$basetype_ref )) {	#literal value lookup
+									$who_ref->{ $type }->[1] = $who_ref->{ $type }->[1] + 1;
+								}
 							}
 							if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
 								$common_sero++;
@@ -690,9 +688,10 @@ sub SUMMARY_TWO {
 						}
 						elsif ( $elements[1] eq "S" ) {
 							$full_ref->{ $type }->[2] = $full_ref->{ $type }->[2] + 1;
-#							if ( $type ~~ @$basetype_ref ) {	#literal value lookup
-							if ( $whotype_ref->{$type} ~~ @$basetype_ref ) {	#literal value lookup
-								$who_ref->{ $type }->[2] = $who_ref->{ $type }->[2] + 1;
+							if ( exists $whotype_ref->{$type} ) {	
+								if ( grep( /^$whotype_ref->{$type}$/, @$basetype_ref )) {	#literal value lookup
+									$who_ref->{ $type }->[2] = $who_ref->{ $type }->[2] + 1;
+								}
 							}
 							if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
 								$common_short++;
@@ -706,9 +705,10 @@ sub SUMMARY_TWO {
 						}
 						elsif ( $elements[1] eq "SC" ) {
 							$full_ref->{ $type }->[3] = $full_ref->{ $type }->[3] + 1;
-#							if ( $type ~~ @$basetype_ref ) {	#literal value lookup
-							if ( $whotype_ref->{$type} ~~ @$basetype_ref ) {	#literal value lookup
-								$who_ref->{ $type }->[3] = $who_ref->{ $type }->[3] + 1;
+							if ( exists $whotype_ref->{$type} ) {	
+								if ( grep( /^$whotype_ref->{$type}$/, @$basetype_ref )) {	#literal value lookup
+									$who_ref->{ $type }->[3] = $who_ref->{ $type }->[3] + 1;
+								}
 							}
 							if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
 								$common_sc++;
@@ -722,9 +722,10 @@ sub SUMMARY_TWO {
 						}
 						else {
 							$full_ref->{ $type }->[4] = $full_ref->{ $type }->[4] + 1;
-#							if ( $type ~~ @$basetype_ref ) {	#literal value lookup
-							if ( $whotype_ref->{$type} ~~ @$basetype_ref ) {	#literal value lookup
-								$who_ref->{ $type }->[4] = $who_ref->{ $type }->[4] + 1;
+							if ( exists $whotype_ref->{$type} ) {	
+								if ( grep( /^$whotype_ref->{$type}$/, @$basetype_ref )) {	#literal value lookup
+									$who_ref->{ $type }->[4] = $who_ref->{ $type }->[4] + 1;
+								}
 							}
 							if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
 								$common_ins++;

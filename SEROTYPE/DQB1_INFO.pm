@@ -7,12 +7,13 @@
 
 # module: DQB1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on January 31 2022
+# last modified and documented on november 7 2022
 
 package DQB1_INFO;
 use strict;
 
 
+#my @dq1 = (71,74,84,85,86,87,89,90);	#89 or 90
 my @dq1 = (84,85,86,87,89,90);	#89 or 90
 my @dq2= (46,47,71,74,85,86,87);
 my @dq3 = (45,57,74,84,85);

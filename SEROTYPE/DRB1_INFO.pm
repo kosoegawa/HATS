@@ -78,12 +78,14 @@ my %dr818;
 $dr818{"DR-0818"} = "HLA00744";		# DRB1*08:18, used to replace partial DRB1*08:05
 $group{"DR-0818"} = "DR818";
 $base{"DR-0818"} = "DR8";
-push @subtype, ("DR818");
+push @subtype, ("DR-818");
 
 my %dr9;
 $dr9{"DR-0901"} = "HLA00749";		# DRB1*09:01:02:01
-$group{"DR-0901"} = "DR9";
-$base{"DR-0901"} = "DR9";
+#$dr9{"DR-0902"} = "HLA01513";		# DRB1*09:02:01
+$group{"DR-0901"} = "DR9";# $group{"DR-0902"} = "DR9";
+$base{"DR-0901"} = "DR9";# $base{"DR-0902"} = "DR9";
+#push @subtype, ("DR-0902");
 
 my %dr10;
 $dr10{"DR-1001"} = "HLA00750";		# DRB1*10:01:01:01
@@ -446,6 +448,7 @@ sub PARTIAL {		# partial sequence
 	my $partial_ref = \%partial;
 	my $seq = "N" x 34;
 
+	$partial{ "DR-0902" } = $seq;	# still partial
 	$partial{ "DR-1339" } = $seq;	# still partial
 	$partial{ "DR-1343" } = $seq;	# still partial
 	$partial{ "DR-1422" } = $seq;	# still partial

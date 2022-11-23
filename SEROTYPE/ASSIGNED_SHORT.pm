@@ -7,7 +7,7 @@
 
 # module: ASSIGNED_SHORT.pm 
 # This module was developed to print table
-# last modified and documented on May 28 2022
+# last modified and documented on November 4 2022
 
 package ASSIGNED_SHORT;
 use strict;
@@ -57,8 +57,8 @@ $antigen{ "B-5401" } = "B54";
 $antigen{ "B-5501" } = "B55";
 $antigen{ "B-5601" } = "B56";
 $antigen{ "B-2708" } = "B2708";
-$antigen{ "B-4001" } = "B60";
-$antigen{ "B-4002" } = "B61";
+#$antigen{ "B-4001" } = "B60";
+#$antigen{ "B-4002" } = "B61";
 $antigen{ "B-4005" } = "B4005";
 $antigen{ "B-4101" } = "B41";
 $antigen{ "B-4201" } = "B42";
@@ -85,6 +85,7 @@ $antigen{ "DR-0302" } = "DR18";
 $antigen{ "DR-1201" } = "DR12";
 $antigen{ "DR-0701" } = "DR7";
 $antigen{ "DR-0901" } = "DR9";
+#$antigen{ "DR-0902" } = "DR9";
 $antigen{ "DR-1001" } = "DR10";
 $antigen{ "DR-0404" } = "DR-0401";
 $antigen{ "DR-1305" } = "DR-1303";	#added
@@ -97,8 +98,8 @@ $antigen{ "DQ-0302" } = "DQ8";
 $antigen{ "DQ-0303" } = "DQ9";
 $antigen{ "DQ-0401" } = "DQ4";
 $antigen{ "DQ-0501" } = "DQ5";
-$antigen{ "DQ-0602" } = "DQ6";
-$antigen{ "DQ-0604" } = "DQ6";
+$antigen{ "DQ-0602" } = "DQ6";	#comment out for SAB
+$antigen{ "DQ-0604" } = "DQ6";	#comment out for SAB
 
 $antigen{"DP0101"} = "DP-01";
 $antigen{"DP0201"} = "DP-0201";
@@ -162,7 +163,7 @@ sub COMBINED {
 	my $alleles_sorted_ref = GROUP_SORT::SORT( $combined_ref );	# sort allele numerically
 
 	open(FILE, ">output/" . $gene . "_Serotype_Table_IMGT_HLA_" . $database . "_" . $date . ".csv");
-	print FILE "Allele,COMMENT,Serotype,WHOAccepted,Broad,CIWD3.0,CWD2.0,EURCWD,Bw46C12DR5X\n";
+	print FILE "Allele,COMMENT,Serotype,ImputedAntigen,Broad,CIWD3.0,CWD2.0,EURCWD,Bw46C12DR5X\n";	# modified to ImputedAntigen
 
 	foreach my $allele ( @$alleles_sorted_ref ) {		#go through all alleles
 		my $twoField = "";
@@ -232,7 +233,7 @@ sub COMBINED {
 					if (( $serotype eq "A-0305" ) && ( $allele =~ /A\*11/ )) {	# request from MFV on February 10 2021
 						print FILE $allele . "," . $lax . "," . $serotype . ",A11,A11";
 					}
-					elsif (( $serotype eq "B-4406" ) && ( $allele =~ /B\*51/ )) {	# request from MFV on February 10 2021
+					elsif (( $serotype eq "B-4406" ) && ( $allele =~ /B\*51/ )) {	
 						print FILE $allele . "," . $lax . "," . $serotype . ",B51,B5";
 					}
 					else {
@@ -278,8 +279,8 @@ sub COMBINED {
 				if (( $serotype eq "A-0305" ) && ( $allele =~ /A\*11/ )) {	# request from MFV on February 10 2021
 					print FILE $allele . $full . $serotype . ",A11,A11";
 				}
-				elsif (( $serotype eq "B-4406" ) && ( $allele =~ /B\*51/ )) {	# request from MFV on February 10 2021
-					print FILE $allele . "," . $full . "," . $serotype . ",B51,B5";
+				elsif (( $serotype eq "B-4406" ) && ( $allele =~ /B\*51/ )) {	
+					print FILE $allele . $full . $serotype . ",B51,B5";
 				}
 				else {
 					print FILE $allele . $full  . $serotype . "," . $base_ref->{ $group } . "," . $broad_ref->{ $group };
@@ -577,13 +578,13 @@ sub COMBINED_TWO {
 
 	open(FILE, ">output/" . $gene . "_TwoField_Serotype_Table_IMGT_HLA_" . $database . "_" . $date . ".csv");
 	if (( $gene eq "B" ) || ( $gene eq "C" )) {
-		print FILE "Allele,Serotype,Qualifiers,COMMENT,WHO Assigned,Broad,CIWD3.0,CWD2.0,EURCWD,Bw4/Bw6,C1/C2\n";
+		print FILE "Allele,Serotype,Qualifiers,COMMENT,ImputedAntigen,Broad,CIWD3.0,CWD2.0,EURCWD,Bw4/Bw6,C1/C2\n";
 	}
 	elsif ( $gene eq "A" ) {
-		print FILE "Allele,Serotype,Qualifiers,COMMENT,WHO Assigned,Broad,CIWD3.0,CWD2.0,EURCWD,Bw4/Bw6\n";
+		print FILE "Allele,Serotype,Qualifiers,COMMENT,ImputedAntigen,Broad,CIWD3.0,CWD2.0,EURCWD,Bw4/Bw6\n";
 	}
 	else {
-		print FILE "Allele,Serotype,Qualifiers,COMMENT,WHO Assigned,Broad,CIWD3.0,CWD2.0,EURCWD,DR5X\n";
+		print FILE "Allele,Serotype,Qualifiers,COMMENT,ImputedAntigen,Broad,CIWD3.0,CWD2.0,EURCWD,DR5X\n";
 	}
 	my %twoField;
 
