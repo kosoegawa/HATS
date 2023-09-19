@@ -4,6 +4,8 @@
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
 # phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: runHlaA.pl
 # Driver for HLA-A
