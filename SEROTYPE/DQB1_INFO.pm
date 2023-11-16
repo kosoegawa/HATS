@@ -3,35 +3,47 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: DQB1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on november 7 2022
+# last reviewed, modified and documented on October 20 2023
 
 package DQB1_INFO;
 use strict;
 
 
-#my @dq1 = (71,74,84,85,86,87,89,90);	#89 or 90
-my @dq1 = (84,85,86,87,89,90);	#89 or 90
-my @dq2= (46,47,71,74,85,86,87);
-my @dq3 = (45,57,74,84,85);
-my @dq4 = (57,70,71,84,85,87);	# 57 was included to remove noise DRP1*01:34
+my @dq1 = (74,77,84,89,90);	#required 89 and 90
+my @dq2= (46,47,71,74,77);
+my @dq3 = (45,57,74,84,90);	# included 90 to remove noise
+my @dq4 = (70,71,74,84);	# 74 was included to remove noise DRP1*01:34
+my @extra = (55);	# FULL only, for DQ3, but DQB1*03:16
 
 
 my %group;
 my %base;
 my %dq1;
+my @subtype;
 $dq1{"DQ-0501"} = "HLA00638";	#DQB1*05:01:01:01
+$dq1{"DQ-0502"} = "HLA00639";	# DQB1*05:02:01:01 261 bp
+$dq1{"DQ-0503"} = "HLA00640";	# DQB1*05:03:01:01 269 bp
+#Decided to leave DQB1*05:04 as SEROTYPE
 $dq1{"DQ-0602"} = "HLA00646";	#DQB1*06:02:01:01
-$dq1{"DQ-0604"} = "HLA00648";	#DQB1*06:04:01:01
-$group{"DQ-0501"} = "DQ1"; $group{"DQ-0602"} = "DQ1"; $group{"DQ-0604"} = "DQ1";
-$base{"DQ-0501"} = "DQ5"; $base{"DQ-0602"} = "DQ6"; $base{"DQ-0604"} = "DQ6";
+#$dq1{"DQ-0604"} = "HLA00648";	#DQB1*06:04:01:01
+$dq1{"DQ-0608"} = "HLA00653";	# DQB1*06:08:01 261 bp
+$dq1{"DQ-0610"} = "HLA00655";	# DQB1*06:10 261 bp
+$group{"DQ-0501"} = "DQ1"; $group{"DQ-0502"} = "DQ1"; $group{"DQ-0503"} = "DQ1"; $group{"DQ-0602"} = "DQ1";# $group{"DQ-0604"} = "DQ1";
+$group{"DQ-0608"} = "DQ1"; $group{"DQ-0610"} = "DQ1";
+$base{"DQ-0501"} = "DQ5"; $base{"DQ-0502"} = "DQ5"; $base{"DQ-0503"} = "DQ5"; $base{"DQ-0602"} = "DQ6";# $base{"DQ-0604"} = "DQ6";
+$base{"DQ-0608"} = "DQ6"; $base{"DQ-0610"} = "DQ6";
+push @subtype, ("DQ-0502","DQ-0503","DQ-0608", "DQ-0610");	# modify here if serotype modified
+
 my %dq2;
 $dq2{"DQ-0201"} = "HLA00622";	#DQB1*02:01:01
-$group{"DQ-0201"} = "DQ2";
-$base{"DQ-0201"} = "DQ2";
+$dq2{"DQ-0203"} = "HLA29352";	# DQB1*02:180 261 bp #HLA21020";	# DQB1*02:03:02 183 bp
+$group{"DQ-0201"} = "DQ2"; $group{"DQ-0203"} = "DQ2";
+$base{"DQ-0201"} = "DQ2"; $base{"DQ-0203"} = "DQ2";
 my %dq3;
 $dq3{"DQ-0301"} = "HLA00625";	#DQB1*03:01:01:01
 $dq3{"DQ-0304"} = "HLA00630";	#DQB1*03:04:01
@@ -44,8 +56,8 @@ $dq4{"DQ-0401"} = "HLA00636";	#DQB1*04:01:01:01
 $group{"DQ-0401"} = "DQ4";
 $base{"DQ-0401"} = "DQ4";
 
-my @subtype = ("DQ-0604","DQ-0304","DQ-0302","DQ-0303");	# modify here if serotype modified
-
+push @subtype, ("DQ-0203","DQ-0304","DQ-0302","DQ-0303");	# modify here if serotype modified
+#"DQ-0604",
 sub DQB1 {
 	my $gene = "DQB1";
 	return $gene;
@@ -95,6 +107,7 @@ sub RESIDUES {
 	push @combined, @dq2;
 	push @combined, @dq3;
 	push @combined, @dq4;
+	push @combined, @extra; 
 	my %seen;
 	my @unique;
 	foreach my $value ( sort { $a <=> $b } @combined ) {
@@ -190,9 +203,25 @@ sub KEY {
 sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
-	my $seq = "N" x 25;	#change the number of missing nucleotide
-		
+	my $seq = "X" x 37;	#change the number of missing nucleotide
+#	$partial{ "DQ-0203" } = $seq;	# still partial
+	$partial{ "general" } = $seq;
+	$partial{ "DQB1*06:05:01" } = "X";	# residue 1 M is missing
+	$partial{ "DQB1*06:06" } = "X" x 52;
+	$partial{ "tail" } = "X" x 100;
 	return $partial_ref;
+}
+
+
+sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL
+	my %known_cross;
+	my $known_cross_ref = \%known_cross;
+	$known_cross{ "DQ-0502" } = 0;
+	$known_cross{ "DQ-0503" } = 0;
+	$known_cross{ "DQ-0203" } = 0;
+	$known_cross{ "DQ-0608" } = 0;
+	$known_cross{ "DQ-0610" } = 0;
+	return $known_cross_ref;
 }
 
 1;

@@ -3,11 +3,12 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: HLAA_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on March 8 2022
+# last modified and documented on November 15 2023
 
 package HLAA_INFO;
 use strict;
@@ -18,25 +19,24 @@ use strict;
 my @a1 = (44,67,76,163,166,167);
 
 # A2 62G is mandatory, residues 43 & 73 were added to separate A202 and A211, 144 were added to separate A265
-my @a2 = (43,62, 73, 107, 144,145, 149);
-my @a210 = (43,62, 73,76, 107, 145, 149);
-my @a219 = (62, 65, 82, 83, 144, 145,151,161,163, 166, 167);	
+my @a2 = (43,62, 66, 73, 107, 144,145, 149,163);
+my @a219 = (62, 65, 82, 83, 144, 145,161,163, 166, 167);	#removed 151
 my @a3 = (62, 76,144,161, 163);	# 161D is mandatory
 my @a305 = (62,76, 144,145, 161, 163); 	# added 144 and 145 to exclude the other alleles
 my @a11 = (62, 76, 144, 161, 163,167);
-my @a9 = (62, 65, 82, 83, 144, 151, 166, 167);	#Bw4, 65G for A9, both 144 and 151 are important
+my @a9 = (62, 65, 82, 83, 107, 144, 151, 163, 166, 167);	#Bw4, 65G for A9, both 144 and 151 are important
 my @a25 = (76, 82,83, 144, 149,163,166,167);	#Bw4
-my @a26a43 = (62,63, 74,76,144, 149,163,166);
+my @a26a43 = (62,63,74,76,144, 149,163,166);	 #
 my @a29 = (44, 62, 63, 144,151);		#residue 44 is included to exclude noise for SHORT
 my @a30 = (56, 62, 73, 76, 82,83,144);	# included 62 to separate A3007, removed 151 to include A*30:04
-my @a31 = (56, 73, 76, 82, 83, 144);
+my @a31 = (56,62, 66, 73, 76, 82, 83, 144);	# 62 is included to eliminate A*33 alleles
 my @a32 = (62, 82, 83, 144,161, 163,167);	#Bw4, 62 is used to separate from A2403
 my @a33 = (62, 63, 73, 76, 144, 151, 171);	# residue 171 is unique for A33
 my @a3313 = (62, 63, 73, 76, 144, 151,163, 171);	# residue 163 was added
 my @a34 = (62, 66, 67, 144, 149, 163);
 my @a36 = (44,67,76, 166, 167);	#67 is used to show cross-reactivity with A1, 76 was added to exclude noise
 my @a66 = (62, 66, 74, 76, 149, 163);
-my @a68 = (62, 76, 107, 144, 145);
+my @a68 = (62,63, 76, 107, 144, 145);	# added 63
 my @a6836 = (62, 76,82,83, 107, 144,145); # 63 was originally included to remove B*15:67 allele, but was able to replace with 144
 my @a69 = (62, 76, 107, 144, 145);	#145 was added to exclude noise
 my @a74 = (45,56,62, 63, 73,76, 144, 161, 163);	#45 is used to eliminate HLA-C, residue 56 is used to distinguish from A30
@@ -55,16 +55,21 @@ my %a2;
 $a2{"A-0201"} = "HLA00005";
 $a2{"A-0202"} = "HLA00007";	# A*02:02:01:01
 $a2{"A-0203"} = "HLA00008";
+$a2{"A-0208"} = "HLA00013";	# A*02:08:01 365 bp
 $a2{"A-0211"} = "HLA00016";	# A*02:11:01:01
+$a2{"A-0216"} = "HLA00021";	# A*02:16 365 bp
+$a2{"A-0220"} = "HLA00026";	# A*02:20:01 365 bp
 $a2{"A-0285"} = "HLA02235";	# A*02:85
 $a2{"A-0256"} = "HLA01575";		# A*02:56:01
-$group{"A-0201"} = "A2"; $group{"A-0202"} = "A2"; $group{"A-0203"} = "A2"; $group{"A-0211"} = "A2"; $group{"A-0285"} = "A2"; $group{"A-0256"} = "A2";
-$base{"A-0201"} = "A2"; $base{"A-0202"} = "A2"; $base{"A-0203"} = "A203"; $base{"A-0211"} = "A2"; $base{"A-0285"} = "A2"; $base{"A-0256"} = "A2";
-my %a210;
-$a210{"A-0210"} = "HLA00015";
-$group{"A-0210"} = "A210";
-$base{"A-0210"} = "A210";
-push @subtype, ("A-0202","A-0203","A-0210","A-0211","A-0285","A-0256");
+$group{"A-0201"} = "A2"; $group{"A-0202"} = "A2"; $group{"A-0203"} = "A2"; $group{"A-0208"} = "A2"; $group{"A-0211"} = "A2"; $group{"A-0216"} = "A2"; 
+$group{"A-0220"} = "A2"; $group{"A-0285"} = "A2"; $group{"A-0256"} = "A2";
+$base{"A-0201"} = "A2"; $base{"A-0202"} = "A2"; $base{"A-0203"} = "A203"; $base{"A-0208"} = "A2"; $base{"A-0211"} = "A2"; $base{"A-0216"} = "A2"; 
+$base{"A-0220"} = "A2"; $base{"A-0285"} = "A2"; $base{"A-0256"} = "A2";
+#my %a210;
+$a2{"A-0210"} = "HLA00015";
+$group{"A-0210"} = "A2";
+$base{"A-0210"} = "A2";
+push @subtype, ("A-0202","A-0203","A-0208","A-0210","A-0211","A-0216","A-0220","A-0285","A-0256");
 my%a219;
 $a219{"A-0219"} = "HLA00025";	# A*02:19, I group
 $a219{"A-0244"} = "HLA01222";	# A*02:44, I group
@@ -95,17 +100,20 @@ $a9{"A-2404"} = "HLA00054";		# A*24:04, non-Bw4
 $a9{"A-2405"} = "HLA00055";		# A*24:05:01, Bw4
 $a9{"A-0246"} = "HLA01274";		# A*02:46, Bw6Neg
 $a9{"A-2408"} = "HLA00058";		# A*24:08
+$a9{"A-2410"} = "HLA00060";		# A*24:10:01:01 365 bp
+$a9{"A-2414"} = "HLA00064";		# A*24:14:01:01 365 bp
 $a9{"A-2423"} = "HLA01041";		# A*24:23, included for common allele
 $a9{"A-2424"} = "HLA01042";		# A*24:24
 $bw{"A-2301"} = "Bw4"; $bw{"A-2304"} = "Bw4"; 	# nothing for A-246
-$bw{"A-2402"} = "Bw4"; $bw{"A-2403"} = "Bw4"; $bw{"A-2405"} = "Bw4"; $bw{"A-2408"} = "Bw4"; $bw{"A-2423"} = "Bw4"; $bw{"A-2424"} = "Bw4";
-$group{"A-2301"} = "A9"; $group{"A-2304"} = "A9"; $group{"A-2408"} = "A9"; 
+$bw{"A-2402"} = "Bw4"; $bw{"A-2403"} = "Bw4"; $bw{"A-2405"} = "Bw4"; $bw{"A-2408"} = "Bw4"; $bw{"A-2410"} = "Bw4"; $bw{"A-2414"} = "Bw4";
+$bw{"A-2423"} = "Bw4"; $bw{"A-2424"} = "Bw4";
+$group{"A-2301"} = "A9"; $group{"A-2304"} = "A9"; $group{"A-2408"} = "A9"; $group{"A-2410"} = "A9"; $group{"A-2414"} = "A9";
 $group{"A-2402"} = "A9"; $group{"A-2403"} = "A9"; $group{"A-2404"} = "A9"; $group{"A-2405"} = "A9"; $group{"A-2424"} = "A9"; $group{"A-2423"} = "A9";
 $group{"A-0246"} = "A9";	# use residue 76 to distinguish from A2403
-$base{"A-2301"} = "A23"; $base{"A-2304"} = "A23"; $base{"A-2408"} = "A24";
+$base{"A-2301"} = "A23"; $base{"A-2304"} = "A23"; $base{"A-2408"} = "A24"; $base{"A-2410"} = "A24"; $base{"A-2414"} = "A24";
 $base{"A-2402"} = "A24"; $base{"A-2403"} = "A2403"; $base{"A-2404"} = "A24"; $base{"A-2405"} = "A24"; $base{"A-2424"} = "A23"; $base{"A-2423"} = "A2403";
 $base{"A-0246"} = "A2";	# was None
-push @subtype, ("A-2304","A-2403","A-2404","A-2405","A-2408","A-2423","A-2424");
+push @subtype, ("A-2304","A-2403","A-2404","A-2405","A-2408","A-2410","A-2414","A-2423","A-2424");
 push @subtype, ("A-0246");
 my %a25;
 $a25{"A-2501"} = "HLA00071";		# A*25:01:01:01
@@ -134,12 +142,13 @@ $a30{"A-3007"} = "HLA00095";		# A*30:07, included for common allele
 #$a30{"A-2914"} = "HLA02256";		# A*29:14
 $group{"A-3001"} = "A30"; $group{"A-3002"} = "A30"; $group{"A-3007"} = "A30";# $group{"A-2914"} = "A30";
 $base{"A-3001"} = "A30"; $base{"A-3002"} = "A30"; $base{"A-3007"} = "A30";# $base{"A-2914"} = "A30";
-$bw{"A-3002"} = "Bw6"; $bw{"A-3007"} = "Bw6";
 push @subtype, ("A-3002", "A-3007");
 my %a31;
 $a31{"A-3101"} = "HLA00097";		# A*31:01:02:01
-$group{"A-3101"} = "A31";
-$base{"A-3101"} = "A31";
+$a31{"A-3102"} = "HLA00098";		# A*31:02:01 365 bp
+$group{"A-3101"} = "A31";$group{"A-3102"} = "A31";
+$base{"A-3101"} = "A31";$base{"A-3102"} = "A31";
+push @subtype, ("A-3102");
 my %a32;
 $a32{"A-3201"} = "HLA00101";		# A*32:01:01:01
 # removed A2309, but added A3204 on Nov 30 2020
@@ -183,14 +192,15 @@ push @subtype, "A-6602";
 my %a68;
 $a68{"A-6801"} = "HLA00115";		# A*68:01:01:01
 $a68{"A-6810"} = "HLA00972";		# A*68:10, included for common allele A*68:10,S,A246,None,None,C,WD,,A246_65
-$group{"A-6801"} = "A68"; $group{"A-6810"} = "A68";
-$base{"A-6801"} = "A68"; $base{"A-6810"} = "A68";
+$a68{"A-6813"} = "HLA01047";		# A*68:13:01
+$group{"A-6801"} = "A68"; $group{"A-6810"} = "A68"; $group{"A-6813"} = "A68";
+$base{"A-6801"} = "A68"; $base{"A-6810"} = "A68"; $base{"A-6813"} = "A68";
 my %a6836;
 $a6836{"A-6836"} = "HLA02701";		# A*68:36
 $group{"A-6836"} = "A6836";
 $base{"A-6836"} = "A68";
 $bw{"A-6836"} = "Bw4"; 
-push @subtype, ("A-6810","A-6836");
+push @subtype, ("A-6810","A-6813","A-6836");
 
 my %a69;
 $a69{"A-6901"} = "HLA00126";		# A*69:01:01:01
@@ -273,7 +283,6 @@ sub RESIDUES {
 	my @combined = ();
 	push @combined, @a1; 
 	push @combined, @a2; 
-	push @combined, @a210; 
 	push @combined, @a219;
 	push @combined, @a3; 
 	push @combined, @a305; 
@@ -313,9 +322,6 @@ sub RESIDUES {
 	}
 	elsif ( $serotype eq "A2" ) {
 		@residues = @a2;
-	}
-	elsif ( $serotype eq "A210" ) {
-		@residues = @a210;
 	}
 	elsif ( $serotype eq "A219" ) {
 		@residues = @a219;
@@ -397,9 +403,6 @@ sub REF {
 	elsif ( $serotype eq "A2" ) {
 		%ref = %a2;
 	}
-	elsif ( $serotype eq "A210" ) {
-		%ref = %a210;
-	}
 	elsif ( $serotype eq "A219" ) {
 		%ref = %a219;
 	}
@@ -464,7 +467,7 @@ sub REF {
 		%ref = %a80;
 	}
 	else {	# all together
-		%ref = (%a1,%a2,%a210,%a3,%a305,%a11,%a9,%a25,%a26a43,%a29,%a30,%a31,%a32,%a33,%a34,%a36,%a66,%a68,%a6836,%a69,%a74,%a80,%a219,%a3313);
+		%ref = (%a1,%a2,%a219,%a3,%a305,%a11,%a9,%a25,%a26a43,%a29,%a30,%a31,%a32,%a33,%a34,%a36,%a66,%a68,%a6836,%a69,%a74,%a80,%a219,%a3313);
 	}
 	
 	return $ref_ref;
@@ -473,7 +476,7 @@ sub REF {
 # 
 sub SERO {
 	my @sero;
-	my %ref = (%a1,%a2,%a210,%a3,%a305,%a11,%a9,%a25,%a26a43,%a29,%a30,%a31,%a32,%a33,%a34,%a36,%a66,%a68,%a6836,%a69,%a74,%a80,%a219,%a3313);
+	my %ref = (%a1,%a2,%a219,%a3,%a305,%a11,%a9,%a25,%a26a43,%a29,%a30,%a31,%a32,%a33,%a34,%a36,%a66,%a68,%a6836,%a69,%a74,%a80,%a219,%a3313);
 	my @tmp = sort keys %ref;
 	for ( my $index = 0; $index < scalar @tmp; $index++ ) {
 		$sero[0][$index] = $tmp[$index];	# populate serotype
@@ -486,14 +489,14 @@ sub SERO {
 }
 
 sub KEY {
-	my %tmp = (%a1,%a2,%a210,%a3,%a305,%a11,%a9,%a25,%a26a43,%a29,%a30,%a31,%a32,%a33,%a34,%a36,%a66,%a68,%a6836,%a69,%a74,%a80,%a219,%a3313);
+	my %tmp = (%a1,%a2,%a219,%a3,%a305,%a11,%a9,%a25,%a26a43,%a29,%a30,%a31,%a32,%a33,%a34,%a36,%a66,%a68,%a6836,%a69,%a74,%a80,%a219,%a3313);
 	my %ref;
 	my $key_ref = \%ref;
 	for my $key ( sort keys %tmp ) {
 		if ( $key eq "A-0101" ) {
 			$ref{$key} = "A\\*01";
 		}
-		elsif (( $key eq "A-0201" ) || ( $key eq "A-0202" ) || ( $key eq "A-0203" ) || ( $key eq "A-0210" ) ||
+		elsif (( $key eq "A-0201" ) || ( $key eq "A-0202" ) || ( $key eq "A-0203" ) || ( $key eq "A-0208" ) || ( $key eq "A-0210" ) ||
 		( $key eq "A-0211" ) || ( $key eq "A-0265" ) || ( $key eq "A-0246" ) || ( $key eq "A-0285" ) || ( $key eq "A-0256" )
 		|| ($key eq "A-0219") || ($key eq "A-0244")) {
 			$ref{$key} = "A\\*02";
@@ -570,10 +573,12 @@ sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
 	my $seq = "X" x 25;	#change the number of missing nucleotide
-	$partial{ "A-2424" } = $seq;	# partial 3.44.0
-	$partial{ "A-0323" } = $seq;	# partial 3.44.0
-	$partial{ "A-3313" } = $seq;	# partial 3.44.0
-#	$partial{ "A-3311" } = $seq;	# partial 3.44.0
+	$partial{ "A-2424" } = $seq;	# partial 3.54.0
+	$partial{ "A-0323" } = $seq;	# partial 3.54.0
+	$partial{ "A-3313" } = $seq;	# partial 3.54.0
+	$partial{ "A*11:14" } = "X" x 16;	# partial 3.54.0
+	#$partial{ "A*11:14" } = "Skip";
+	$partial{ "general" } = $seq;
 		
 	return $partial_ref;
 }
@@ -588,6 +593,13 @@ sub WHO {
 	$who{"A-6601"} = "A66"; $who{"A-6801"} = "A68"; $who{"A-6901"} = "A69"; $who{"A-7401"} = "A74"; $who{"A-8001"} = "A80";
 
 	return $whotype_ref;
+}
+
+sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL
+	my %known_cross;
+	my $known_cross_ref = \%known_cross;
+	$known_cross{ "NOTHING" } = 0;
+	return $known_cross_ref;
 }
 
 1;

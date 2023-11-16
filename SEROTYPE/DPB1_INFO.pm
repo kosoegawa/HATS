@@ -194,8 +194,21 @@ sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
 	my $seq = "N" x 34;	#change the number of missing nucleotide
+	$partial{ "general" } = $seq;
+	my $seq2 = "N" x 36;	#change the number of missing nucleotide
+	#$partial{ "DPB1*26:01" } = $seq2;
+	$partial{ "DPB1*37:01" } = $seq2;
+	$partial{ "DPB1*56:01" } = $seq2;
+	$partial{ "DPB1*74:01" } = $seq2;
+	$partial{ "DPB1*75:01" } = $seq2;
 		
 	return $partial_ref;
+}
+
+sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL
+	my %known_cross;
+	my $known_cross_ref = \%known_cross;
+	return $known_cross_ref;
 }
 
 1;

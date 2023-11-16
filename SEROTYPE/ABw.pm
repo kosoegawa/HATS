@@ -3,11 +3,12 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: ABw.pm 
 # This module was developed to capture HLA-A Bw4 and Bw6 alleles
-# last modified and documented on April 20 2020
+# last reviewed on November 14 2023
 
 package ABw;
 use strict;
@@ -18,8 +19,8 @@ my @bw = (2,76,82,83);		#used 79 instead of 80
 my %ref;
 my %bw;
 $ref{"A-3201"} = "HLA00101";		# ref for Bw4: A*32:01:01:01
-$ref{"A-3002"} = "HLA00090";		# ref for Bw6: A*30:02:01:01
-$bw{"A-3201"} = "Bw4"; $bw{"A-3002"} = "Bw6";
+#$ref{"A-3002"} = "HLA00090";		# ref for Bw6: A*30:02:01:01
+$bw{"A-3201"} = "Bw4";# $bw{"A-3002"} = "Bw6";
 
 sub HLAA {
 	my $gene = "A";

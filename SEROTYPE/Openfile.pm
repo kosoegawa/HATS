@@ -1,12 +1,14 @@
 #!/usr/bin/perl -w
-# Openfile.pm
 
 # Author: Kazutoyo Osoegawa, Ph.D.
+# Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
+# Openfile.pm
 # line 18: modified from "\n" to "\r\n"
-# Last modified on February 2 2022
+# Last modified on November 14 2023
 
 use strict;
 

@@ -403,13 +403,16 @@ sub SUMMARY {
 			elsif ( exists $whotype_ref->{ $type } ) {
 				$who_ref->{ $type }->[0] = $who_ref->{ $type }->[0] + 1;
 			}
-			if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+			#if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+			if (( exists $elements[5] ) && ( $elements[5] eq "C" )) {
 				$common_full++;
 			}
-			elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+			#elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+			elsif (( exists $elements[5] ) && ( $elements[5] eq "I" )) {
 				$inter_full++;
 			}
-			elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+			#elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+			elsif (( exists $elements[5] ) && ( $elements[5] eq "WD" )) {
 				$wd_full++;
 			}
 			next;
@@ -422,13 +425,16 @@ sub SUMMARY {
 			elsif ( exists $whotype_ref->{ $type } ) {
 				$who_ref->{ $type }->[1] = $who_ref->{ $type }->[1] + 1;
 			}
-			if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+			#if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+			if (( exists $elements[5] ) && ( $elements[5] eq "C" )) {
 				$common_sero++;
 			}
-			elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+			#elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+			elsif (( exists $elements[5] ) && ( $elements[5] eq "I" )) {
 				$inter_sero++;
 			}
-			elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+			#elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+			elsif (( exists $elements[5] ) && ( $elements[5] eq "WD" )) {
 				$wd_sero++;
 			}
 			next;
@@ -441,13 +447,16 @@ sub SUMMARY {
 			elsif ( exists $whotype_ref->{ $type } ) {
 				$who_ref->{ $type }->[2] = $who_ref->{ $type }->[2] + 1;
 			}
-			if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+			#if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+			if (( exists $elements[5] ) && ( $elements[5] eq "C" )) {
 				$common_short++;
 			}
-			elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+			#elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+			elsif (( exists $elements[5] ) && ( $elements[5] eq "I" )) {
 				$inter_short++;
 			}
-			elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+			#elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+			elsif (( exists $elements[5] ) && ( $elements[5] eq "WD" )) {
 				$wd_short++;
 			}
 			next;
@@ -460,13 +469,16 @@ sub SUMMARY {
 			elsif ( exists $whotype_ref->{ $type } ) {
 				$who_ref->{ $type }->[3] = $who_ref->{ $type }->[3] + 1;
 			}
-			if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+			#if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+			if (( exists $elements[5] ) && ( $elements[5] eq "C" )) {
 				$common_sc++;
 			}
-			elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+			#elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+			elsif (( exists $elements[5] ) && ( $elements[5] eq "I" )) {
 				$inter_sc++;
 			}
-			elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+			#elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+			elsif (( exists $elements[5] ) && ( $elements[5] eq "WD" )) {
 				$wd_sc++;
 			}
 			next;
@@ -479,13 +491,16 @@ sub SUMMARY {
 			elsif ( exists $whotype_ref->{ $type } ) {
 				$who_ref->{ $type }->[4] = $who_ref->{ $type }->[4] + 1;
 			}
-			if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+			#if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+			if (( exists $elements[5] ) && ( $elements[5] eq "C" )) {
 				$common_ins++;
 			}
-			elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+			#elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+			elsif (( exists $elements[5] ) && ( $elements[5] eq "I" )) {
 				$inter_ins++;
 			}
-			elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+			#elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+			elsif (( exists $elements[5] ) && ( $elements[5] eq "WD" )) {
 				$wd_ins++;
 			}
 			next;
@@ -505,35 +520,33 @@ sub SUMMARY {
 	my $who_sc = 0;
 	my $who_ins = 0;
 	foreach my $type ( sort keys %full ) {
-		unless ( $type eq "None" ) {
-			print FILE $type . ",";
-			print FILE $full_ref->{ $type }->[0] . ",";		# FULL
-			print FILE $full_ref->{ $type }->[1] . ",";		# Serotype
-			print FILE $full_ref->{ $type }->[2] . ",";		# S
-			print FILE $full_ref->{ $type }->[3] . ",";		# SC
-			print FILE $full_ref->{ $type }->[4] . "\n";		# InSilico
+		print FILE $type . ",";
+		print FILE $full_ref->{ $type }->[0] . ",";		# FULL
+		print FILE $full_ref->{ $type }->[1] . ",";		# Serotype
+		print FILE $full_ref->{ $type }->[2] . ",";		# S
+		print FILE $full_ref->{ $type }->[3] . ",";		# SC
+		print FILE $full_ref->{ $type }->[4] . "\n";		# InSilico
 
-			$full = $full + $full_ref->{ $type }->[0];
-			$sero = $sero + $full_ref->{ $type }->[1];
-			$short = $short + $full_ref->{ $type }->[2];
-			$sc = $sc + $full_ref->{ $type }->[3];
-			$ins = $ins + $full_ref->{ $type }->[4];
+		$full = $full + $full_ref->{ $type }->[0];
+		$sero = $sero + $full_ref->{ $type }->[1];
+		$short = $short + $full_ref->{ $type }->[2];
+		$sc = $sc + $full_ref->{ $type }->[3];
+		$ins = $ins + $full_ref->{ $type }->[4];
 
-			if ( exists $who_ref->{ $type } ) {
-#				print $type . "\t" . $who_ref-> { $type }->[0] . "\n";
-				$who_full = $who_full + $who_ref->{ $type }->[0];
-				$who_sero = $who_sero + $who_ref->{ $type }->[1];
-				$who_short = $who_short + $who_ref->{ $type }->[2];
-				$who_sc = $who_sc + $who_ref->{ $type }->[3];
-				$who_ins = $who_ins + $who_ref->{ $type }->[4];
-			}
+		if ( exists $who_ref->{ $type } ) {
+			$who_full = $who_full + $who_ref->{ $type }->[0];
+			$who_sero = $who_sero + $who_ref->{ $type }->[1];
+			$who_short = $who_short + $who_ref->{ $type }->[2];
+			$who_sc = $who_sc + $who_ref->{ $type }->[3];
+			$who_ins = $who_ins + $who_ref->{ $type }->[4];
 		}
 	}
-	if ( !exists $full_ref->{ "None" } ) {
-		$full_ref->{ "None" }->[0] = 0;
-	}
-	print FILE "None,";
-	print FILE $full_ref->{ "None" }->[0] . ",0,0,0,0\n\n";		# FULL
+	#	if ( !exists $full_ref->{ "None" } ) {
+	#	$full_ref->{ "None" }->[0] = 0;
+	#}
+	#print FILE "None,";
+	#print FILE $full_ref->{ "None" }->[0] . ",0,0,0,0\n\n";		# FULL
+	print FILE "\n";
 
 	print FILE "AssignedTotal," . $full . "," . $sero . "," . $short . "," . $sc . "," . $ins . "\n";
 	print FILE "WHOAcceptedTotal," . $who_full . "," . $who_sero . "," . $who_short . "," . $who_sc . "," . $who_ins . "\n\n";
@@ -550,11 +563,13 @@ sub SUMMARY {
 	
 	my $null_count = scalar keys %$null_ref;
 	my $qallele_count = scalar keys %$qallele_ref;
-	my $subtotal = $full + $sero + $short + $sc + $ins + $full_ref->{ "None" }->[0];
+	#	my $subtotal = $full + $sero + $short + $sc + $ins + $full_ref->{ "None" }->[0];
+	my $subtotal = $full + $sero + $short + $sc + $ins;
 	print FILE "TOTAL EXPRESSED ALLELES," . $subtotal . "\n";
 	print FILE "Null alleles," . $null_count . "\n";
 	print FILE "Q alleles," . $qallele_count . "\n";
-	my $total = $full + $sero + $short + $sc + $ins + $full_ref->{ "None" }->[0] + $null_count + $qallele_count;
+	#	my $total = $full + $sero + $short + $sc + $ins + $full_ref->{ "None" }->[0] + $null_count + $qallele_count;
+	my $total = $full + $sero + $short + $sc + $ins + $null_count + $qallele_count;
 	print FILE "TOTAL ALLELES," . $total . "\n";
 
 	close FILE;
@@ -634,8 +649,17 @@ sub SUMMARY_TWO {
 	foreach my $line ( @list ) {
 		my @elements = split( ",", $line );
 		if ( $elements[1] eq "UNA" ) {
-			$full_ref->{ "None" }->[0] = $full_ref->{ "None" }->[0] + 1;
-			next;
+			if ( $elements[0] =~ /($gene\*\d+:\d+)/ ) {
+				my $two_allele = $1;
+				if ( exists $two{ $two_allele } ) {
+					next;
+				}
+				else {
+					$full_ref->{ "None" }->[0] = $full_ref->{ "None" }->[0] + 1;
+					$two{ $two_allele } = 0;
+					next;
+				}
+			}
 		}
 
 		if (( exists $null_ref->{ $elements[0] } ) || ( exists $qallele_ref->{ $elements[0] } )) {
@@ -658,13 +682,16 @@ sub SUMMARY_TWO {
 								}
 							}
 							# CIWD
-							if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+							#if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+							if (( exists $elements[5] ) && ( $elements[5] eq "C" )) {
 								$common_full++;
 							}
-							elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+							#elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+							elsif (( exists $elements[5] ) && ( $elements[5] eq "I" )) {
 								$inter_full++;
 							}
-							elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+							#elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+							elsif (( exists $elements[5] ) && ( $elements[5] eq "WD" )) {
 								$wd_full++;
 							}
 						}
@@ -676,13 +703,16 @@ sub SUMMARY_TWO {
 									$who_ref->{ $type }->[1] = $who_ref->{ $type }->[1] + 1;
 								}
 							}
-							if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+							#if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+							if (( exists $elements[5] ) && ( $elements[5] eq "C" )) {
 								$common_sero++;
 							}
-							elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+							#elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+							elsif (( exists $elements[5] ) && ( $elements[5] eq "I" )) {
 								$inter_sero++;
 							}
-							elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+							#elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+							elsif (( exists $elements[5] ) && ( $elements[5] eq "WD" )) {
 								$wd_sero++;
 							}
 						}
@@ -693,13 +723,16 @@ sub SUMMARY_TWO {
 									$who_ref->{ $type }->[2] = $who_ref->{ $type }->[2] + 1;
 								}
 							}
-							if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+							#if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+							if (( exists $elements[5] ) && ( $elements[5] eq "C" )) {
 								$common_short++;
 							}
-							elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+							#elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+							elsif (( exists $elements[5] ) && ( $elements[5] eq "I" )) {
 								$inter_short++;
 							}
-							elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+							#elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+							elsif (( exists $elements[5] ) && ( $elements[5] eq "WD" )) {
 								$wd_short++;
 							}
 						}
@@ -710,13 +743,16 @@ sub SUMMARY_TWO {
 									$who_ref->{ $type }->[3] = $who_ref->{ $type }->[3] + 1;
 								}
 							}
-							if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+							#if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+							if (( exists $elements[5] ) && ( $elements[5] eq "C" )) {
 								$common_sc++;
 							}
-							elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+							#elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+							elsif (( exists $elements[5] ) && ( $elements[5] eq "I" )) {
 								$inter_sc++;
 							}
-							elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+							#elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+							elsif (( exists $elements[5] ) && ( $elements[5] eq "WD" )) {
 								$wd_sc++;
 							}
 						}
@@ -727,13 +763,16 @@ sub SUMMARY_TWO {
 									$who_ref->{ $type }->[4] = $who_ref->{ $type }->[4] + 1;
 								}
 							}
-							if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+							#if ((( exists $elements[5] ) && ( $elements[5] eq "C" )) || (( exists $elements[6] ) && ( $elements[6] eq "C" ))) {
+							if (( exists $elements[5] ) && ( $elements[5] eq "C" )) {
 								$common_ins++;
 							}
-							elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+							#elsif ((( exists $elements[5] ) && ( $elements[5] eq "I" )) || (( exists $elements[6] ) && ( $elements[6] eq "I" ))) {
+							elsif (( exists $elements[5] ) && ( $elements[5] eq "I" )) {
 								$inter_ins++;
 							}
-							elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+							#elsif ((( exists $elements[5] ) && ( $elements[5] eq "WD" )) || (( exists $elements[6] ) && ( $elements[6] eq "WD" ))) {
+							elsif (( exists $elements[5] ) && ( $elements[5] eq "WD" )) {
 								$wd_ins++;
 							}
 						}

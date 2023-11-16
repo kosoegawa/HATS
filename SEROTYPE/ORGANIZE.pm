@@ -3,12 +3,13 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: ORGANIZE.pm 
 # This module was developed to organize fasta file
 # CIWD was developed to add CIWD information in the final output
-# last modified and documented on February 24 2022
+# last reviewed on November 14 2023
 
 package ORGANIZE;
 use strict;

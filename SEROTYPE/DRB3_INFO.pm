@@ -3,16 +3,18 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: DRB3_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on January 7 2021
+# last modified and documented on November 14 2023
 
 package DRB3_INFO;
 use strict;
 
-my @dr52 = (9, 10, 12, 13, 60);
+my @dr52 = (9, 10, 12, 13);
+my @extra = (11,14,16,47,58,60,67,70,71,74);	# FULL only
 #added residue 60
 
 my %dr52;
@@ -20,13 +22,16 @@ my %group;
 my %base;
 $dr52{"DR-5201"} = "HLA00887";		# DRB3*01:01:02:01
 $dr52{"DR-5202"} = "HLA00895";		# DRB3*02:02:01:01
+$dr52{"DR-5203"} = "HLA00902";		# DRB3*03:01:01:01
 $group{"DR-5201"} = "DR52";
 $group{"DR-5202"} = "DR52";
+$group{"DR-5203"} = "DR52";
 $base{"DR-5201"} = "DR52";
 $base{"DR-5202"} = "DR52";
+$base{"DR-5203"} = "DR52";
 
 
-my @subtype = ("DR-5202");	# modify here if serotype modified
+my @subtype = ("DR-5202","DR-5203");	# modify here if serotype modified
 
 sub DRB3 {
 	my $gene = "DRB3";
@@ -67,6 +72,7 @@ sub RESIDUES {
 	my ( $serotype ) = @_;
 	my @combined = ();
 	push @combined, @dr52;
+	push @combined, @extra;
 	my %seen;
 	my @unique;
 	foreach my $value ( sort { $a <=> $b } @combined ) {
@@ -132,9 +138,20 @@ sub KEY {
 sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
-	my $seq = "N" x 34;
+	my $seq = "X" x 34;
+	$partial{ "general" } = $seq;
+	$partial{ "DRB3*01:02" } = "X" x 29;
+	$partial{ "DRB3*02:11" } = "X" x 29;
 		
 	return $partial_ref;
+}
+
+sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL
+	my %known_cross;
+	my $known_cross_ref = \%known_cross;
+	$known_cross{ "DR-5202" } = 0;
+	$known_cross{ "DR-5203" } = 0;
+	return $known_cross_ref;
 }
 
 1;

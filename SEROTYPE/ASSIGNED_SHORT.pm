@@ -3,11 +3,12 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: ASSIGNED_SHORT.pm 
 # This module was developed to print table
-# last modified and documented on November 4 2022
+# last reviewed, modified and documented on October 27 2023
 
 package ASSIGNED_SHORT;
 use strict;
@@ -25,7 +26,6 @@ $antigen{ "A-2403" } = "A2403";
 $antigen{ "A-2501" } = "A25";
 $antigen{ "A-1101" } = "A11";
 $antigen{ "A-2901" } = "A29";
-$antigen{ "A-3101" } = "A31";
 $antigen{ "A-7401" } = "A74";
 $antigen{ "A-6901" } = "A69";
 $antigen{ "A-3601" } = "A36";
@@ -40,13 +40,9 @@ $antigen{ "B-4501" } = "B45";
 $antigen{ "B-1302" } = "B13";
 $antigen{ "B-1401" } = "B64";
 $antigen{ "B-1402" } = "B65";
-#$antigen{ "B-1501" } = "B62";
-#$antigen{ "B-1517" } = "B63";
-$antigen{ "B-1502" } = "B75";
 $antigen{ "B-1512" } = "B76";
 $antigen{ "B-1514" } = "B76";
 $antigen{ "B-1513" } = "B77";
-#$antigen{ "B-3801" } = "B38";
 $antigen{ "B-3901" } = "B3901";
 $antigen{ "B-3902" } = "B3902";
 $antigen{ "B-5701" } = "B57";
@@ -57,18 +53,13 @@ $antigen{ "B-5401" } = "B54";
 $antigen{ "B-5501" } = "B55";
 $antigen{ "B-5601" } = "B56";
 $antigen{ "B-2708" } = "B2708";
-#$antigen{ "B-4001" } = "B60";
-#$antigen{ "B-4002" } = "B61";
 $antigen{ "B-4005" } = "B4005";
 $antigen{ "B-4101" } = "B41";
 $antigen{ "B-4201" } = "B42";
 $antigen{ "B-4601" } = "B46";
-$antigen{ "B-4701" } = "B47";
 $antigen{ "B-5301" } = "B53";
 $antigen{ "B-5901" } = "B59";
 $antigen{ "B-6701" } = "B67";
-#$antigen{ "B-1510" } = "B71";
-$antigen{ "B-1503" } = "B72";
 $antigen{ "B-7301" } = "B73";
 $antigen{ "B-7801" } = "B78";
 $antigen{ "B-8101" } = "B81";
@@ -78,28 +69,33 @@ $antigen{ "C-0303" } = "Cw9";
 $antigen{ "C-0304" } = "Cw10";
 
 $antigen{ "DR-0103" } = "DR103";
-$antigen{ "DR-1501" } = "DR15";
-$antigen{ "DR-1601" } = "DR16";
+$antigen{ "DR-1505" } = "DR-1501";
+$antigen{ "DR-1605" } = "DR-1602";
 $antigen{ "DR-0301" } = "DR17";
 $antigen{ "DR-0302" } = "DR18";
-$antigen{ "DR-1201" } = "DR12";
 $antigen{ "DR-0701" } = "DR7";
 $antigen{ "DR-0901" } = "DR9";
-#$antigen{ "DR-0902" } = "DR9";
 $antigen{ "DR-1001" } = "DR10";
 $antigen{ "DR-0404" } = "DR-0401";
-$antigen{ "DR-1305" } = "DR-1303";	#added
+$antigen{ "DR-1312" } = "DR-1303";	#added
+$antigen{ "DR-1320" } = "DR-1301";	#added
+$antigen{ "DR-1349" } = "DR-1305";	#added
+$antigen{ "DR-1417" } = "DR-1402";
 $antigen{ "DR-1419" } = "DR-1402";	#added
 
 $antigen{ "DQ-0201" } = "DQ2";
+$antigen{ "DQ-0203" } = "DQ2";
 $antigen{ "DQ-0301" } = "DQ7";
 $antigen{ "DQ-0304" } = "DQ7";
 $antigen{ "DQ-0302" } = "DQ8";
 $antigen{ "DQ-0303" } = "DQ9";
 $antigen{ "DQ-0401" } = "DQ4";
 $antigen{ "DQ-0501" } = "DQ5";
+$antigen{ "DQ-0502" } = "DQ5";
+$antigen{ "DQ-0503" } = "DQ5";
 $antigen{ "DQ-0602" } = "DQ6";	#comment out for SAB
-$antigen{ "DQ-0604" } = "DQ6";	#comment out for SAB
+$antigen{ "DQ-0608" } = "DQ6";
+$antigen{ "DQ-0610" } = "DQ6";
 
 $antigen{"DP0101"} = "DP-01";
 $antigen{"DP0201"} = "DP-0201";
@@ -149,10 +145,45 @@ sub PRINT {
 	close FILE;
 }
 
+sub PRINT_RESIDUES {
+	my ( $elements_ref,$gene,$residues_all_ref,$database ) = @_;
+	my @combined;
+	my $combined_ref = \@combined;
+	push @combined, keys %$elements_ref;
+	my $elements_sorted_ref = GROUP_SORT::SORT( $combined_ref );	# sort allele numerically
+	my %residue; 
+	open(FILE, ">output/" . $gene . "_Allele_Residues_" . $database . "_" . $date . ".csv");
+	print FILE "Allele,Serotype,COMMENT,";
+	# print residues
+	for (my $index = 0; $index < scalar @$residues_all_ref; $index++) {
+		print FILE $residues_all_ref->[ $index ];
+		my $limit = scalar @$residues_all_ref - 1;
+		if ( $index < $limit ) {
+			print FILE ",";
+		}
+		else {
+			print FILE "\n";
+		}
+	}
+	
+	foreach my $twoField ( @$elements_sorted_ref ) {		#go through all alleles
+		unless ( exists $residue{ $twoField } ) {
+			if ( exists $antigen{ $elements_ref->{ $twoField }->[0] } ) {
+				print FILE $twoField . ",". $antigen{ $elements_ref->{ $twoField }->[0] } . "," . $elements_ref->{ $twoField }->[1];	# paragrarh mark is included in elements
+			}
+			else {
+				print FILE $twoField . ",". $elements_ref->{ $twoField }->[0] . "," . $elements_ref->{ $twoField }->[1];	# paragrarh mark is included in elements
+			}
+			$residue{ $twoField } = 0;
+		}
+	}
+	close FILE;
+}
+
 # print combined table
 sub COMBINED {
 	my ($database,$nullAllele_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$basetype_ref,$cross_ref,
-	$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2) = @_;
+	$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2,$dr_ref) = @_;
 	print "COMBINED\n";
 	my @combined;
 	my $combined_ref = \@combined;
@@ -327,11 +358,9 @@ sub COMBINED {
 				my $test = 0;
 				foreach my $short ( sort @{$short_ref->{ $allele }} ) {
 					if ( $short =~ /(\S+)_(\d+)/ ) {
-#						$serotype = $1;
 						$group = $1;
 						$serotype = $group;
 						$residue = $2;
-#						if ( $serotype =~ /$sero/ ) {		# allele name and sero type matches
 						if ( $group =~ /$sero/ ) {		# allele name and sero type matches
 							$test = 1;
 							last;
@@ -528,7 +557,7 @@ sub COMBINED {
 
 			}
 			else {
-				print FILE ",UNA,None,None,None";
+				print FILE ",UNA,U,None,None,None";
 				if ( exists $ciwd_ref->{ $twoField } ) {
 					print FILE "," . $ciwd_ref->{ $twoField} . ",";
 				}
@@ -917,16 +946,7 @@ sub COMBINED_TWO {
 			
 			my $index = 0;
 			foreach my $short ( sort @{$short_ref->{ $allele }} ) {
-				if ( $short =~ /(\S+)_(\d+)/ ) {
-					my $group = $1;
-					my $residue = $2;
-					if ( exists $antigen{ $group } ) {
-						print FILE $antigen{ $group } . "_" . $residue;
-					}
-					else {
-						print FILE $short;
-					}
-				}
+				print FILE $short;
 				if ( $index < $num - 1) {
 					print FILE ",";
 				}
@@ -980,7 +1000,7 @@ sub COMBINED_TWO {
 
 			}
 			else {
-				print FILE ",None,U,UNA,None,None";
+				print FILE ",UNA,U,None,None,None";
 				if ( exists $ciwd_ref->{ $twoField } ) {
 					print FILE "," . $ciwd_ref->{ $twoField} . ",";
 				}
@@ -1022,7 +1042,6 @@ sub COMBINED_TWO {
 	}
 	close FILE;
 }
-
 
 sub ANTIGEN {
 	return $antigen_ref;

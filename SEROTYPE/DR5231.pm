@@ -3,11 +3,12 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: DR5231.pm 
 # This module was developed to capture DRB1 alleles with DR52, DR53 and DR51 serotypes
-# last modified and documented on May 15 2020
+# last reviewed on November 14 2023
 
 package DR5231;
 use strict;
@@ -19,7 +20,7 @@ my @dr51 = (9, 10, 11, 12, 13);
 
 my %ref;
 my %dr5231;
-my %group;
+#my %group;
 my %base;
 $ref{"DR52"} = "HLA00887";		# DRB3*01:01:02:01
 $ref{"DR53"} = "HLA00905";		# DRB4*01:01:01:01

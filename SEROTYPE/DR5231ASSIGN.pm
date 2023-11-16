@@ -3,13 +3,13 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: DR5231ASSIGN.pm
 # stringent assign
 # This module was developed to convert DRB1 allele to DR52, DR53 and DR51 serotypes using strict mode
-# last modified and documented on May 15 2020
-#
+# last reviewed on November 14 2023
 
 package DR5231ASSIGN;
 use strict;
@@ -18,12 +18,12 @@ my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 
 sub all {		# deal with remaining serotypes with strict mode
-	my ($fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_seq, $dr5231_ref ) = @_;
+	my ($fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_seq, $dr5231_ref, $key ) = @_;
 	# the larst argument $partial_seq can be ignored, if no partial reference seqence is present
 
 	my %assigned;	# this is retured at the end of this module
 	my $assigned_ref = \%assigned;
-	foreach my $key ( keys %$ref_ref ) {
+#	foreach my $key ( keys %$ref_ref ) {
 		my $target = "";
 		foreach my $head ( keys %$fasta_ref ) {	# go through fastq
 			if ( $head =~ /$ref_ref->{ $key }/ ) {	# matching HLA accessing number
@@ -45,6 +45,8 @@ sub all {		# deal with remaining serotypes with strict mode
 			}
 		}
 
+#		print $key . "\n";
+#		print $target . "\n";
 		my @alleles;
 		foreach my $head ( keys %$fasta_ref ) {
 			if ( $fasta_ref->{ $head } =~ /$target/ ) {
@@ -62,7 +64,7 @@ sub all {		# deal with remaining serotypes with strict mode
 			$assigned{ $allele } = $dr5231_ref->{$key};
 		}
 		close FILE;
-	}
+#	}
 	return $assigned_ref;
 }
 

@@ -3,48 +3,49 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: HLAB_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on October 18 2022
+# last modified and documented on November 8 2023
 # Included Bw6, Negative and Bw4
 
 package HLAB_INFO;
 use strict;
 
 # define key residues
-my @b5 = (45,62,63,82,83,103,163,167,171);	#Bw4: no 76  residue 103 is included to distinguish B5102 from B53
-my @b7 = (45,63,69,70,71,76,82,83,147,163,171,178);	#Bw6 76,82,83
-my @b713 = (45,63,69,70,71,76,82,83,103,147,163,171,178);	#Bw6 76,82,83, 103 was added to eliminate HLA-C alleles
+my @b5 = (45,62,63,67,82,83,103,158,163,167,171);	#Bw4: no 76  residue 103 is included to distinguish B5102 from B53, 67
+my @b52 = (45,62,63,67,82,83,158,163,167,171);	# separated B52 from B5 residues
+my @b7 = (45,63,67,69,70,71,76,82,83,147,163,171,178);	#Bw6 76,82,83, 77 was added
+my @b713 = (45,63,67,69,70,71,76,82,83,103,147,163,171,178);	#Bw6 76,82,83, 103 was added to eliminate HLA-C alleles
 my @b8 = (45,63,69,71,76,82,83,163,177,180);	#Bw6 76,82,83
 my @b802 = (45,63,69,71,82,83,163,177,180);	#Bw4 82,83
-my @b44 = (45,62,63,82,83,163,167);	#Bw4, added 62 to eliminate B5707
+my @b44 = (45,62,63,67,82,83,158,163,167);	#Bw4, added 62 to eliminate B5707, 67
 my @b45 = (45,63,76,82,83,163,167);	#Bw6
 my @b13 = (45,63,82,83,145,163,178);	#Bw4
 my @b14 = (11,45,67,76,82,83,158,163,171);	#Bw6, 158 was added to eliminate B*39:48, 158 did not affect B14
-my @b15 = (45,46,62,63,69,70,76,82,83,163,167,171,178,180);	#Bw6, 178 was added to separate B1552 from B703
-my @b63 = (45,46,62,63,69,70,76,82,83,103,163,167,171,178,180);	#Bw6, 178 was added to separate B1552 from B703
-my @b1523 = (45,46,62,63,67,69,70,76,82,83,163,167,178);	
-my @b17 = (45,46,62,63,69,70,83,163);	#removed 82
+my @b15 = (45,46,62,63,66,67,69,70,76,82,83,143,158,163,167,171,178,180);	#Bw6, 178 was added to separate B1552 from B703, 67 was added
+my @b63 = (45,46,62,63,67,69,70,76,82,83,103,163,167,171,178,180);	#Bw4, 178 was added to separate B1552 from B703, 67 was added
+my @b1523 = (45,46,62,63,67,69,70,76,82,83,163,167,178);	#Bw4
+my @b17 = (45,46,62,63,69,70,83,163);	#removed 82, Bw4
 my @b38 = (45,63,67,71,82,83,158,163,171);	#Bw4, 171 was added to distinguish from B-1809
 my @b39 = (45,63,67,71,76,82,83,158,163);	#Bw6
-my @b18 = (45,63,76,82,83,163,171);	#Bw6
-my @b1809 = (45,63,82,83,163,171);	#Bw4
+my @b18 = (45,63,76,82,83,127,163,171);	#Bw6, 127
+my @b1809 = (45,63,82,83,127,163,171);	#Bw4, 127
 my @b49 = (45,46,63,82,83,103,163,167,178);	#Bw4
 my @b50 = (45,46,63,76,82,83,103,163,167,178);	#Bw6, use 103 instead of 131
 my @b22 = (45,63,67,69,76,83,158,163,167,177,178,180);	#Bw6, removed 82
 my @b27 = (45,63,70,71,82,83,178);		#Bw4, 178 to separate B48
-my @b2708 = (45,63,70,71,76,82,83,143,163,178);	#Bw6, 143 was included to separete B2712 from B4804, 178 for B48
-my @b35 = (45,63,70,71,76,82,83,163,171);	#Bw6
-my @b37 = (45,62,63,70,76,82,83,163);	#Bw4
-my @b3705 = (45,62,63,70,76,82,83,163);	#Bw6
-my @b40 = (45,46,76,82,83,143,163,178);	#Bw6
+my @b2708 = (45,63,67,70,71,76,82,83,143,163,178);	#Bw6, 143 was included to separete B2712 from B4804, 178 for B48
+my @b35 = (45,63,67,70,71,76,82,83,163,171);	#Bw6, 67
+my @b37 = (45,62,63,70,76,82,83,163,171);	#Bw4, 171
+my @b40 = (45,46,63,67,76,82,83,143,147,163,178);	#Bw6, 67, 147
 my @b48 = (45,63,70,71,76,82,83,143,163,167,177,178,180);	#Bw6
-my @b41 = (45,63,70,71,76,83,163,167,177,178,180);		# remoed 82
+my @b41 = (45,63,70,71,76,83,163,167,177,178,180);	#Bw6	# remoed 82
 my @b42 = (45,67,69,70,71,76,82,83,163,177,178,180);	#Bw6
 my @b46 = (45,46,62,63,69,76,82,83,163,167);	#KC1, Negative, 45,46 is required to separate from Cw3
-my @b47 = (45,63,70,71,82,83,143,163,177);	#Bw4
+my @b47 = (45,63,67,70,71,82,83,143,163,177);	#Bw4, 67
 my @b53 = (45,63,70,71,82,83,103,163,171);	# residue 103 is included to distinguish B5102 from B53
 my @b59 = (45,63,67,71,82,83,163,171,177);	#Bw4
 my @b67 = (45,67,71,76,82,83,103,158,163);	#Residue 103 was required to be HLA-B specific, Bw6
@@ -52,7 +53,7 @@ my @b73 = (45,63,67,70,76,82,83,163,178);	#KC1, Negative
 my @b78 = (45,76,82,83,163,171);	#Bw6
 my @b81 = (45,69,70,71,76,82,83,147,163,178);	#Bw6
 my @b82b83 = (45,63,67,69,70,71,76,82,83,167,178);	#Bw6, used residue 103 instead of 162 to eliminate residue 162 from FULL
-my @extra = (127);
+my @extra = (127,66);
 
 my %bw;
 my %group;	# same residue group
@@ -63,16 +64,24 @@ my %b5;	#Bw4
 $b5{"B-5101"} = "HLA00344";	#B*51:01:01:01
 $b5{"B-5102"} = "HLA00346";	#B*51:02:01:01
 $b5{"B-5103"} = "HLA00348";	#B*51:03
-$b5{"B-5201"} = "HLA00362";	#B*52:01:01:01
+$b5{"B-5107"} = "HLA00352";	# B*51:07:01 362 bp
+$b5{"B-5122"} = "HLA01243";	# B*51:22 362 bp
+$b5{"B-5119"} = "HLA01073";	# B*51:19 362 bp
 #$b5{"B-5203"} = "HLA01295";	# B*52:03
 $b5{"B-4406"} = "HLA00323";	# B*44:06, added on March 10 2022
-$bw{"B-5101"} = "Bw4"; $bw{"B-5102"} = "Bw4"; $bw{"B-5103"} = "Bw4"; $bw{"B-5201"} = "Bw4";# $bw{"B-5203"} = "Bw4";
-$bw{"B-4406"} = "Bw4";
-$group{"B-5101"} = "B5"; $group{"B-5102"} = "B5"; $group{"B-5103"} = "B5"; $group{"B-5201"} = "B5";# $group{"B-5203"} = "B5";
-$group{"B-4406"} = "B5";
-$base{"B-5101"} = "B51"; $base{"B-5102"} = "B5102"; $base{"B-5103"} = "B5103"; $base{"B-5201"} = "B52";# $base{"B-5203"} = "B52";
-$base{"B-4406"} = "B44";
-push @subtype, ("B-5102","B-5103");
+$bw{"B-5101"} = "Bw4"; $bw{"B-5102"} = "Bw4"; $bw{"B-5103"} = "Bw4";
+$bw{"B-4406"} = "Bw4"; $bw{"B-5107"} = "Bw4"; $bw{"B-5122"} = "Bw4"; $bw{"B-5119"} = "Bw4";
+$group{"B-5101"} = "B5"; $group{"B-5102"} = "B5"; $group{"B-5103"} = "B5"; 
+$group{"B-4406"} = "B5"; $group{"B-5107"} = "B5"; $group{"B-5122"} = "B5"; $group{"B-5119"} = "B5";
+$base{"B-5101"} = "B51"; $base{"B-5102"} = "B5102"; $base{"B-5103"} = "B5103"; 
+$base{"B-4406"} = "B44"; $base{"B-5107"} = "B51"; $base{"B-5122"} = "B51"; $base{"B-5119"} = "B51";
+
+my %b52;	#Bw4
+$b52{"B-5201"} = "HLA00362";	#B*52:01:01:01
+$bw{"B-5201"} = "Bw4";# $bw{"B-5203"} = "Bw4";
+$group{"B-5201"} = "B52";# $group{"B-5203"} = "B5";
+$base{"B-5201"} = "B52";# $base{"B-5203"} = "B52";
+push @subtype, ("B-5102","B-5103","B-5107","B-5122","B-5119");
 push @subtype, ("B-4406");
 
 my %b7;
@@ -80,16 +89,17 @@ $b7{"B-0702"} = "HLA00132";		#B*07:02:01:01, Bw6
 $b7{"B-0703"} = "HLA00135";	#B*07:03, Bw6
 $b7{"B-0715"} = "HLA01050";	#B*07:15, Bw6 negative
 $b7{"B-0736"} = "HLA01808";	# B*07:36, Bw4
-$bw{"B-0702"} = "Bw6"; $bw{"B-0703"} = "Bw6"; $bw{"B-0715"} = "Negative"; $bw{"B-0736"} = "Bw4"; 
-$group{"B-0702"} = "B7"; $group{"B-0703"} = "B7"; $group{"B-0715"} = "B7"; $group{"B-0736"} = "B7"; 
-$base{"B-0702"} = "B7"; $base{"B-0703"} = "B703"; $base{"B-0715"} = "B7"; $base{"B-0736"} = "B7"; 
+$b7{"B-0710"} = "HLA00142";	# B*07:10 362 bp
+$bw{"B-0702"} = "Bw6"; $bw{"B-0703"} = "Bw6"; $bw{"B-0715"} = "Negative"; $bw{"B-0736"} = "Bw4"; $bw{"B-0710"} = "Bw6";
+$group{"B-0702"} = "B7"; $group{"B-0703"} = "B7"; $group{"B-0715"} = "B7"; $group{"B-0736"} = "B7"; $group{"B-0710"} = "B7";
+$base{"B-0702"} = "B7"; $base{"B-0703"} = "B703"; $base{"B-0715"} = "B7"; $base{"B-0736"} = "B7"; $base{"B-0710"} = "B7";
 
 my %b713;
 $b713{"B-0713"} = "HLA00145";	# B*07:13, ref seq was partial 3.38.0, but full length becomes available 3.39.0
 $bw{"B-0713"} = "Negative";
 $group{"B-0713"} = "B713";
 $base{"B-0713"} = "None";
-push @subtype, ("B-0703","B-0713","B-0715","B-0736");
+push @subtype, ("B-0703","B-0713","B-0715","B-0736","B-0710");
 
 my %b8;
 $b8{"B-0801"} = "HLA00146";	#B*08:01:01:01, Bw6
@@ -105,10 +115,11 @@ my %b44;
 $b44{"B-4402"} = "HLA00318";	#B*44:02:01:01, Bw4
 $b44{"B-4404"} = "HLA00321";	#B*44:04
 $b44{"B-4408"} = "HLA00325";	# B*44:08
-$bw{"B-4402"} = "Bw4"; $bw{"B-4404"} = "Bw4"; $bw{"B-4408"} = "Bw4";
-$group{"B-4402"} = "B44"; $group{"B-4404"} = "B44"; $group{"B-4408"} = "B44";
-$base{"B-4402"} = "B44"; $base{"B-4404"} = "B44"; $base{"B-4408"} = "B44";
-push @subtype, ("B-4404", "B-4408");
+$b44{"B-4429"} = "HLA01526";	# B*44:29 362 bp
+$bw{"B-4402"} = "Bw4"; $bw{"B-4404"} = "Bw4"; $bw{"B-4408"} = "Bw4"; $bw{"B-4429"} = "Bw4";
+$group{"B-4402"} = "B44"; $group{"B-4404"} = "B44"; $group{"B-4408"} = "B44"; $group{"B-4429"} = "B44";
+$base{"B-4402"} = "B44"; $base{"B-4404"} = "B44"; $base{"B-4408"} = "B44"; $base{"B-4429"} = "B44";
+push @subtype, ("B-4404", "B-4408","B-4429");
 
 my %b45;
 $b45{"B-4501"} = "HLA00329";	#B*45:01:01:01, Bw6
@@ -145,18 +156,29 @@ $b15{"B-1524"} = "HLA00187";	#B*15:24:01, Bw4, B62Bw4
 $b15{"B-1513"} = "HLA00176";	#15:13:01, Bw4
 $b15{"B-1537"} = "HLA00200";	# B*15:37 362 bp
 $b15{"B-1538"} = "HLA00201";	# B*15:38:01 362 bp
+$b15{"B-1511"} = "HLA00174";	# B*15:11:01 362 bp
+$b15{"B-1508"} = "HLA00171";	# B*15:08:01:01 362 bp
+$b15{"B-1521"} = "HLA00184";	# B*15:21:01:01 362 bp
+$b15{"B-1529"} = "HLA00192";	# B*15:29:01:01 362 bp
+$b15{"B-1547"} = "HLA00210";	# B*15:47:01 362 bp
+$b15{"B-1548"} = "HLA00211";	# B*15:48
 
 $bw{"B-1501"} = "Bw6"; $bw{"B-1502"} = "Bw6"; $bw{"B-1512"} = "Bw6"; $bw{"B-1514"} = "Bw6"; $bw{"B-1510"} = "Bw6"; $bw{"B-1503"} = "Bw6";
-$bw{"B-1540"} = "Bw6"; $bw{"B-1552"} = "Bw6"; $bw{"B-1542"} = "Bw6"; $bw{"B-1524"} = "Bw4";  $bw{"B-1513"} = "Bw4";
-$bw{"B-1537"} = "Bw6"; $bw{"B-1538"} = "Bw6";# $bw{"B-1520"} = "Bw6"; $bw{"B-4802"} = "Bw6";
+$bw{"B-1540"} = "Bw6"; $bw{"B-1552"} = "Bw6"; $bw{"B-1542"} = "Bw6"; $bw{"B-1524"} = "Bw4"; $bw{"B-1513"} = "Bw4"; $bw{"B-1537"} = "Bw6"; 
+$bw{"B-1538"} = "Bw6"; $bw{"B-1511"} = "Bw6"; $bw{"B-1508"} = "Bw6"; $bw{"B-1521"} = "Bw6"; $bw{"B-1529"} = "Bw6"; $bw{"B-1547"} = "Bw6"; 
+$bw{"B-1548"} = "Bw6";
+# $bw{"B-1520"} = "Bw6"; $bw{"B-4802"} = "Bw6";
 $group{"B-1501"} = "B15"; $group{"B-1502"} = "B15"; $group{"B-1512"} = "B15"; $group{"B-1514"} = "B15"; $group{"B-1510"} = "B15"; $group{"B-1503"} = "B15"; 
-$group{"B-1540"} = "B15"; $group{"B-1552"} = "B15"; $group{"B-1542"} = "B15"; $group{"B-1524"} = "B15"; $group{"B-1513"} = "B15";
-$group{"B-1537"} = "B15"; $group{"B-1538"} = "B15";# $group{"B-1520"} = "B15"; $bw{"B-4802"} = "B15";
+$group{"B-1540"} = "B15"; $group{"B-1552"} = "B15"; $group{"B-1542"} = "B15"; $group{"B-1524"} = "B15"; $group{"B-1513"} = "B15"; $group{"B-1537"} = "B15"; 
+$group{"B-1538"} = "B15"; $group{"B-1511"} = "B15"; $group{"B-1508"} = "B15"; $group{"B-1521"} = "B15"; $group{"B-1529"} = "B15"; $group{"B-1547"} = "B15"; 
+$group{"B-1548"} = "B15";
+# $group{"B-1520"} = "B15"; $bw{"B-4802"} = "B15";
 $base{"B-1501"} = "B62"; $base{"B-1502"} = "B75"; $base{"B-1512"} = "B76"; $base{"B-1514"} = "B76"; $base{"B-1510"} = "B71"; $base{"B-1503"} = "B72"; 
-$base{"B-1540"} = "B62"; $base{"B-1552"} = "B71"; $base{"B-1542"} = "B62"; $base{"B-1524"} = "B62"; $base{"B-1513"} = "B77";
-$base{"B-1537"} = "B71"; $base{"B-1538"} = "B62";
+$base{"B-1540"} = "B62"; $base{"B-1552"} = "B71"; $base{"B-1542"} = "B62"; $base{"B-1524"} = "B62"; $base{"B-1513"} = "B77"; $base{"B-1537"} = "B71"; 
+$base{"B-1538"} = "B62"; $base{"B-1511"} = "B75"; $base{"B-1508"} = "B75"; $base{"B-1521"} = "B75"; $base{"B-1529"} = "B71"; $base{"B-1547"} = "B72"; 
+$base{"B-1548"} = "B62";
 
-my%b63;
+my %b63;
 $b63{"B-1517"} = "HLA00180";	#15:17:01:01, Bw4  
 $b63{"B-1516"} = "HLA00179";	# B*15:16:01:01
 $bw{"B-1517"} = "Bw4"; $bw{"B-1516"} = "Bw4";
@@ -173,7 +195,8 @@ $bw{"B-5701"} = "Bw4"; $bw{"B-5801"} = "Bw4";
 $group{"B-5701"} = "B17"; $group{"B-5801"} = "B17";
 $base{"B-5701"} = "B57"; $base{"B-5801"} = "B58";
 
-push @subtype, ("B-1502","B-1512","B-1514","B-1510","B-1503","B-1540","B-1552","B-1542","B-1523","B-1524","B-1517","B-1513","B-1537","B-1538", "B-1516");
+push @subtype, ("B-1502","B-1512","B-1514","B-1510","B-1503","B-1540","B-1552","B-1542","B-1523","B-1524","B-1517","B-1513","B-1537","B-1538",
+	"B-1516","B-1511","B-1508","B-1521","B-1547","B-1548");
 
 my %b38;	#B16
 $b38{"B-3801"} = "HLA00267";	#B*38:01:01:01, Bw4
@@ -194,13 +217,14 @@ push @subtype, ("B-3902","B-3910");
 
 my %b18;
 $b18{"B-1801"} = "HLA00213";	#B*18:01:01:01, Bw6
+$b18{"B-1805"} = "HLA00217";	# B*18:05:01:01 362 bp
 $b18{"B-1806"} = "HLA00218";	#B*18:06, Negative
 my %b1809;
 $b1809{"B-1809"} = "HLA01131";	#B*18:09, Bw4
-$bw{"B-1801"} = "Bw6"; $bw{"B-1806"} = "Negative"; $bw{"B-1809"} = "Bw4";
-$group{"B-1801"} = "B18"; $group{"B-1806"} = "B18"; $group{"B-1809"} = "B1809";
-$base{"B-1801"} = "B18"; $base{"B-1806"} = "B18"; $base{"B-1809"} = "B18";
-push @subtype, ("B-1806","B-1809");
+$bw{"B-1801"} = "Bw6"; $bw{"B-1805"} = "Bw6"; $bw{"B-1806"} = "Negative"; $bw{"B-1809"} = "Bw4";
+$group{"B-1801"} = "B18"; $group{"B-1805"} = "B18"; $group{"B-1806"} = "B18"; $group{"B-1809"} = "B1809";
+$base{"B-1801"} = "B18"; $base{"B-1805"} = "B18"; $base{"B-1806"} = "B18"; $base{"B-1809"} = "B18";
+push @subtype, ("B-1805","B-1806","B-1809");
 
 
 my %b49;	# B21, Bw4
@@ -243,28 +267,32 @@ $b35{"B-3501"} = "HLA00237";	#B*35:01:01:01, Bw6
 $b35{"B-3510"} = "HLA00247";	#B*35:10, Bw6, residue 63
 $b35{"B-3515"} = "HLA00252";	#B*35:15:01, Bw6, residue 63
 $b35{"B-3519"} = "HLA00256";	#B*35:19, Bw6, residue 45
-$bw{"B-3501"} = "Bw6"; $bw{"B-3510"} = "Bw6"; $bw{"B-3515"} = "Bw6"; $bw{"B-3519"} = "Bw6";# $bw{"B3574"} = "Negative";
-$group{"B-3501"} = "B35"; $group{"B-3510"} = "B35"; $group{"B-3515"} = "B35"; $group{"B-3519"} = "B35";# $group{"B3574"} = "B35";
-$base{"B-3501"} = "B35"; $base{"B-3510"} = "B35"; $base{"B-3515"} = "B35"; $base{"B-3519"} = "B35";# $base{"B3574"} = "B35";
-push @subtype, ("B-3510","B-3515","B-3519");
+$b35{"B-3520"} = "HLA00257";	# B*35:20:01 362 bp
+$b35{"B-3528"} = "HLA00981";	# B*35:28:01:01 362 bp
+$bw{"B-3501"} = "Bw6"; $bw{"B-3510"} = "Bw6"; $bw{"B-3515"} = "Bw6"; $bw{"B-3519"} = "Bw6"; $bw{"B-3520"} = "Bw6"; $bw{"B-3528"} = "Bw6";
+$group{"B-3501"} = "B35"; $group{"B-3510"} = "B35"; $group{"B-3515"} = "B35"; $group{"B-3519"} = "B35"; $group{"B-3520"} = "B35"; $group{"B-3528"} = "B35";
+$base{"B-3501"} = "B35"; $base{"B-3510"} = "B35"; $base{"B-3515"} = "B35"; $base{"B-3519"} = "B35"; $base{"B-3520"} = "B35"; $base{"B-3528"} = "B35";
+push @subtype, ("B-3510","B-3515","B-3519","B-3520","B-3528");
 my %b37;
 $b37{"B-3701"} = "HLA00265";	#B*37:01:01:01, Bw4
 $b37{"B-3702"} = "HLA00266";	# B*37:02, Bw4
-my %b3705;
-$b3705{"B-3705"} = "HLA01359";	#B*37:05, Bw6
-$bw{"B-3701"} = "Bw4"; $bw{"B-3702"} = "Bw4"; $bw{"B-3705"} = "Bw6";
-$group{"B-3701"} = "B37"; $group{"B-3702"} = "B37"; $group{"B-3705"} = "B3705";
-$base{"B-3701"} = "B37"; $base{"B-3702"} = "B37"; $base{"B-3705"} = "B37";
-push @subtype, ("B-3702","B-3705"); 
+$b37{"B-3704"} = "HLA01346";	# B*37:04:01 362 bp
+$b37{"B-3705"} = "HLA01359";	#B*37:05, Bw6
+$bw{"B-3701"} = "Bw4"; $bw{"B-3702"} = "Bw4"; $bw{"B-3704"} = "Bw4"; $bw{"B-3705"} = "Bw6";
+$group{"B-3701"} = "B37"; $group{"B-3702"} = "B37"; $group{"B-3704"} = "B37"; $group{"B-3705"} = "B37";
+$base{"B-3701"} = "B37"; $base{"B-3702"} = "B37"; $base{"B-3704"} = "B37"; $base{"B-3705"} = "B37";
+push @subtype, ("B-3702","B-3704","B-3705"); 
 my %b40;
 $b40{"B-4001"} = "HLA00291";	#B*40:01:01, Bw6
 $b40{"B-4002"} = "HLA00293";	#B*40:02:01:01, Bw6
 $b40{"B-4016"} = "HLA00307";	#B*40:16:01:01
 $b40{"B-4021"} = "HLA00983";	# B*40:21
-$bw{"B-4001"} = "Bw6"; $bw{"B-4002"} = "Bw6"; $bw{"B-4016"} = "Bw6"; $bw{"B-4021"} = "Bw6";
-$group{"B-4001"} = "B40"; $group{"B-4002"} = "B40"; $group{"B-4016"} = "B40"; $group{"B-4021"} = "B40";
-$base{"B-4001"} = "B60"; $base{"B-4002"} = "B61"; $base{"B-4016"} = "B60"; $base{"B-4021"} = "B60";
-push @subtype, ("B-4002","B-4016","B-4021");	#,"B4050"
+$b40{"B-4008"} = "HLA00299";	# B*40:08:01:01 362 bp
+$b40{"B-4023"} = "HLA01062";	# B*40:23 362 bp
+$bw{"B-4001"} = "Bw6"; $bw{"B-4002"} = "Bw6"; $bw{"B-4016"} = "Bw6"; $bw{"B-4021"} = "Bw6"; $bw{"B-4008"} = "Bw6"; $bw{"B-4023"} = "Bw6";
+$group{"B-4001"} = "B40"; $group{"B-4002"} = "B40"; $group{"B-4016"} = "B40"; $group{"B-4021"} = "B40"; $group{"B-4008"} = "B40"; $group{"B-4023"} = "B40";
+$base{"B-4001"} = "B60"; $base{"B-4002"} = "B61"; $base{"B-4016"} = "B60"; $base{"B-4021"} = "B60"; $base{"B-4008"} = "B61"; $base{"B-4023"} = "B60";
+push @subtype, ("B-4002","B-4016","B-4021","B-4008","B-4023");	#,"B4050"
 my %b48;
 $b48{"B-4801"} = "HLA00335";	#B*48:01:01:01, Bw6
 $b48{"B-4804"} = "HLA00338";	#B*48:04:01:01, Bw6
@@ -295,10 +323,11 @@ $base{"B-4601"} = "B46";# $base{"B4640"} = "B46";
 my %b47;
 $b47{"B-4701"} = "HLA01437";	#B*47:01:01:02,  B61Bw4 belongs to B47
 $b47{"B-4047"} = "HLA:HLA01748";	# B*40:47, B60Bw4, partial
-$bw{"B-4701"} = "Bw4"; $bw{"B-4047"} = "Bw4";
-$group{"B-4701"} = "B47"; $group{"B-4047"} = "B47";
-$base{"B-4701"} = "B47"; $base{"B-4047"} = "B60";
-push @subtype, ("B-4047");
+$b47{"B-4013"} = "HLA00304";	# B*40:13 362 bp
+$bw{"B-4701"} = "Bw4"; $bw{"B-4047"} = "Bw4"; $bw{"B-4013"} = "Bw4";
+$group{"B-4701"} = "B47"; $group{"B-4047"} = "B47"; $group{"B-4013"} = "B47";
+$base{"B-4701"} = "B47"; $base{"B-4047"} = "B60"; $base{"B-4013"} = "B47";
+push @subtype, ("B-4047","B-4013");
 
 my %b53;
 $b53{"B-5301"} = "HLA00364";	#B*53:01:01:01
@@ -432,6 +461,7 @@ sub RESIDUES {
 	my ( $serotype ) = @_;
 	my @combined = ();
 	push @combined, @b5; 
+	push @combined, @b52; 
 	push @combined, @b7; 
 	push @combined, @b713; 
 	push @combined, @b8; 
@@ -455,7 +485,6 @@ sub RESIDUES {
 	push @combined, @b2708;
 	push @combined, @b35;
 	push @combined, @b37;
-	push @combined, @b3705;
 	push @combined, @b40;
 	push @combined, @b48;
 	push @combined, @b41;
@@ -484,6 +513,9 @@ sub RESIDUES {
 	my $residues_ref = \@residues;
 	if ( $serotype eq "B5" ) {
 		@residues = @b5; 
+	}
+	elsif ( $serotype eq "B52" ) {
+		@residues = @b52; 
 	}
 	elsif ( $serotype eq "B7" ) {
 		@residues = @b7; 
@@ -554,9 +586,6 @@ sub RESIDUES {
 	elsif ( $serotype eq "B37" ) {
 		@residues = @b37;
 	}
-	elsif ( $serotype eq "B3705" ) {
-		@residues = @b3705;
-	}
 	elsif ( $serotype eq "B40" ) {
 		@residues = @b40;
 	}
@@ -609,6 +638,9 @@ sub REF {
 
 	if ( $serotype eq "B5" ) {
 		%ref = %b5; 
+	}
+	elsif ( $serotype eq "B52" ) {
+		%ref = %b52; 
 	}
 	elsif ( $serotype eq "B7" ) {
 		%ref = %b7; 
@@ -679,9 +711,6 @@ sub REF {
 	elsif ( $serotype eq "B37" ) {
 		%ref = %b37;
 	}
-	elsif ( $serotype eq "B3705" ) {
-		%ref = %b3705;
-	}
 	elsif ( $serotype eq "B40" ) {
 		%ref = %b40;
 	}
@@ -722,8 +751,8 @@ sub REF {
 		%ref = %b82b83;
 	}
 	else {		# "ALL", combine all
-		%ref = (%b5,%b7,%b713,%b8,%b802,%b44,%b45,%b13,%b14,%b15,%b63,%b1523,%b17,%b38,%b39,%b18,%b1809,%b49,%b50,%b22,
-		%b27,%b2708,%b35,%b37,%b3705,%b40,%b48,%b41,%b42,%b46,%b47,%b53,%b59,%b67,%b73,%b78,%b81,%b82b83);
+		%ref = (%b5,%b52,%b7,%b713,%b8,%b802,%b44,%b45,%b13,%b14,%b15,%b63,%b1523,%b17,%b38,%b39,%b18,%b1809,%b49,%b50,%b22,
+		%b27,%b2708,%b35,%b37,%b40,%b48,%b41,%b42,%b46,%b47,%b53,%b59,%b67,%b73,%b78,%b81,%b82b83);
 	}
 	
 	return $ref_ref;
@@ -731,8 +760,8 @@ sub REF {
 
 sub SERO {	# serotype and subtype information
 	my @sero;
-	my %ref = (%b5,%b7,%b713,%b8,%b802,%b44,%b45,%b13,%b14,%b15,%b63,%b1523,%b17,%b38,%b39,%b18,%b1809,%b49,%b50,%b22,
-	%b27,%b2708,%b35,%b37,%b3705,%b40,%b48,%b41,%b42,%b46,%b47,%b53,%b59,%b67,%b73,%b78,%b81,%b82b83);
+	my %ref = (%b5,%b52,%b7,%b713,%b8,%b802,%b44,%b45,%b13,%b14,%b15,%b63,%b1523,%b17,%b38,%b39,%b18,%b1809,%b49,%b50,%b22,
+	%b27,%b2708,%b35,%b37,%b40,%b48,%b41,%b42,%b46,%b47,%b53,%b59,%b67,%b73,%b78,%b81,%b82b83);
 	my @tmp = sort keys %ref;
 	for ( my $index = 0; $index < scalar @tmp; $index++ ) {
 		$sero[0][$index] = $tmp[$index];
@@ -745,12 +774,12 @@ sub SERO {	# serotype and subtype information
 }
 
 sub KEY {
-	my %tmp = (%b5,%b7,%b713,%b8,%b802,%b44,%b45,%b13,%b14,%b15,%b63,%b1523,%b17,%b38,%b39,%b18,%b1809,%b49,%b50,%b22,
-	%b27,%b2708,%b35,%b37,%b3705,%b40,%b48,%b41,%b42,%b46,%b47,%b53,%b59,%b67,%b73,%b78,%b81,%b82b83);
+	my %tmp = (%b5,%b52,%b7,%b713,%b8,%b802,%b44,%b45,%b13,%b14,%b15,%b63,%b1523,%b17,%b38,%b39,%b18,%b1809,%b49,%b50,%b22,
+	%b27,%b2708,%b35,%b37,%b40,%b48,%b41,%b42,%b46,%b47,%b53,%b59,%b67,%b73,%b78,%b81,%b82b83);
 	my %ref;
 	my $key_ref = \%ref;
 	for my $key ( sort keys %tmp ) {
-		if ( $key =~ /B-510/ ) {
+		if ( $key =~ /B-51/ ) {
 			$ref{$key} = "B\\*51";
 		}				# B5
 		elsif ( $key =~ /B-52/ ) {
@@ -867,11 +896,17 @@ sub BW {
 sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
-	my $seq = "N" x 25;
-
+	my $seq = "X" x 25;
 	$partial{ "B-3803" } = $seq;	# still partial
 	$partial{ "B-4047" } = $seq;	# still partial
-	$partial{ "B-4021" } = $seq;	# still partial
+	$partial{ "general" } = $seq;
+	$partial{ "B*15:57" } = "X" x 2;	# unusual partial sequence
+	$partial{ "B*27:38" } = "X" x 5;	# unusual partial sequence
+	$partial{ "B*35:60" } = "X" x 3;	# unusual partial sequence
+	$partial{ "B*35:67" } = "X" x 6;	# unusual partial sequence
+	$partial{ "B*35:78" } = "X" x 11;	# unusual partial sequence
+	$partial{ "B*40:39" } = "X" x 14;	# unusual partial sequence
+#	$partial{ "B-4021" } = $seq;	# full in 3.51.0
 
 		
 	return $partial_ref;
@@ -893,5 +928,12 @@ sub WHO {
 	return $whotype_ref;
 }
 
+
+sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL
+	my %known_cross;
+	my $known_cross_ref = \%known_cross;
+	$known_cross{ "NOTHING" } = 0;
+	return $known_cross_ref;
+}
 
 1;

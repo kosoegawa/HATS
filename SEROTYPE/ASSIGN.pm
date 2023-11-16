@@ -3,11 +3,12 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: ASSIGN.pm 
 # This module was developed to convert HLA allele to HLA serotype using relaxed mode
-# last modified and documented on March 12 2019
+# last reviewed, modified and documented on October 6 2023
 
 package ASSIGN;
 use strict;
@@ -16,7 +17,8 @@ my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 
 sub ASSIGN {		# deal with remaining serotypes with strict mode
-	my ( $fasta_ref, $assigned_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref ) = @_;
+	my ( $fasta_ref, $assigned_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref, $known_cross_ref ) = @_;
+	#, $known_cross_ref_in
 	# $fasta_ref: original fasta file, hla_prot.fasta
 	# $assigned_ref: assigned alleles
 	# $gene: HLA gene
@@ -24,6 +26,7 @@ sub ASSIGN {		# deal with remaining serotypes with strict mode
 	# $ref_ref: reference alleles, hash reference
 	# $residues_ref: key residue positions in array reference
 	# partial_ref is an optional if no partial sequence is used as reference
+	my %known_cross = %$known_cross_ref;
 
 	my %assigned;	#assigned alleles
 	my $assigned2_ref = \%assigned;
@@ -82,7 +85,10 @@ sub ASSIGN {		# deal with remaining serotypes with strict mode
 						push @alleles, $allele;		# add allele containing target
 					}
 					if ( exists $assigned_ref->{ $allele } ) {
-						unless ( $assigned_ref->{ $allele } =~ /$key/ ) {
+						if ( exists($known_cross{ $assigned_ref->{ $allele }} )) {
+							next;
+						}
+						unless ( ( $assigned_ref->{ $allele } =~ /$key/ )) {
 							print "Cross Reactive:" . $allele . "\t" . $assigned_ref->{ $allele } . "\n";
 						}
 					}
@@ -116,6 +122,7 @@ sub ASSIGN {		# deal with remaining serotypes with strict mode
 
 sub CROSS {	# populate cross-reactive alleles	
 	my ( $fasta_ref, $assigned_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref, $cross_ref ) = @_;
+	#, $known_cross_ref_in
 	# $fasta_ref: original fasta file, hla_prot.fasta
 	# $assigned_ref: assigned alleles
 	# $gene: HLA gene

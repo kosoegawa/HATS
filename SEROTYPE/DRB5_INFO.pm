@@ -1,18 +1,20 @@
 #!/usr/bin/perl -w
-
+#
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: DRB5_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on December 16 2019
+# last modified and documented on November 14 2023
 
 package DRB5_INFO;
 use strict;
 
-my @dr51 = (9, 10, 11, 12, 13,71);
+my @dr51 = (9, 10, 11, 12, 13);
+my @extra = (14,16,47,58,60,67,70,71,74);	# FULL only
 
 my %dr51;
 my %group;
@@ -69,6 +71,7 @@ sub RESIDUES {
 	my ( $serotype ) = @_;
 	my @combined = ();
 	push @combined, @dr51;
+	push @combined, @extra;
 	my %seen;
 	my @unique;
 	foreach my $value ( sort { $a <=> $b } @combined ) {
@@ -135,8 +138,18 @@ sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
 	my $seq = "N" x 34;
+	$partial{ "general" } = $seq;
+	$partial{ "DRB5*01:04" } = "N" x 29;
 		
 	return $partial_ref;
+}
+
+sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL
+	my %known_cross;
+	my $known_cross_ref = \%known_cross;
+	$known_cross{ "DR-5102" } = 0;
+	$known_cross{ "DR-5103" } = 0;
+	return $known_cross_ref;
 }
 
 1;

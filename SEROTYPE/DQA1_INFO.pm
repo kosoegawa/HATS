@@ -159,9 +159,16 @@ sub KEY {
 sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
-	my $seq = "N" x 25;	#change the number of missing nucleotide
+	my $seq = "N" x 28;	#change the number of missing nucleotide
+	$partial{ "general" } = $seq;
 		
 	return $partial_ref;
+}
+
+sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL
+	my %known_cross;
+	my $known_cross_ref = \%known_cross;
+	return $known_cross_ref;
 }
 
 1;

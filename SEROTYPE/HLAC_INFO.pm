@@ -3,11 +3,12 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: HLAC_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on January 31 2022
+# last modified and documented on October 20 2023
 
 package HLAC_INFO;
 use strict;
@@ -299,6 +300,34 @@ sub RESIDUES {
 	return $residues_ref;
 }
 
+sub RESIDUES_ABC {
+	my @a = (43,44,45,56,62,63,65,66,67,73,74,76,82,83,107,127,144,145,149,151,161,163,166,167,171);
+	my @b = (11,45,46,62,63,67,69,70,71,76,82,83,103,127,143,145,147,158,163,167,171,177,178,180);
+	my @c = (24,45,49,66,73,76,77,80,82,83,91,99,138,143,147,158,163,173,175,177);
+
+	my ( $serotype ) = @_;
+	my @combined = ();
+	push @combined, @a; 
+	push @combined, @b; 
+	push @combined, @c; 
+
+	my %seen;
+	my @unique;
+	foreach my $value ( sort { $a <=> $b } @combined ) {
+		unless ( exists $seen{ $value } ) {
+			push @unique, $value;
+			$seen{ $value } = 0;
+		}
+	}
+	
+	my @residues = ();
+	my $residues_ref = \@residues;
+	if ( $serotype eq "ALL" ) {
+		@residues = @unique;
+	}
+	return $residues_ref;
+}
+
 sub REF {
 	my ( $serotype ) = @_;
 	my %ref;
@@ -435,6 +464,8 @@ sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
 	my $seq = "N" x 25;	#change the number of missing nucleotide
+	$partial{ "general" } = $seq;
+	# C*03:46 contains 1 AA deletion, so the AA alignment is not correct
 		
 	return $partial_ref;
 }
@@ -446,6 +477,13 @@ sub WHO {
 	$who{"C-0501"} = "Cw5"; $who{"C-0602"} = "Cw6"; $who{"C-0701"} = "Cw7"; $who{"C-0801"} = "Cw8";
 
 	return $whotype_ref;
+}
+
+sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL
+	my %known_cross;
+	my $known_cross_ref = \%known_cross;
+	$known_cross{ "NOTHING" } = 0;
+	return $known_cross_ref;
 }
 
 1;

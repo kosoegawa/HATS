@@ -3,12 +3,13 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: STRASSIGN.pm
 # stringent assign
 # This module was developed to convert HLA allele to HLA serotype using strict mode
-# last modified and documented on February 2 2022
+# last modified and documented on October 25 2023
 #
 
 package STRASSIGN;
@@ -95,7 +96,6 @@ sub all {		# deal with remaining serotypes with strict mode
 	}
 	close FILE;
 
-#	return %assigned;
 	return $assigned_ref;
 }
 
