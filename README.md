@@ -1,6 +1,7 @@
 # Introduction
 
-HLA Allele To Serotype (HATS) was developed with Perl 5.10 on CentOS 7. The program was developed using the reference sequences based on IPD-IMGT/HLA Database release version 3.38.0.
+HLA Allele To Serotype (HATS) was updated with perl 5, version 26, subversion 3 (v5.26.3) on Red Hat Enterprise Linux 8.6.
+The program was updated using the reference sequences based on IPD-IMGT/HLA Database release version 3.54.0.
 
 ## Installation
 Download HATS directory in a Linux computer
@@ -14,8 +15,8 @@ Download HATS directory in a Linux computer
 mkdir output
 
 # Input file
-# Download hla_prot.fasta file from IPD-IMGT/HLA Database. IPD-IMGT/HLA Database release version 3.38.0 must be added at the end of hla_prot.fasta file and saved in input directory
-# input/hla_prot.fasta.3.44.0
+# Download hla_prot.fasta file from IPD-IMGT/HLA Database. IPD-IMGT/HLA Database release version 3.54.0 must be added at the end of hla_prot.fasta file and saved in input directory
+# input/hla_prot.fasta.3.54.0
 # An empty file is created to show database version when one of the following commands are executed
 
 hla_prot.fasta.3.44.0
@@ -53,6 +54,8 @@ hla_prot.fasta.3.44.0
 # Generate HLA-DPA1 allele to serotype table
 ./runDPA1.pl
 
+# output/gene_Allele_Residues_DB_Versioon_Date.csv file is generated.
+# It contains all expressed two-field allele, assigned serotype, Comment, and residues for each key residue position 
 # Untruncated HLA allele to serotype table is saved in RESULTS directory
 # Truncated two-field HLA allele to serotype table is saved in TWORESULTS directory
 
