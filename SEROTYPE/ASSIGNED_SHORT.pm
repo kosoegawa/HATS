@@ -8,7 +8,7 @@
 
 # module: ASSIGNED_SHORT.pm 
 # This module was developed to print table
-# last reviewed, modified and documented on October 27 2023
+# last reviewed, modified and documented on December 13 2023
 
 package ASSIGNED_SHORT;
 use strict;
@@ -97,25 +97,25 @@ $antigen{ "DQ-0602" } = "DQ6";	#comment out for SAB
 $antigen{ "DQ-0608" } = "DQ6";
 $antigen{ "DQ-0610" } = "DQ6";
 
-$antigen{"DP0101"} = "DP-01";
-$antigen{"DP0201"} = "DP-0201";
-$antigen{"DP0301"} = "DP-03";
-$antigen{"DP0401"} = "DP-0401";
-$antigen{"DP1001"} = "DP-10";
-$antigen{"DP1501"} = "DP-15";
-$antigen{"DP1801"} = "DP-18";
-$antigen{"DP4601"} = "DP-46";
-$antigen{"DP0402"} = "DP-0402";
-$antigen{"DP0202"} = "DP-0202";
-$antigen{"DP0601"} = "DP-06";
-$antigen{"DP1301"} = "DP-13";
-$antigen{"DP4501"} = "DP-45";
-$antigen{"DP8001"} = "DP-80";
+$antigen{"DP-0101"} = "DP-01";
+#$antigen{"DP-0201"} = "DP-0201";
+$antigen{"DP-0301"} = "DP-03";
+#$antigen{"DP-0401"} = "DP-0401";
+$antigen{"DP-1001"} = "DP-10";
+$antigen{"DP-1501"} = "DP-15";
+$antigen{"DP-1801"} = "DP-18";
+$antigen{"DP-4601"} = "DP-46";
+#$antigen{"DP-0402"} = "DP-0402";
+#$antigen{"DP-0202"} = "DP-0202";
+$antigen{"DP-0601"} = "DP-06";
+$antigen{"DP-1301"} = "DP-13";
+$antigen{"DP-4501"} = "DP-45";
+$antigen{"DP-8001"} = "DP-80";
 
-$antigen{"DP1101"} = "DP-01"; 
-$antigen{"DP3401"} = "DP-15"; 
-$antigen{"DP13601"} = "DP-45";  
-$antigen{"DP6901"} = "DP-03";
+$antigen{"DP-1101"} = "DP-01"; 
+$antigen{"DP-3401"} = "DP-15"; 
+$antigen{"DP-13601"} = "DP-45";  
+$antigen{"DP-6901"} = "DP-03";
 
 my @broad = ("A9","A10","A19","A28","B5","B12","B14","B15","B16","B17","B21","B22","B40","B70","Cw3","DR2","DR3","DR5","DR6","DQ1","DQ3");
 
