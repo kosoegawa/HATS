@@ -8,7 +8,7 @@
 
 # module: DRB1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last reviewed, modified and documented on October 6 2023
+# last reviewed, modified and documented on December 25 2023
 
 package DRB1_INFO;
 use strict;
@@ -427,7 +427,7 @@ sub WHO {
 	my $whotype_ref = \%who;
 	$who{"DR-0101"} = "DR1"; $who{"DR-0103"} = "DR103"; $who{"DR-1501"} = "DR15"; $who{"DR-1601"} = "DR16"; $who{"DR-0301"} = "DR17";
 	$who{"DR-0302"} = "DR18"; $who{"DR-0401"} = "DR4"; $who{"DR-0701"} = "DR7"; $who{"DR-0801"} = "DR8"; $who{"DR-0901"} = "DR9";
-	$who{"DR-1001"} = "DR10"; $who{"DR-1101"} = "DR11"; $who{"DR-1201"} = "DR12"; $who{"DR-1301"} = "DR13"; $who{"DR-1454"} = "DR14";
+	$who{"DR-1001"} = "DR10"; $who{"DR-1101"} = "DR11"; $who{"DR-1201"} = "DR12"; $who{"DR-1301"} = "DR13"; $who{"DR-1401"} = "DR14";
 	$who{"DR-1403"} = "DR1403"; $who{"DR-1404"} = "DR1404";
 
 	return $whotype_ref;
