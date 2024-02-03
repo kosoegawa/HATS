@@ -148,12 +148,17 @@ foreach my $csv ( @csv ) {
 	COUNT::SUMMARY_TWO($csv, $gene, $sero_ref, $null_ref, $qallele_ref, $basetype_ref);
 }
 
-#remove all csv files
 @csv = glob("RESULTS/" . $gene . "_Serotype_Table_IMGT_HLA_*");
 $csvs = scalar @csv;
 if ( $csvs > 0 ) {
 	unlink @csv;
 }
-
 copy("output/" . $gene . "_Serotype_Table_IMGT_HLA_" . $database . "_" . $date . ".csv", "RESULTS/") or die "Copy failed: $!";
+
+@csv = glob("TWORESULTS/" . $gene . "_TwoField_Serotype_Table_IMGT_HLA_*");
+$csvs = scalar @csv;
+if ( $csvs > 0 ) {
+	unlink @csv;
+}
 copy("output/" . $gene . "_TwoField_Serotype_Table_IMGT_HLA_" . $database . "_" . $date . ".csv", "TWORESULTS/") or die "Copy failed: $!";
+
