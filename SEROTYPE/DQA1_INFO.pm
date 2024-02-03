@@ -27,10 +27,10 @@ $dqa2456{"DQA-04"} = "HLA00612";	# DQA1*04:01:01:01
 $dqa2456{"DQA-05"} = "HLA00613";	# DQA1*05:01:01:01
 $dqa2456{"DQA-06"} = "HLA00620";	# DQA1*06:01:01:01
 
-$group{"DQA-01"} = "DQA01"; $group{"DQA-03"} = "DQA01";
-$group{"DQA-02"} = "DQA02"; $group{"DQA-04"} = "DQA02"; $group{"DQA-05"} = "DQA02"; $group{"DQA-06"} = "DQA02";
-$base{"DQA-01"} = "DQA01"; $base{"DQA-03"} = "DQA03";
-$base{"DQA-02"} = "DQA02"; $base{"DQA-04"} = "DQA04"; $base{"DQA-05"} = "DQA05"; $base{"DQA-06"} = "DQA06";
+$group{"DQA-01"} = "DQA-01"; $group{"DQA-03"} = "DQA-01";
+$group{"DQA-02"} = "DQA-02"; $group{"DQA-04"} = "DQA-02"; $group{"DQA-05"} = "DQA-02"; $group{"DQA-06"} = "DQA-02";
+$base{"DQA-01"} = "DQA-01"; $base{"DQA-03"} = "DQA-03";
+$base{"DQA-02"} = "DQA-02"; $base{"DQA-04"} = "DQA-04"; $base{"DQA-05"} = "DQA-05"; $base{"DQA-06"} = "DQA-06";
 
 my @subtype = ();	# modify here if serotype modified
 
@@ -55,7 +55,7 @@ sub BASE {
 }
 
 sub BASETYPE {
-	my @basetype = ("DQA01","DQA02","DQA03","DQA04","DQA05","DQA06");
+	my @basetype = ("DQA-01","DQA-02","DQA-03","DQA-04","DQA-05","DQA-06");
 	my $basetype_ref = \@basetype;
 }
 
@@ -84,10 +84,10 @@ sub RESIDUES {
 	
 	my @residues = ();
 	my $residues_ref = \@residues;
-	if (( $serotype eq "DQA01" ) || ( $serotype eq "DQA03" )) {
+	if (( $serotype eq "DQA-01" ) || ( $serotype eq "DQA-03" )) {
 		@residues = @dqa13; 
 	}
-	elsif (( $serotype eq "DQA02" ) || ( $serotype eq "DQA04" ) || ( $serotype eq "DQA05" ) || ( $serotype eq "DQA06" )) {
+	elsif (( $serotype eq "DQA-02" ) || ( $serotype eq "DQA-04" ) || ( $serotype eq "DQA-05" ) || ( $serotype eq "DQA-06" )) {
 		@residues = @dqa2456;
 	}
 	else {
@@ -101,10 +101,10 @@ sub REF {
 	my %ref;
 	my $ref_ref = \%ref;
 
-	if (( $serotype eq "DQA01" ) || ( $serotype eq "DQA03" )) {
+	if (( $serotype eq "DQA-01" ) || ( $serotype eq "DQA-03" )) {
 		%ref = %dqa13; 
 	}
-	elsif (( $serotype eq "DQA02" ) || ( $serotype eq "DQA04") || ( $serotype eq "DQA05" ) || ( $serotype eq "DQA06" )) {
+	elsif (( $serotype eq "DQA-02" ) || ( $serotype eq "DQA-04") || ( $serotype eq "DQA-05" ) || ( $serotype eq "DQA-06" )) {
 		%ref = %dqa2456;
 	}
 	else {

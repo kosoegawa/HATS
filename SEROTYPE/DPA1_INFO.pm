@@ -21,8 +21,8 @@ my %dpa1;
 $dpa1{"DPA-01"} = "HLA00499";	# DPA1*01:03:01:01
 $dpa1{"DPA-02"} = "HLA00504";	# DPA1*02:01:01:01
 
-$group{"DPA-01"} = "DPA01"; $group{"DPA-02"} = "DPA01";
-$base{"DPA-01"} = "DPA01"; $base{"DPA-02"} = "DPA02";
+$group{"DPA-01"} = "DPA-01"; $group{"DPA-02"} = "DPA-01";
+$base{"DPA-01"} = "DPA-01"; $base{"DPA-02"} = "DPA-02";
 
 my @subtype = ();	# modify here if serotype modified
 
@@ -47,7 +47,7 @@ sub BASE {
 }
 
 sub BASETYPE {
-	my @basetype = ("DPA01","DPA02");
+	my @basetype = ("DPA-01","DPA-02");
 	my $basetype_ref = \@basetype;
 }
 
