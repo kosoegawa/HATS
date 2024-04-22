@@ -3,16 +3,18 @@
 # Author: Kazutoyo Osoegawa, Ph.D.
 # Developed at Stanford Blood Center
 # email: kazutoyo@stanford.edu
-# phone: 650-724-0169
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
 
 # module: DPB1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on July 31 2021
+# last modified and documented on March 25 2024
 
 package DPB1_INFO;
 use strict;
 
-my @dpb1 = (56,57,69,82,84,85);	# 82 is included to be DPB1 specific
+#my @dpb1 = (56,57,69,82,84,85);	# 82 is included to be DPB1 specific
+my @dpb1 = (56,57,69,84,85,86);	# 82 is included to be DPB1 specific
 
 my %group;
 my %base;
@@ -42,11 +44,10 @@ $group{"DP-1501"} = "DP-01"; $group{"DP-1801"} = "DP-01"; $group{"DP-4601"} = "D
 $group{"DP-0601"} = "DP-01"; $group{"DP-1301"} = "DP-01"; $group{"DP-1101"} = "DP-01"; $group{"DP-3401"} = "DP-01"; $group{"DP-4501"} = "DP-01";
 $group{"DP-13601"} = "DP-01"; $group{"DP-8001"} = "DP-01"; $group{"DP-6901"} = "DP-01";
 $base{"DP-0101"} = "DP-0101"; $base{"DP-0201"} = "DP-0201"; $base{"DP-0301"} = "DP-0301"; $base{"DP-0401"} = "DP-0401";
-$base{"DP-1001"} = "DP-1001"; $base{"DP-1501"} = "DP-1501"; $base{"DP-1801"} = "DP-1801"; $base{"DP-4601"} = "DP-4601";	
+$base{"DP-1001"} = "DP-1001"; $base{"DP-1501"} = "DP-0401"; $base{"DP-1801"} = "DP-0402"; $base{"DP-4601"} = "DP-4601";	
 $base{"DP-0402"} = "DP-0402"; $base{"DP-0202"} = "DP-0202"; $base{"DP-0601"} = "DP-0601"; $base{"DP-1301"} = "DP-1301";
-$base{"DP-4501"} = "DP-4501";$base{"DP-8001"} = "DP-8001";
-$base{"DP-1101"} = "DP-0101"; $base{"DP-3401"} = "DP-1501"; $base{"DP-13601"} = "DP-4501";  $base{"DP-6901"} = "DP-0301";
-
+$base{"DP-4501"} = "DP-4501"; $base{"DP-8001"} = "DP-8001";
+$base{"DP-1101"} = "DP-0101"; $base{"DP-3401"} = "DP-0401"; $base{"DP-13601"} = "DP-4501";  $base{"DP-6901"} = "DP-0301";
 my @subtype = ();	# modify here if serotype modified
 
 sub DPB1 {
@@ -70,8 +71,8 @@ sub BASE {
 }
 
 sub BASETYPE {
-	my @basetype = ("DP-0101", "DP-0201", "DP-0301", "DP-0401", "DP-1001","DP-1501", "DP-1801","DP-4601",
-		"DP-0402", "DP-0202", "DP-0601", "DP-1301", "DP-4501", "DP-8001");
+	my @basetype = ("DP-0101", "DP-0201", "DP-0301", "DP-0401", "DP-1001", "DP-4601",
+		"DP-0402", "DP-0202", "DP-0601", "DP-1301", "DP-4501", "DP-8001");	#"DP-1501","DP-1801",
 	my $basetype_ref = \@basetype;
 }
 

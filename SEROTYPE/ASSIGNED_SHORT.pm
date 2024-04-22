@@ -8,7 +8,7 @@
 
 # module: ASSIGNED_SHORT.pm 
 # This module was developed to print table
-# last reviewed, modified and documented on December 13 2023
+# last reviewed, modified and documented on April 21 2024
 
 package ASSIGNED_SHORT;
 use strict;
@@ -25,7 +25,6 @@ $antigen{ "A-0210" } = "A210";
 $antigen{ "A-2403" } = "A2403";
 $antigen{ "A-2501" } = "A25";
 $antigen{ "A-1101" } = "A11";
-$antigen{ "A-2901" } = "A29";
 $antigen{ "A-7401" } = "A74";
 $antigen{ "A-6901" } = "A69";
 $antigen{ "A-3601" } = "A36";
@@ -43,12 +42,15 @@ $antigen{ "B-1402" } = "B65";
 $antigen{ "B-1512" } = "B76";
 $antigen{ "B-1514" } = "B76";
 $antigen{ "B-1513" } = "B77";
+$antigen{ "B-1521" } = "B-1502";	# B*15:02 (67S) is equivalent to B*15:21 (67C) 
+$antigen{ "B-1508" } = "B-1511";	# B*15:11 (67Y) is equivalent to B*15:08 (67F)
 $antigen{ "B-3901" } = "B3901";
 $antigen{ "B-3902" } = "B3902";
 $antigen{ "B-5701" } = "B57";
 $antigen{ "B-5801" } = "B58";
 $antigen{ "B-4901" } = "B49";
 $antigen{ "B-5001" } = "B50";
+$antigen{ "B-5122" } = "B-5107";	# B*51:22 (67SC) is equivalenet to B*51:07 (67S) 
 $antigen{ "B-5401" } = "B54";
 $antigen{ "B-5501" } = "B55";
 $antigen{ "B-5601" } = "B56";
@@ -102,8 +104,8 @@ $antigen{"DP-0101"} = "DP-01";
 $antigen{"DP-0301"} = "DP-03";
 #$antigen{"DP-0401"} = "DP-0401";
 $antigen{"DP-1001"} = "DP-10";
-$antigen{"DP-1501"} = "DP-15";
-$antigen{"DP-1801"} = "DP-18";
+$antigen{"DP-1501"} = "DP-0401";
+$antigen{"DP-1801"} = "DP-0402";
 $antigen{"DP-4601"} = "DP-46";
 #$antigen{"DP-0402"} = "DP-0402";
 #$antigen{"DP-0202"} = "DP-0202";
@@ -113,7 +115,7 @@ $antigen{"DP-4501"} = "DP-45";
 $antigen{"DP-8001"} = "DP-80";
 
 $antigen{"DP-1101"} = "DP-01"; 
-$antigen{"DP-3401"} = "DP-15"; 
+$antigen{"DP-3401"} = "DP-0401"; 
 $antigen{"DP-13601"} = "DP-45";  
 $antigen{"DP-6901"} = "DP-03";
 

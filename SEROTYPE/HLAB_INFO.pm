@@ -8,7 +8,7 @@
 
 # module: HLAB_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on November 8 2023
+# last modified and documented on April 21 2024
 # Included Bw6, Negative and Bw4
 
 package HLAB_INFO;
@@ -53,7 +53,7 @@ my @b73 = (45,63,67,70,76,82,83,163,178);	#KC1, Negative
 my @b78 = (45,76,82,83,163,171);	#Bw6
 my @b81 = (45,69,70,71,76,82,83,147,163,178);	#Bw6
 my @b82b83 = (45,63,67,69,70,71,76,82,83,167,178);	#Bw6, used residue 103 instead of 162 to eliminate residue 162 from FULL
-my @extra = (127,66);
+my @extra = (66,127);
 
 my %bw;
 my %group;	# same residue group

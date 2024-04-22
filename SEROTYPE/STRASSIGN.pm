@@ -9,7 +9,7 @@
 # module: STRASSIGN.pm
 # stringent assign
 # This module was developed to convert HLA allele to HLA serotype using strict mode
-# last modified and documented on October 25 2023
+# last modified and documented on April 21 2024
 #
 
 package STRASSIGN;
@@ -63,10 +63,20 @@ sub all {		# deal with remaining serotypes with strict mode
 			}
 
 			if ( $fasta_ref->{ $head } =~ /$target/ ) {
-				if ( $head =~ /HLA:\S+ ($gene\*\d+:\d+:*\d*:*\d*\S*) \d+ bp/ ) {
-					my $allele = $1;
-					unless (( $allele =~ /[0-9]+N/ ) || ( $allele =~ /[0-9]+Q/ )) {	# exclude Null and Q allele
-						push @alleles, $allele;
+				unless ( $gene =~ /DRB/ ) {
+					if ( $head =~ /HLA:\S+ ($gene\*\d+:\d+:*\d*:*\d*\S*) \d+ bp/ ) {
+						my $allele = $1;
+						unless (( $allele =~ /[0-9]+N/ ) || ( $allele =~ /[0-9]+Q/ )) {	# exclude Null and Q allele
+							push @alleles, $allele;
+						}
+					}
+				}
+				else {
+					if ( $head =~ /HLA:\S+ (DRB[1,3,4,5]\*\d+:\d+:*\d*:*\d*\S*) \d+ bp/ ) {
+						my $allele = $1;
+						unless (( $allele =~ /[0-9]+N/ ) || ( $allele =~ /[0-9]+Q/ )) {	# exclude Null and Q allele
+							push @alleles, $allele;
+						}
 					}
 				}
 			}

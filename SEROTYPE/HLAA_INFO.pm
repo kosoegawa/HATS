@@ -8,7 +8,7 @@
 
 # module: HLAA_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on November 15 2023
+# last modified and documented on April 21 2024
 
 package HLAA_INFO;
 use strict;
@@ -19,7 +19,7 @@ use strict;
 my @a1 = (44,67,76,163,166,167);
 
 # A2 62G is mandatory, residues 43 & 73 were added to separate A202 and A211, 144 were added to separate A265
-my @a2 = (43,62, 66, 73, 107, 144,145, 149,163);
+my @a2 = (43,62, 66, 73, 107,138, 144,145, 149,163);	#138 was added for A*02:18
 my @a219 = (62, 65, 82, 83, 144, 145,161,163, 166, 167);	#removed 151
 my @a3 = (62, 76,144,161, 163);	# 161D is mandatory
 my @a305 = (62,76, 144,145, 161, 163); 	# added 144 and 145 to exclude the other alleles
@@ -27,7 +27,7 @@ my @a11 = (62, 76, 144, 161, 163,167);
 my @a9 = (62, 65, 82, 83, 107, 144, 151, 163, 166, 167);	#Bw4, 65G for A9, both 144 and 151 are important
 my @a25 = (76, 82,83, 144, 149,163,166,167);	#Bw4
 my @a26a43 = (62,63,74,76,144, 149,163,166);	 #
-my @a29 = (44, 62, 63, 144,151);		#residue 44 is included to exclude noise for SHORT
+my @a29 = (44, 62, 63,102,144,151);		#residue 44 is included to exclude noise for SHORT
 my @a30 = (56, 62, 73, 76, 82,83,144);	# included 62 to separate A3007, removed 151 to include A*30:04
 my @a31 = (56,62, 66, 73, 76, 82, 83, 144);	# 62 is included to eliminate A*33 alleles
 my @a32 = (62, 82, 83, 144,161, 163,167);	#Bw4, 62 is used to separate from A2403
@@ -58,18 +58,19 @@ $a2{"A-0203"} = "HLA00008";
 $a2{"A-0208"} = "HLA00013";	# A*02:08:01 365 bp
 $a2{"A-0211"} = "HLA00016";	# A*02:11:01:01
 $a2{"A-0216"} = "HLA00021";	# A*02:16 365 bp
+$a2{"A-0218"} = "HLA00024";	# A*02:18 365 bp, WD but in supplemental bead
 $a2{"A-0220"} = "HLA00026";	# A*02:20:01 365 bp
 $a2{"A-0285"} = "HLA02235";	# A*02:85
 $a2{"A-0256"} = "HLA01575";		# A*02:56:01
 $group{"A-0201"} = "A2"; $group{"A-0202"} = "A2"; $group{"A-0203"} = "A2"; $group{"A-0208"} = "A2"; $group{"A-0211"} = "A2"; $group{"A-0216"} = "A2"; 
-$group{"A-0220"} = "A2"; $group{"A-0285"} = "A2"; $group{"A-0256"} = "A2";
+$group{"A-0220"} = "A2"; $group{"A-0285"} = "A2"; $group{"A-0256"} = "A2";$group{"A-0218"} = "A2";
 $base{"A-0201"} = "A2"; $base{"A-0202"} = "A2"; $base{"A-0203"} = "A203"; $base{"A-0208"} = "A2"; $base{"A-0211"} = "A2"; $base{"A-0216"} = "A2"; 
-$base{"A-0220"} = "A2"; $base{"A-0285"} = "A2"; $base{"A-0256"} = "A2";
+$base{"A-0220"} = "A2"; $base{"A-0285"} = "A2"; $base{"A-0256"} = "A2"; $base{"A-0218"} = "A2";
 #my %a210;
 $a2{"A-0210"} = "HLA00015";
 $group{"A-0210"} = "A2";
 $base{"A-0210"} = "A2";
-push @subtype, ("A-0202","A-0203","A-0208","A-0210","A-0211","A-0216","A-0220","A-0285","A-0256");
+push @subtype, ("A-0202","A-0203","A-0208","A-0210","A-0211","A-0216","A-0220","A-0285","A-0256","A-0218");
 my%a219;
 $a219{"A-0219"} = "HLA00025";	# A*02:19, I group
 $a219{"A-0244"} = "HLA01222";	# A*02:44, I group
@@ -133,8 +134,10 @@ $base{"A-2614"} = "A26";
 push @subtype, ("A-2603","A-2607","A-2614");
 my %a29;
 $a29{"A-2901"} = "HLA00085";		# A*29:01:01:01
-$group{"A-2901"} = "A29";
-$base{"A-2901"} = "A29";
+$a29{"A-2902"} = "HLA00086";		# A*29:02:01:01 365 bp
+$group{"A-2901"} = "A29"; $group{"A-2902"} = "A29";
+$base{"A-2901"} = "A29"; $base{"A-2902"} = "A29";
+push @subtype, ("A-2902");
 my %a30;
 $a30{"A-3001"} = "HLA00089";		# A*30:01:01:01
 $a30{"A-3002"} = "HLA00090";		# A*30:02:01:01
@@ -497,7 +500,7 @@ sub KEY {
 			$ref{$key} = "A\\*01";
 		}
 		elsif (( $key eq "A-0201" ) || ( $key eq "A-0202" ) || ( $key eq "A-0203" ) || ( $key eq "A-0208" ) || ( $key eq "A-0210" ) ||
-		( $key eq "A-0211" ) || ( $key eq "A-0265" ) || ( $key eq "A-0246" ) || ( $key eq "A-0285" ) || ( $key eq "A-0256" )
+		( $key eq "A-0211" ) || ( $key eq "A-0218" ) || ( $key eq "A-0265" ) || ( $key eq "A-0246" ) || ( $key eq "A-0285" ) || ( $key eq "A-0256" )
 		|| ($key eq "A-0219") || ($key eq "A-0244")) {
 			$ref{$key} = "A\\*02";
 		}
@@ -520,7 +523,7 @@ sub KEY {
 		elsif (( $key eq "A-2601" ) || ( $key eq "A-2603" ) || ( $key eq "A-2607" ) || ( $key eq "A-2614")) {
 			$ref{$key} = "A\\*26";
 		}
-		elsif ( $key eq "A-2901" ) {
+		elsif (( $key eq "A-2901" ) || ( $key eq "A-2902" )) {
 			$ref{$key} = "A\\*29";
 		}
 		elsif (( $key eq "A-3001" ) || ( $key eq "A-3002" ) || ( $key eq "A-3007" )) {
@@ -577,7 +580,6 @@ sub PARTIAL {		# partial sequence
 	$partial{ "A-0323" } = $seq;	# partial 3.54.0
 	$partial{ "A-3313" } = $seq;	# partial 3.54.0
 	$partial{ "A*11:14" } = "X" x 16;	# partial 3.54.0
-	#$partial{ "A*11:14" } = "Skip";
 	$partial{ "general" } = $seq;
 		
 	return $partial_ref;
