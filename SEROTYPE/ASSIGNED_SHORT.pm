@@ -8,7 +8,7 @@
 
 # module: ASSIGNED_SHORT.pm 
 # This module was developed to print table
-# last reviewed, modified and documented on April 21 2024
+# last reviewed, modified and documented on May 30 2024
 
 package ASSIGNED_SHORT;
 use strict;
@@ -82,6 +82,8 @@ $antigen{ "DR-0404" } = "DR-0401";
 $antigen{ "DR-1312" } = "DR-1303";	#added
 $antigen{ "DR-1320" } = "DR-1301";	#added
 $antigen{ "DR-1349" } = "DR-1305";	#added
+$antigen{ "DR-1403" } = "DR1403";
+$antigen{ "DR-1404" } = "DR1404";	#added
 $antigen{ "DR-1417" } = "DR-1402";
 $antigen{ "DR-1419" } = "DR-1402";	#added
 
