@@ -3,6 +3,11 @@
 HLA Allele To Serotype (HATS) was updated with perl 5, version 26, subversion 3 (v5.26.3) on Red Hat Enterprise Linux 8.6.
 The program was updated using the reference sequences based on IPD-IMGT/HLA Database release version 3.54.0.
 
+## Output files
+In RESULTS directory, HLA allele to serotype equivalency tables are stored for the 11 HLA loci.
+In TWORESULTS directory, two-field HLA allele (protein level) to serotype equivalency tables are stored for the 11 HLA loci.
+In RESIDUE directory, tables showing key residues for each two-field HLA alleles are stored. 
+
 ## Installation
 Download HATS directory in a Linux computer
 
