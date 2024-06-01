@@ -9,7 +9,7 @@
 # module: runDRB1.pl 
 # Driver for HLA-DRB1
 # If partial sequences are used as a reference, add the optional argument
-# last reviewed, modified and documented on October 6 2023
+# last reviewed, modified and documented on May 30 2024
 
 use strict;
 use lib 'SEROTYPE';
@@ -24,7 +24,7 @@ use COUNT;
 use ASSIGNED_SHORT;
 use DR5231;
 use DR5231ASSIGN;
-use File::Copy;
+use COPYRESULT;
 
 my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
@@ -176,17 +176,7 @@ foreach my $csv ( @csv ) {
 	COUNT::SUMMARY_TWO($csv, $gene, $sero_ref, $null_ref, $qallele_ref, $basetype_ref, $whotype_ref);
 }
 
-@csv = glob("RESULTS/" . $gene . "_Serotype_Table_IMGT_HLA_*");
-$csvs = scalar @csv;
-if ( $csvs > 0 ) {
-	unlink @csv;
-}
-copy("output/" . $gene . "_Serotype_Table_IMGT_HLA_" . $database . "_" . $date . ".csv", "RESULTS/") or die "Copy failed: $!";
-
-@csv = glob("TWORESULTS/" . $gene . "_TwoField_Serotype_Table_IMGT_HLA_*");
-$csvs = scalar @csv;
-if ( $csvs > 0 ) {
-	unlink @csv;
-}
-copy("output/" . $gene . "_TwoField_Serotype_Table_IMGT_HLA_" . $database . "_" . $date . ".csv", "TWORESULTS/") or die "Copy failed: $!";
+COPYRESULT::COPYRESULT( $gene, $database, $date );
+COPYRESULT::COPYTWORESULT( $gene, $database, $date );
+COPYRESULT::COPYRESIDUE( $gene, $database, $date );
 
