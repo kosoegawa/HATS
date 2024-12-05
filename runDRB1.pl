@@ -9,7 +9,7 @@
 # module: runDRB1.pl 
 # Driver for HLA-DRB1
 # If partial sequences are used as a reference, add the optional argument
-# last reviewed, modified and documented on May 30 2024
+# last reviewed, modified and documented on December 4 2024
 
 use strict;
 use lib 'SEROTYPE';

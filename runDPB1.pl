@@ -9,10 +9,10 @@
 # module: runDPB1.pl 
 # Driver for DPB1
 # If partial sequences are used as a reference, add the optional argument
-# last reviewed, modified and documented on May 31 2024
+# last reviewed, modified and documented on December 4 2024
 
 use strict;
-use lib '/data/kazu/workplace/serotype/SEROTYPE';
+use lib 'SEROTYPE';
 use ORGANIZE;
 use STRASSIGN;
 use RESIDUES;

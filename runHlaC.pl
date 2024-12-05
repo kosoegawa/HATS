@@ -9,10 +9,10 @@
 # module: runHlaC.pl
 # Driver for HLA-C
 # If partial sequences are used as a reference, add the optional argument
-# last modified and documented on May 30 2024
+# last modified and documented on December 4 2024
 
 use strict;
-use lib '/data/kazu/workplace/serotype/SEROTYPE';
+use lib 'SEROTYPE';
 use ORGANIZE;
 use STRASSIGN;
 use RESIDUES;
