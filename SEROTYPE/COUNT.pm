@@ -8,7 +8,7 @@
 
 # module: COUNT.pm 
 # This module was developed to generate Summary table
-# last modified and documented on April 21 2024
+# last modified and documented on December 7 2024
 
 #no warnings 'experimental::smartmatch';
 #eliminated smartmatch
@@ -18,8 +18,10 @@ use lib '/data/kazu/workplace/serotype/SEROTYPE';
 use Openfile;
 use GROUP_SORT;
 use ASSIGNED_SHORT;
+use POSIX qw(strftime);
 
-my $date = `date +%F`;          # invoke bash date command
+my $date = strftime "%Y-%m-%d", localtime;
+#my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 
 sub COUNT {		# deal with remaining serotypes with strict mode

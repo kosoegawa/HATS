@@ -8,7 +8,7 @@
 
 # module: runHlaA.pl
 # Driver for HLA-A
-# last modified and documented on May 30 2024
+# last modified and documented on December 7 2024
 
 use strict;
 use lib 'SEROTYPE';
@@ -24,8 +24,10 @@ use ASSIGNED_SHORT;
 use ABw;
 use Bw46ASSIGN;
 use COPYRESULT;
+use POSIX qw(strftime);
 
-my $date = `date +%F`;          # invoke bash date command
+my $date = strftime "%Y-%m-%d", localtime;
+#my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 
 #capture input file

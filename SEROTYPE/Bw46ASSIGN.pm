@@ -9,12 +9,14 @@
 # module: Bw46ASSIGN.pm
 # stringent assign
 # This module was developed to convert HLA allele to HLA serotype using strict mode
-# last reviewed on November 14 2023
+# last reviewed on December 7 2024
 
 package Bw46ASSIGN;
 use strict;
+use POSIX qw(strftime);
 
-my $date = `date +%F`;          # invoke bash date command
+my $date = strftime "%Y-%m-%d", localtime;
+#my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 
 sub all {		# deal with remaining serotypes with strict mode

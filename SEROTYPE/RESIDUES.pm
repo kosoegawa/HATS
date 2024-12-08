@@ -8,13 +8,15 @@
 
 # module: RESIDUES.pm 
 # This module was developed to print key residues
-# last modified and documented on November 7 2023
+# last reviewed on December 7 2024
 
 package RESIDUES;
 use strict;
 use ASSIGNED_SHORT;
+use POSIX qw(strftime);
 
-my $date = `date +%F`;          # invoke bash date command
+my $date = strftime "%Y-%m-%d", localtime;
+#my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 my $header = "Serotype,WHOAccepted,Allele,CIWD3.0,CWD2.0,EURCWD";
 

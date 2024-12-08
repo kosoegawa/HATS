@@ -9,7 +9,7 @@
 # module: runHlaC.pl
 # Driver for HLA-C
 # If partial sequences are used as a reference, add the optional argument
-# last modified and documented on December 4 2024
+# last modified and documented on December 7 2024
 
 use strict;
 use lib 'SEROTYPE';
@@ -26,8 +26,10 @@ use CBw;
 use CC1C2;
 use Bw46ASSIGN;
 use COPYRESULT;
+use POSIX qw(strftime);
 
-my $date = `date +%F`;          # invoke bash date command
+my $date = strftime "%Y-%m-%d", localtime;
+#my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 
 #capture input file

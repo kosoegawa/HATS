@@ -8,13 +8,15 @@
 
 # module: ASSIGNED_SHORT.pm 
 # This module was developed to print table
-# last reviewed, modified and documented on May 30 2024
+# last reviewed, modified and documented on December 4 2024
 
 package ASSIGNED_SHORT;
 use strict;
 use GROUP_SORT;
+use POSIX qw(strftime);
 
-my $date = `date +%F`;          # invoke bash date command
+#my $date = `date +%F`;          # invoke bash date command
+my $date = strftime "%Y-%m-%d", localtime;
 chomp $date;    # remove newline character
 
 my %antigen;

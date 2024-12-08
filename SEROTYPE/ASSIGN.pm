@@ -8,12 +8,14 @@
 
 # module: ASSIGN.pm 
 # This module was developed to convert HLA allele to HLA serotype using relaxed mode
-# last reviewed, modified and documented on October 6 2023
+# last reviewed, modified and documented on December 7 2023
 
 package ASSIGN;
 use strict;
+use POSIX qw(strftime);
 
-my $date = `date +%F`;          # invoke bash date command
+my $date = strftime "%Y-%m-%d", localtime;
+#my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 
 sub ASSIGN {		# deal with remaining serotypes with strict mode

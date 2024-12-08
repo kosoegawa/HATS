@@ -9,7 +9,7 @@
 # module: runDRB5.pl 
 # Driver for HLA-DRB5
 # If partial sequences are used as a reference, add the optional argument
-# last reviewed, modified and documented on December 4 2024
+# last reviewed, modified and documented on December 7 2024
 
 use strict;
 use lib 'SEROTYPE';
@@ -23,8 +23,10 @@ use DRB5_INFO;
 use COUNT;
 use ASSIGNED_SHORT;
 use COPYRESULT;
+use POSIX qw(strftime);
 
-my $date = `date +%F`;          # invoke bash date command
+my $date = strftime "%Y-%m-%d", localtime;
+#my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 
 #capture input file
