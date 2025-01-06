@@ -108,8 +108,8 @@ $antigen{"DP-0101"} = "DP-01";
 $antigen{"DP-0301"} = "DP-03";
 #$antigen{"DP-0401"} = "DP-0401";
 $antigen{"DP-1001"} = "DP-10";
-$antigen{"DP-1501"} = "DP-0401";
-$antigen{"DP-1801"} = "DP-0402";
+#$antigen{"DP-1501"} = "DP-0401";
+$antigen{"DP-1801"} = "DP-18";
 $antigen{"DP-4601"} = "DP-46";
 #$antigen{"DP-0402"} = "DP-0402";
 #$antigen{"DP-0202"} = "DP-0202";
@@ -119,9 +119,15 @@ $antigen{"DP-4501"} = "DP-45";
 $antigen{"DP-8001"} = "DP-80";
 
 $antigen{"DP-1101"} = "DP-01"; 
-$antigen{"DP-3401"} = "DP-0401"; 
+$antigen{"DP-3401"} = "DP-15"; 
 $antigen{"DP-13601"} = "DP-45";  
 $antigen{"DP-6901"} = "DP-03";
+$antigen{"DP-1701"} = "DP-17";
+$antigen{"DP-3001"} = "DP-30";
+$antigen{"DP-3101"} = "DP-31";
+$antigen{"DP-2801"} = "DP-0402";
+$antigen{"DP-4001"} = "DP-0401";
+$antigen{"DP-35001"} = "DP-1501";
 
 my @broad = ("A9","A10","A19","A28","B5","B12","B14","B15","B16","B17","B21","B22","B40","B70","Cw3","DR2","DR3","DR5","DR6","DQ1","DQ3");
 
@@ -642,6 +648,9 @@ sub COMBINED_TWO {
 		}
 		elsif ( exists $assigned_ref->{ $allele } ) {	# assigned
 			if ( $assigned_ref->{ $allele } =~ /(\S+_*\S*)_(LAX)/ ) {	# LAX
+				if ( $twoField eq "DPB1*26:01" ) {	# DPB1*26:01:01 is partial sequence, but DPB1*26:01:02:01 is full length
+					next;
+				}
 				my $group = $1;
 				my $lax = $2;
 				my $serotype = $group;
@@ -801,6 +810,9 @@ sub COMBINED_TWO {
 			}
 		}
 		elsif ( exists $short_ref->{ $allele } ) {	# short
+			if ( $twoField eq "DPB1*26:01" ) {	# DPB1*26:01:01 is partial sequence, but DPB1*26:01:02:01 is full length
+				next;
+			}
 			print FILE $twoField . ",";
 			my $num = scalar @{$short_ref->{ $allele }};
 			if ( $allele =~ /(\S+)\*(\d+):\d+:*\d*:*\d*/ ) {		#[1-9]+0* was important, B40
