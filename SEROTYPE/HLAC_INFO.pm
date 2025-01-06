@@ -8,7 +8,7 @@
 
 # module: HLAC_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on October 20 2023
+# last modified and documented on December 22 2024
 
 package HLAC_INFO;
 use strict;
@@ -17,7 +17,7 @@ use strict;
 # residue 76 to distinguish from HLA-B
 my @cw1 = (66,73,76,77,80,82,83,99,163,177);
 my @cw2 = (45,66,73,76,77,80,82,83,143,163,177);	#143 to distinguish from Cw17
-my @cw3 = (45,49,66,76,77,80,82,83,91,147,163,173);	# 91 to separate Cw10 from Cw9
+my @cw3 = (45,49,66,76,77,80,82,83,91,103,147,163,173);	# 91 to separate Cw10 from Cw9
 my @cw4 = (24,49,66,73,76,77,80,99,163);	# 49 to separate Cw4 from Cw403
 my @cw5 = (49,73,76,77,80,138,163,177);		# residue 138 is required
 my @cw6 = (24,49,66,73,76,77,80,82,83,99,143,163);	# 143: to distinguish from Cw17
@@ -31,6 +31,7 @@ my @cw15 = (66,73,76,77,80,82,83,177);
 my @cw16 = (45,66,73,76,77,80,99,138,163,173,177);	
 my @cw17 = (76,77,80,143,147,163);
 my @cw18 = (24,49,73,76,77,80,99);
+my @extra = (109);	# FULL only
 
 my %c1c2;
 my %group;	# conventional group to chose specific residues
@@ -231,6 +232,7 @@ sub RESIDUES {
 	push @combined, @cw16; 
 	push @combined, @cw17; 
 	push @combined, @cw18; 
+	push @combined, @extra; 
 
 	my %seen;
 	my @unique;
