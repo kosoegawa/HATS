@@ -8,7 +8,7 @@
 
 # module: HLAB_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on December 3 2024
+# last modified and documented on December 22 2024
 # Included Bw6, Negative and Bw4
 
 package HLAB_INFO;
@@ -38,7 +38,7 @@ my @b50 = (45,46,63,76,82,83,103,163,167,178);	#Bw6, use 103 instead of 131
 my @b22 = (45,63,67,69,76,83,103,158,163,167,177,178,180);	#Bw6, removed 82 added 103
 my @b27 = (45,63,70,71,82,83,103,178);		#Bw4, 178 to separate B48, added 103
 my @b2708 = (45,63,67,70,71,76,82,83,143,163,178);	#Bw6, 143 was included to separete B2712 from B4804, 178 for B48
-my @b35 = (45,63,67,70,71,76,82,83,103,163,171);	#Bw6, 67, 103 was added
+my @b35 = (45,63,67,70,71,76,82,83,103,109,163,171);	#Bw6, 67, 103 was added, 109 was added
 my @b37 = (45,62,63,70,76,82,83,163,171);	#Bw4, 171
 my @b40 = (45,46,63,67,76,82,83,103,143,147,163,178);	#Bw6, 67, 147 added 103
 my @b48 = (45,63,70,71,76,82,83,143,163,167,177,178,180);	#Bw6
@@ -53,7 +53,8 @@ my @b73 = (45,63,67,70,76,82,83,163,178);	#KC1, Negative
 my @b78 = (45,76,82,83,103,163,171);	#Bw6 added 103
 my @b81 = (45,69,70,71,76,82,83,147,163,178);	#Bw6
 my @b82b83 = (45,63,67,69,70,71,76,82,83,167,178);	#Bw6, used residue 103 instead of 162 to eliminate residue 162 from FULL
-my @extra = (66,127);
+#my @extra = (66,127);
+my @extra = (66,109,127);
 
 my %bw;
 my %group;	# same residue group
@@ -279,13 +280,14 @@ $b35{"B-3528"} = "HLA00981";	# B*35:28:01:01 362 bp
 $b35{"B-3512"} = "HLA00249";	# B*35:12:01:01 362 bp
 $b35{"B-3516"} = "HLA00253";	# B*35:16 362 bp
 $b35{"B-3531"} = "HLA01058";	# B*35:31 362 bp
+$b35{"B-3502"} = "HLA00238";	# B*35:02:01:01 362 bp, added 109
 $bw{"B-3501"} = "Bw6"; $bw{"B-3510"} = "Bw6"; $bw{"B-3515"} = "Bw6"; $bw{"B-3519"} = "Bw6"; $bw{"B-3520"} = "Bw6"; $bw{"B-3528"} = "Bw6";
 $bw{"B-3512"} = "Bw6"; $bw{"B-3516"} = "Bw6"; $bw{"B-3531"} = "Bw6";
 $group{"B-3501"} = "B35"; $group{"B-3510"} = "B35"; $group{"B-3515"} = "B35"; $group{"B-3519"} = "B35"; $group{"B-3520"} = "B35"; $group{"B-3528"} = "B35";
-$group{"B-3512"} = "B35"; $group{"B-3516"} = "B35"; $group{"B-3531"} = "B35";
+$group{"B-3512"} = "B35"; $group{"B-3516"} = "B35"; $group{"B-3531"} = "B35"; $group{"B-3502"} = "B35";
 $base{"B-3501"} = "B35"; $base{"B-3510"} = "B35"; $base{"B-3515"} = "B35"; $base{"B-3519"} = "B35"; $base{"B-3520"} = "B35"; $base{"B-3528"} = "B35";
-$base{"B-3512"} = "B35"; $base{"B-3516"} = "B35"; $base{"B-3531"} = "B35";
-push @subtype, ("B-3510","B-3515","B-3519","B-3520","B-3528","B-3512","B-3516","B-3531");
+$base{"B-3512"} = "B35"; $base{"B-3516"} = "B35"; $base{"B-3531"} = "B35"; $base{"B-3502"} = "B35";
+push @subtype, ("B-3510","B-3515","B-3519","B-3520","B-3528","B-3512","B-3516","B-3531","B-3502");
 my %b37;
 $b37{"B-3701"} = "HLA00265";	#B*37:01:01:01, Bw4
 $b37{"B-3702"} = "HLA00266";	# B*37:02, Bw4
