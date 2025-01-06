@@ -8,7 +8,7 @@
 
 # module: HLAA_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on April 21 2024
+# last modified and documented on January 6 2025
 
 package HLAA_INFO;
 use strict;
@@ -30,7 +30,7 @@ my @a26a43 = (62,63,74,76,144, 149,163,166);	 #
 my @a29 = (44, 62, 63,102,144,151);		#residue 44 is included to exclude noise for SHORT
 my @a30 = (56, 62, 73, 76, 82,83,144);	# included 62 to separate A3007, removed 151 to include A*30:04
 my @a31 = (56,62, 66, 73, 76, 82, 83, 144);	# 62 is included to eliminate A*33 alleles
-my @a32 = (62, 82, 83, 144,161, 163,167);	#Bw4, 62 is used to separate from A2403
+my @a32 = (62, 82, 83,109,144,161, 163,167);	#Bw4, 62 is used to separate from A2403, 109 was added
 my @a33 = (62, 63, 73, 76, 144, 151, 171);	# residue 171 is unique for A33
 my @a3313 = (62, 63, 73, 76, 144, 151,163, 171);	# residue 163 was added
 my @a34 = (62, 66, 67, 144, 149, 163);
@@ -39,9 +39,9 @@ my @a66 = (62, 66, 74, 76, 149, 163);
 my @a68 = (62,63, 76, 107, 144, 145);	# added 63
 my @a6836 = (62, 76,82,83, 107, 144,145); # 63 was originally included to remove B*15:67 allele, but was able to replace with 144
 my @a69 = (62, 76, 107, 144, 145);	#145 was added to exclude noise
-my @a74 = (45,56,62, 63, 73,76, 144, 161, 163);	#45 is used to eliminate HLA-C, residue 56 is used to distinguish from A30
+my @a74 = (45,56,62, 63, 73,76,109,144, 161, 163);	#45 is used to eliminate HLA-C, residue 56 is used to distinguish from A30, 109 was added
 my @a80 = (62,66,144,145, 151, 166, 167);
-my @extra = (127);	# FULL only
+my @extra = (103,127);	# FULL only
 
 my %bw;
 my %a1;
@@ -69,7 +69,7 @@ $base{"A-0220"} = "A2"; $base{"A-0285"} = "A2"; $base{"A-0256"} = "A2"; $base{"A
 #my %a210;
 $a2{"A-0210"} = "HLA00015";
 $group{"A-0210"} = "A2";
-$base{"A-0210"} = "A2";
+$base{"A-0210"} = "A210";
 push @subtype, ("A-0202","A-0203","A-0208","A-0210","A-0211","A-0216","A-0220","A-0285","A-0256","A-0218");
 my%a219;
 $a219{"A-0219"} = "HLA00025";	# A*02:19, I group
