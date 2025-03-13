@@ -94,7 +94,7 @@ sub COUNT {		# deal with remaining serotypes with strict mode
 									print $type . "\tDuplicated: " . $csv . "\t" . $list . "\n";
 								}
 								$unique{ $list } = 0;
-#								print $type . "\n";
+								#print $type . "\n";
 								if ( $list =~ /$key_ref->{$type}/ ) {
 									$out++;
 								#	print $key_ref->{$type} . "\n";
@@ -255,6 +255,7 @@ sub TWOFIELD {		# deal with remaining serotypes with strict mode
 								$unique{ $twofield } = 0;
 								if ( $twofield =~ /$key_ref->{$type}/ ) {
 									$out++;
+								#	print $type . "\n";
 								#	print $key_ref->{$type} . "\n";
 									push @matched, $twofield;
 								}
