@@ -30,17 +30,21 @@ my $date = strftime "%Y-%m-%d", localtime;
 chomp $date;    # remove newline character
 
 #capture input file
-my @file = glob('input/hla_prot.fasta*');
+my @file = glob('input/*');
+my $database = "3.39.0";	# IPD-IMGT/HLA database version
+my $hats = "HATSv3.0.0";	# HATS version
 my $file = "";
 foreach my $tmp ( @file ) {
-	$file = $tmp;
-	print $file . "\n";
+	print $tmp . "\n";
+	if ( $tmp =~ /hla_prot\.fasta\.(.*+)/ ) {
+	# capture database version
+		$database = $1;
+		$file = $tmp;
+	}
+	elsif ( $tmp =~ /(HATSv.*)/ ) {
+		$hats = $1;
+	}
 }	
-# capture database version
-my $database = "3.39.0";
-if ( $file =~ /hla_prot\.fasta\.(.*+)/ ) {
-	$database = $1;
-}
 
 #remove all csv files
 my @csv = glob('output/*.csv');
@@ -50,7 +54,7 @@ if ( $csvs > 0 ) {
 	unlink @csv;
 }
 
-open ( FILE, ">output/" . $database . ".csv" );	#create an empty file to tage database version	
+open ( FILE, ">output/" . $hats . "_IMGT_" . $database );	#create an empty file to tag database version	
 close FILE;
 
 my $fasta_ref = ORGANIZE::fasta( $file );	# organize fasta
@@ -104,13 +108,7 @@ for ( my $index = 0; $index < scalar @group; $index++ ) {
 	foreach my $known ( @known_cross ) {
 		if (exists $ref_ref->{ $known } ) {
 			delete( $ref_ref->{ $known } );
-			#print $known . " deleted\n";
-		}
-	}
-	foreach my $known ( @known_cross ) {
-		if (exists $ref_ref->{ $known } ) {
-			delete( $ref_ref->{ $known } );
-			#print $known . " deleted\n";
+			print $known . " deleted\n";
 		}
 	}
 	my $residues_ref = DRB3_INFO::RESIDUES( $group[ $index ] );
