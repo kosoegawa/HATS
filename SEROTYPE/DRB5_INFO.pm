@@ -14,7 +14,7 @@ package DRB5_INFO;
 use strict;
 
 my @dr51 = (9, 10, 11, 12, 13);
-my @extra = (14,16,47,58,60,67,70,71,74);	# FULL only
+my @extra = (16,47,58,60,67,70,71,74);	# FULL only
 
 my %dr51;
 my %group;

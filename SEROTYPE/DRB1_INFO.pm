@@ -8,7 +8,7 @@
 
 # module: DRB1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last reviewed, modified and documented on December 25 2023
+# last reviewed, modified and documented on April 28 2025
 
 package DRB1_INFO;
 use strict;
@@ -16,7 +16,7 @@ use strict;
 my @dr1 = (9, 10, 11, 12, 13, 70, 71);	#70,71 D,E => 103; changed 
 my @dr3 = (9, 10, 11, 12, 13, 47, 58, 71, 74);
 my @dr4 = (9, 10, 11, 12, 13, 70, 71, 74);
-my @dr7 = (9, 10, 11, 12, 13, 14, 60, 74);	# added residue 60S that is immunogenic
+my @dr7 = (9, 10, 11, 12, 13, 60, 74);	# added residue 60S that is immunogenic  14,
 my @dr8 = (9, 10, 11, 12, 13, 16, 58, 60, 67, 71, 74);
 my @dr9 = (9, 10, 11, 12, 13, 60, 74);	#60S is included. See DR7
 my @dr10 = (9, 10, 11, 12, 13);

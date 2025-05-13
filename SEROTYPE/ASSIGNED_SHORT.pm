@@ -73,6 +73,9 @@ $antigen{ "C-0102" } = "Cw1";
 $antigen{ "C-0202" } = "Cw2";
 $antigen{ "C-0303" } = "Cw9";
 #$antigen{ "C-0304" } = "Cw10";
+$antigen{ "C-1402" } = "Cw14";
+$antigen{ "C-1701" } = "Cw17";
+$antigen{ "C-1801" } = "Cw18";
 
 $antigen{ "DR-0103" } = "DR103";
 $antigen{ "DR-1505" } = "DR-1501";
