@@ -1,0 +1,67 @@
+# From HATSv3.1.0 to HATSv3.1.1 
+# Added B-6701 as associated antigen to avoid confusion because of the presence of B-6702
+# commented out $antigen{ "B-6701" } = "B67" line
+# The following lines were added:
+# $antigen{ "C-1402" } = "Cw14";
+# $antigen{ "C-1701" } = "Cw17";
+# $antigen{ "C-1801" } = "Cw18";
+#
+#
+# From HATSv3.1.1 to HATSv3.2.0 
+# Residue 90 was added to move A*11:04 as SEROTPE 12/21/2025
+# Residue 80 was added to move B*27:02, B*38:02 and B*47:03 as SEROTYPE 08/14/25
+#
+# STRASSIGN.pm, ASSIGN.pm, RESIDUES.pm
+# HLA-B:
+# Equivalency logic were applied to Residues 67S/C, 67Y/F, 167G/S
+# For defining B39 antigen, residue 177 was added to assign B*08:55 as B-0801 SEROTYPE rather than B-3910
+# Residue 70 was dropped for HLA-B. It did not change any assignment. 
+#
+# HLA-DR:
+# Equivalency logic were applied to Residues 67I/L, 71K/R and 47F/Y for DR
+# DRB1*01:10 was SHORT, but it is FULL using the equivalency logic: DRB1*01:01 (71R) and DRB1*01:10 (71K)
+# Added Residue 74 for DR13
+# DR1303 and DR1403 are indistinguishable unless residue 74 is included, because 67I/L logic is added
+#
+# HLA-DPB1:
+# Equivalency logic were applied to Residues 69K/R and 84G/V
+#
+# HLA-DQ:
+# Equivalency logic were applied to Residue 57, except for DQ8 & DQ9
+#
+# HATSv3.3.0 10/29/25
+# DP antigen names are changed to DPB antigen 
+#
+###############################################################################
+# v4.0.0 Note: 
+# Dash (-) was removed from Associated Antigens
+# Leading zero (0)is added to the following associated antigens:
+# A203 to A0203, A210 to A0210, DR103 to DRB10103
+#
+# runBw46.pl was added to generate a table for Bw4 and Bw6 inclusion for HLA-B Antigens
+# Bw4 Associated Reactivity for HLA-A and potential Bw6 associated reactivity for HLA-Cw1212 Associated Antigen.
+#
+# combine.pl was updated to combine files.
+#
+# Shell script run.sh was generated to run all loci, combine files in a single command.
+#
+# LEGACY directory was added:
+# Maintained Legacy Tables for transition period: Locus_Legacy_Serotype_Table_IMGT_HLA_version_date.csv, Locus_Legacy_TwoField_Serotype_Table_IMGT_HLA_version_date.csv
+# Formally Locus_Serotype_Table_IMGT_HLA_version_date.csv, Locus_TwoField_Serotype_Table_IMGT_HLA_version_date.csv
+# Associated Antigens A0203 & A210 => Legacy A203 and A210; B0703 => B703; DR0103 => DR103
+# serotype A0305, but allelel name A*11, e.g., A*11:04 => A11
+# A2410 & A2423 => A2403 (closest associated antigen)
+# serotype B4406, but allele name B*51, e.g., B*51:23 => B51
+# The Legacy tables are automatically saved in LEGACY directory
+#
+# RESULTS and TWORESULTS directories:
+# Locus_Allele_Antigen_Table_IMGT_HLA_version_date.csv and Locus_Protein_Antigen_Table_IMGT_HLA_version_date.csv include updated associated antigens
+# These files are automatically saved in RESULTS and TWORESULTS directories, respectively.
+# Retired combineTwoField.pl
+# Created COMBINED directory 
+# combine.pl combines all class I (HLA-A, -B, -C) and class II (HLA-DPA1, -DPB1, -DQA1, -DQB1, -DRB1, -DRB3, -DRB4 and -DRB5) and save them in COMBINED directory
+#
+# DEP: Saved automatically in RESIDUES directory
+# Locus_DEP_version_date.csv file includes DEPs for all proteins
+# target_Locus_date file includes DEPs for the prototype proteins for the Associated Antigens
+# target_LAX_Locus_date.csv file includes critical DEPs defining historical SEROTYPE
