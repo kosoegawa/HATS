@@ -9,7 +9,7 @@
 # module: STRASSIGN.pm
 # stringent assign
 # This module was developed to convert HLA allele to HLA serotype using strict mode
-# last modified and documented on December 7 2024
+# last modified and documented on February 22 2026
 #
 
 package STRASSIGN;
@@ -42,7 +42,43 @@ sub all {		# deal with remaining serotypes with strict mode
 					unless ( $seq =~ /^M[A-Z]+/ ) {		#protein sequence does not start with M
 						$seq = $partial_ref->{ $key } . $seq;	# add sequence
 					}
-					$target = $target . substr($seq, $position, 1);		# AA residue at target position
+
+					my $aa = substr($seq, $position, 1);		# AA residue at target position
+					if (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 67 )) {
+						if (( $aa eq "S" ) || ( $aa eq "C" )) {
+							$target = $target . "[S,C]";
+						}
+						elsif (( $aa eq "Y" ) || ( $aa eq "F" )) {
+							$target = $target . "[Y,F]";
+						}
+						else {
+							$target = $target . $aa;		# AA residue at target position
+						}
+					}
+					elsif (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 167) && (( $aa eq "S" ) || ( $aa eq "G" ))) {
+						$target = $target . "[S,G]";
+					}
+					elsif (( $gene =~ /DRB/ ) && ( $residues_ref->[ $index ] == 67 ) && (( $aa eq "I" ) || ( $aa eq "L" ))) {
+						$target = $target . "[I,L]";
+					}
+					elsif (((( $gene =~ /DRB/ ) && ( $residues_ref->[ $index ] == 71 )) || (( $gene =~ /DPB/ ) && ( $residues_ref->[ $index ] == 69 ))) && (( $aa eq "K" ) || ( $aa eq "R" ))) {
+						$target = $target . "[K,R]";
+					}
+					elsif (( $gene =~ /DRB/ ) && (!( $key eq "DR0301")) && (!( $key eq "DR0302" )) && ( $residues_ref->[ $index ] == 47 ) && (( $aa eq "F" ) || ( $aa eq "Y" ))) {
+						$target = $target . "[F,Y]";
+					}
+					elsif (($gene eq "DQB1") && ($residues_ref->[ $index ] == 57) && (!( $key eq "DQ0302")) && (!( $key eq "DQ0303" ))) {
+						if ((( $aa eq "D" ) || ( $aa eq "V" ) || ( $aa eq "S" )) || ( $aa eq "A" )) {
+							$target = $target . "[D,V,S,A]";
+						}
+					}
+					elsif (( $gene eq "DPB1" ) && ( $residues_ref->[ $index ] == 84 ) && (( $aa eq "G" ) || ( $aa eq "V" ))) {
+						$target = $target . "[G,V]";
+					}
+					else {
+						$target = $target . $aa;		# AA residue at target position
+					}
+
 					if ( $index != $elements - 1 ) {
 						my $num = $residues_ref->[ $index + 1 ] - $residues_ref->[ $index ] - 1;	# add random AA between key residues
 						$target = $target . "[A-Z]{$num}";
@@ -110,6 +146,5 @@ sub all {		# deal with remaining serotypes with strict mode
 
 	return $assigned_ref;
 }
-
 
 1;
