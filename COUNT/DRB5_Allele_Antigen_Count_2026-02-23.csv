@@ -1,0 +1,15 @@
+ANTIGEN,FULL,SEROTYPE,INCOMPLETE,InSilico
+DR5101,151,26,4,0
+DR5102,44,0,0,0
+DR5103,1,0,0,0
+
+AssignedTotal,196,26,4,0
+CommonTotal,0,0,0,0
+IntermediateTotal,0,0,0,0
+WellDocumentedTotal,59,3,0,0
+RareTotal,137,23,4,0
+
+TOTAL EXPRESSED ALLELES,226
+Null alleles,29
+Q alleles,1
+TOTAL ALLELES,256

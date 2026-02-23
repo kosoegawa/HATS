@@ -55,7 +55,7 @@ sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
 	my $seq = "N" x 25;	#change the number of missing nucleotide
-	$partial{ "C0669" } = $seq;
+	$partial{ "Cw0669" } = $seq;
 		
 	return $partial_ref;
 }

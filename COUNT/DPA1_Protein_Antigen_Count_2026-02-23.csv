@@ -1,0 +1,14 @@
+ANTIGEN,FULL,SEROTYPE,INCOMPLETE,InSilico
+DPA01,233,0,5,0
+DPA02,153,0,3,0
+
+AssignedTotal,386,0,8,0
+CommonTotal,0,0,0,0
+IntermediateTotal,0,0,0,0
+WellDocumentedTotal,0,0,0,0
+RareTotal,386,0,8,0
+
+TOTAL EXPRESSED ALLELES,394
+Null alleles,35
+Q alleles,18
+TOTAL ALLELES,447

@@ -1,0 +1,8 @@
+BASE,TYPE,STRINGENT,STR_OUT,LAX,LAX_OUT,UNASSIGNED
+DPA01,DPA01,233,21,0,0,4
+DPA02,DPA02,153,11,0,0,4
+Total,,386,32,0,0,8
+Total two-field alleles,447
+Null alleles,35
+Q alleles,18
+Expressed alleles,394

@@ -1,0 +1,8 @@
+WHOAssigned,Serotype,STRINGENT,STR_OUT,LAX,LAX_OUT,UNASSIGNED
+DPA01,DPA01,498,48,0,0,4
+DPA02,DPA02,338,17,0,0,4
+Total,,836,65,0,0,8
+Total alleles,897
+Null alleles,35
+Q alleles,18
+Expressed alleles,844
