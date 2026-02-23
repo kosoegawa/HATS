@@ -8,7 +8,7 @@
 
 # module: CBw.pm 
 # This module was developed to capture HLA-C Bw4 and Bw6 alleles
-# last reviewed on November 14 2023
+# last reviewed on February 19 2026
 
 package CBw;
 use strict;
@@ -17,14 +17,13 @@ use strict;
 my @bw = (2,76,80,82,83);
 my %bw;
 my %ref;
-$ref{"C-0102"} = "HLA00401";	# C*01:02:01:01
-$ref{"C-0202"} = "HLA00404";	# C*02:02:01
-#$ref{"C-0310"} = "HLA:HLA01076";	# C*03:10
-$ref{"C-1212"} = "HLA01878";	# C*12:12, C1 Bw6
-$ref{"C-0669"} = "HLA07131";	# C*06:69, C2 Bw6, this is required, do not delete
-$bw{"C-0102"} = "Negative"; $bw{"C-0202"} = "Negative";
+$ref{"Cw0102"} = "HLA00401";	# C*01:02:01:01
+$ref{"Cw0202"} = "HLA00404";	# C*02:02:01
+$ref{"Cw1212"} = "HLA01878";	# C*12:12, C1 Bw6
+$ref{"Cw0669"} = "HLA07131";	# C*06:69, C2 Bw6, this is required, do not delete, VERY IMPORTNAT
+$bw{"Cw0102"} = "Negative"; $bw{"Cw0202"} = "Negative";
 #$bw{"C-0310"} = "C2";
-$bw{"C-1212"} = "Bw6"; $bw{"C-0669"} = "Bw6";
+$bw{"Cw1212"} = "Bw6"; $bw{"Cw0669"} = "Bw6";
 
 sub HLAC {
 	my $gene = "C";
@@ -56,7 +55,7 @@ sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
 	my $seq = "N" x 25;	#change the number of missing nucleotide
-	$partial{ "C-0669" } = $seq;
+	$partial{ "C0669" } = $seq;
 		
 	return $partial_ref;
 }
