@@ -8,7 +8,7 @@
 
 # module: runHlaA.pl
 # Driver for HLA-A
-# last modified and documented on May 13 2025
+# last modified and documented on February 9 2026
 
 use strict;
 use lib 'SEROTYPE';
@@ -25,9 +25,12 @@ use ABw;
 use Bw46ASSIGN;
 use COPYRESULT;
 use POSIX qw(strftime);
+use SUMCOUNT;
+use COMBINE;
+use LEGACY_REPORT;
+use PRACTICAL;
 
 my $date = strftime "%Y-%m-%d", localtime;
-#my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 
 #capture input file
@@ -61,7 +64,7 @@ if ( $fasta_count > 0 ) {
 	unlink @fasta;
 }
 
-open ( FILE, ">output/" . $hats . "_IMGT_" . $database );	#create an empty file to tag database version	
+open ( FILE, ">output/" . $hats . "_IMGT_" . $database . ".csv" );	#create an empty file to tag database version	
 close FILE;
 
 my $fasta_ref = ORGANIZE::fasta( $file );	# organize fasta
@@ -80,9 +83,9 @@ my $base_ref = HLAA_INFO::BASE();
 my $basetype_ref = HLAA_INFO::BASETYPE();
 
 #print target residues
-my $elements_ref = RESIDUES::pattern( $fasta_ref, $gene, $leader, $ref_ref, $residues_all_ref, $partial_ref, $basetype_ref, $base_ref, $ciwd_ref, $cwd_ref, $ecwd_ref );
+my $elements_ref = RESIDUES::pattern( $fasta_ref, $gene, $leader, $ref_ref, $residues_all_ref, $partial_ref, $base_ref, $ciwd_ref, $cwd_ref, $ecwd_ref );
 #print relax target residues
-RESIDUES::LAX( $fasta_ref, $gene, $leader, $ref_ref, $residues_all_ref, $partial_ref, $basetype_ref, $base_ref, $group_ref, $ciwd_ref, $cwd_ref, $ecwd_ref );
+RESIDUES::LAX( $fasta_ref, $gene, $leader, $ref_ref, $residues_all_ref, $partial_ref, $base_ref, $group_ref, $ciwd_ref, $cwd_ref, $ecwd_ref );
 
 #print null alleles
 my $null_ref = NullAllele::all( $fasta_ref, $gene );
@@ -157,18 +160,36 @@ my $residues_ref = ABw::RESIDUES();
 my $bw = ABw::BW();
 my $bw_ref2 = Bw46ASSIGN::all( $fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $bw );
 
-ASSIGNED_SHORT::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$basetype_ref,$cross_ref,
+LEGACY_REPORT::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2 );
-ASSIGNED_SHORT::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$basetype_ref,$cross_ref,
+LEGACY_REPORT::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2 );
+my $parent_ref = HLAA_INFO::PARENT();
+
+COMBINE::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
+COMBINE::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
+
+PRACTICAL::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2 );
+PRACTICAL::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2 );
 
-@csv = glob("output/" . $gene . "_Serotype_Table_IMGT_HLA_*");
+@csv = glob("output/" . $gene . "_Allele_Antigen_Practical_Table_IMGT_HLA_*");
 foreach my $csv ( @csv ) {
-	my $whotype_ref = HLAA_INFO::WHO();
-	COUNT::SUMMARY($csv, $gene, $null_ref, $qallele_ref, $whotype_ref);
-	COUNT::SUMMARY_TWO($csv, $gene, $sero_ref, $null_ref, $qallele_ref, $basetype_ref, $whotype_ref);
+	my $out_name = "_Allele_Antigen_Count_";
+	SUMCOUNT::SUMMARY($csv, $gene, $null_ref, $qallele_ref, $out_name);
+}
+
+@csv = glob("output/" . $gene . "_Protein_Antigen_Practical_Table_IMGT_HLA_*");
+foreach my $csv ( @csv ) {
+	my $out_name = "_Protein_Antigen_Count_";
+	SUMCOUNT::SUMMARY($csv, $gene, $null_ref, $qallele_ref, $out_name);
 }
 
 COPYRESULT::COPYRESULT( $gene, $database, $date );
 COPYRESULT::COPYTWORESULT( $gene, $database, $date );
+COPYRESULT::COPYPRACTICAL( $gene, $database, $date );
 COPYRESULT::COPYRESIDUE( $gene, $database, $date );
+COPYRESULT::COPYLEGACY( $gene, $database, $date );
