@@ -7,20 +7,20 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 # module: ABw.pm 
-# This module was developed to capture HLA-A Bw4 and Bw6 alleles
-# last reviewed on November 14 2023
+# This module was developed to capture HLA-A Bw4 alleles
+# last reviewed on February 20 2026
 
 package ABw;
 use strict;
 
-#my @bw = (76,80,82,83);
-my @bw = (2,76,82,83);		#used 79 instead of 80
+my @bw = (76,80,82,83);
+#my @bw = (2,76,82,83);		#used 79 instead of 80
 #my @bw = (43,76,80,82,83);
 my %ref;
 my %bw;
-$ref{"A-3201"} = "HLA00101";		# ref for Bw4: A*32:01:01:01
-#$ref{"A-3002"} = "HLA00090";		# ref for Bw6: A*30:02:01:01
-$bw{"A-3201"} = "Bw4";# $bw{"A-3002"} = "Bw6";
+$ref{"A3201"} = "HLA00101";		# ref for Bw4: A*32:01:01:01, removed dash (-)
+#$ref{"A-3002"} = "HLA00090";		# ref for Bw6: A*30:02:01:01, confirmed no Bw6 reactivity
+$bw{"A3201"} = "Bw4";# $bw{"A-3002"} = "Bw6";
 
 sub HLAA {
 	my $gene = "A";

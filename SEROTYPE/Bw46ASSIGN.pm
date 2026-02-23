@@ -9,18 +9,16 @@
 # module: Bw46ASSIGN.pm
 # stringent assign
 # This module was developed to convert HLA allele to HLA serotype using strict mode
-# last reviewed on December 7 2024
+# last reviewed on February 19 2026
 
 package Bw46ASSIGN;
 use strict;
 use POSIX qw(strftime);
 
 my $date = strftime "%Y-%m-%d", localtime;
-#my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 
 sub all {		# deal with remaining serotypes with strict mode
-	#my ($fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref, $bw_ref ) = @_;
 	my ($fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $bw_ref, $partial_ref ) = @_;
 	# the larst argument $partial_ref can be ignored, if no partial reference seqence is present
 
@@ -61,6 +59,8 @@ sub all {		# deal with remaining serotypes with strict mode
 				}
 			}
 		}
+#		print $key . "\n";
+#		print $bw_ref->{$key} . "\n";
 		open(FILE, ">output/" . $key . "_" . $bw_ref->{$key} . "_" . $date . ".csv");
 		foreach my $allele ( sort @alleles ) {
 			print FILE  $allele . "\n";
@@ -73,7 +73,6 @@ sub all {		# deal with remaining serotypes with strict mode
 
 
 sub Bw {		# deal with remaining serotypes with strict mode
-	#my ($fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref, $bw_ref ) = @_;
 	my ($fasta_ref, $leader, $ref_ref, $residues_ref, $bw_ref, $partial_ref ) = @_;
 	# the larst argument $partial_ref can be ignored, if no partial reference seqence is present
 
