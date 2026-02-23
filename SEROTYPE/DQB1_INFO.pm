@@ -8,7 +8,7 @@
 
 # module: DQB1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last reviewed, modified and documented on October 20 2023
+# last reviewed, modified and documented on October 31 2025
 
 package DQB1_INFO;
 use strict;
@@ -25,39 +25,41 @@ my %group;
 my %base;
 my %dq1;
 my @subtype;
-$dq1{"DQ-0501"} = "HLA00638";	#DQB1*05:01:01:01
-$dq1{"DQ-0502"} = "HLA00639";	# DQB1*05:02:01:01 261 bp
-$dq1{"DQ-0503"} = "HLA00640";	# DQB1*05:03:01:01 269 bp
+$dq1{"DQ0501"} = "HLA00638";	#DQB1*05:01:01:01
+#$dq1{"DQ0502"} = "HLA00639";	# DQB1*05:02:01:01 261 bp
+#$dq1{"DQ0503"} = "HLA00640";	# DQB1*05:03:01:01 269 bp
 #Decided to leave DQB1*05:04 as SEROTYPE
-$dq1{"DQ-0602"} = "HLA00646";	#DQB1*06:02:01:01
-#$dq1{"DQ-0604"} = "HLA00648";	#DQB1*06:04:01:01
-$dq1{"DQ-0608"} = "HLA00653";	# DQB1*06:08:01 261 bp
-$dq1{"DQ-0610"} = "HLA00655";	# DQB1*06:10 261 bp
-$group{"DQ-0501"} = "DQ1"; $group{"DQ-0502"} = "DQ1"; $group{"DQ-0503"} = "DQ1"; $group{"DQ-0602"} = "DQ1";# $group{"DQ-0604"} = "DQ1";
-$group{"DQ-0608"} = "DQ1"; $group{"DQ-0610"} = "DQ1";
-$base{"DQ-0501"} = "DQ5"; $base{"DQ-0502"} = "DQ5"; $base{"DQ-0503"} = "DQ5"; $base{"DQ-0602"} = "DQ6";# $base{"DQ-0604"} = "DQ6";
-$base{"DQ-0608"} = "DQ6"; $base{"DQ-0610"} = "DQ6";
-push @subtype, ("DQ-0502","DQ-0503","DQ-0608", "DQ-0610");	# modify here if serotype modified
+$dq1{"DQ0602"} = "HLA00646";	#DQB1*06:02:01:01
+#$dq1{"DQ0604"} = "HLA00648";	#DQB1*06:04:01:01
+#$dq1{"DQ0608"} = "HLA00653";	# DQB1*06:08:01 261 bp
+#$dq1{"DQ0610"} = "HLA00655";	# DQB1*06:10 261 bp
+$group{"DQ0501"} = "DQ1"; # $group{"DQ0502"} = "DQ1"; $group{"DQ0503"} = "DQ1";
+$group{"DQ0602"} = "DQ1";# $group{"DQ0604"} = "DQ1"; $group{"DQ0608"} = "DQ1"; $group{"DQ0610"} = "DQ1";
+$base{"DQ0501"} = "DQ5";# $base{"DQ0502"} = "DQ5"; $base{"DQ0503"} = "DQ5";
+$base{"DQ0602"} = "DQ6";# $base{"DQ0604"} = "DQ6"; $base{"DQ0608"} = "DQ6"; $base{"DQ0610"} = "DQ6";
+#push @subtype, ("DQ0502","DQ0503","DQ0608", "DQ0610");	# modify here if serotype modified
 
 my %dq2;
-$dq2{"DQ-0201"} = "HLA00622";	#DQB1*02:01:01
-$dq2{"DQ-0203"} = "HLA29352";	# DQB1*02:180 261 bp #HLA21020";	# DQB1*02:03:02 183 bp
-$group{"DQ-0201"} = "DQ2"; $group{"DQ-0203"} = "DQ2";
-$base{"DQ-0201"} = "DQ2"; $base{"DQ-0203"} = "DQ2";
+$dq2{"DQ0201"} = "HLA00622";	#DQB1*02:01:01
+#$dq2{"DQ0203"} = "HLA29352";	# DQB1*02:180 261 bp #HLA21020";	# DQB1*02:03:02 183 bp
+$group{"DQ0201"} = "DQ2";# $group{"DQ0203"} = "DQ2";
+$base{"DQ0201"} = "DQ2";# $base{"DQ0203"} = "DQ2";
 my %dq3;
-$dq3{"DQ-0301"} = "HLA00625";	#DQB1*03:01:01:01
-$dq3{"DQ-0304"} = "HLA00630";	#DQB1*03:04:01
-$dq3{"DQ-0302"} = "HLA00627";	#DQB1*03:02:01:01
-$dq3{"DQ-0303"} = "HLA00629";	#DQB1*03:03:02:01
-$group{"DQ-0301"} = "DQ3"; $group{"DQ-0304"} = "DQ3"; $group{"DQ-0302"} = "DQ3"; $group{"DQ-0303"} = "DQ3";
-$base{"DQ-0301"} = "DQ7"; $base{"DQ-0304"} = "DQ7"; $base{"DQ-0302"} = "DQ8"; $base{"DQ-0303"} = "DQ9";
+$dq3{"DQ0301"} = "HLA00625";	#DQB1*03:01:01:01
+#$dq3{"DQ0304"} = "HLA00630";	#DQB1*03:04:01
+$dq3{"DQ0302"} = "HLA00627";	#DQB1*03:02:01:01
+$dq3{"DQ0303"} = "HLA00629";	#DQB1*03:03:02:01
+$group{"DQ0301"} = "DQ3";# $group{"DQ0304"} = "DQ3";
+$group{"DQ0302"} = "DQ3"; $group{"DQ0303"} = "DQ3";
+$base{"DQ0301"} = "DQ7";# $base{"DQ0304"} = "DQ7";
+$base{"DQ0302"} = "DQ8"; $base{"DQ0303"} = "DQ9";
 my %dq4;
-$dq4{"DQ-0401"} = "HLA00636";	#DQB1*04:01:01:01
-$group{"DQ-0401"} = "DQ4";
-$base{"DQ-0401"} = "DQ4";
+$dq4{"DQ0401"} = "HLA00636";	#DQB1*04:01:01:01
+$group{"DQ0401"} = "DQ4";
+$base{"DQ0401"} = "DQ4";
 
-push @subtype, ("DQ-0203","DQ-0304","DQ-0302","DQ-0303");	# modify here if serotype modified
-#"DQ-0604",
+push @subtype, ("DQ0302","DQ0303");	# modify here if serotype modified "DQ0203","DQ0304",
+#"DQ0604",
 sub DQB1 {
 	my $gene = "DQB1";
 	return $gene;
@@ -81,6 +83,15 @@ sub BASE {
 sub BASETYPE {
 	my @basetype = ("DQ5","DQ6","DQ2","DQ7","DQ8","DQ9","DQ4");
 	my $basetype_ref = \@basetype;
+}
+
+sub PARENT {
+	my %parent;
+	my $parent_ref = \%parent;
+	foreach my $key ( keys %base ) {	# $key = A0101
+		$parent{ $key } = $base{ $key };	# $base( $key } = "A1";
+	}
+	return $parent_ref;
 }
 
 sub BROAD {
@@ -180,16 +191,16 @@ sub KEY {
 	my %ref;
 	my $key_ref = \%ref;
 	for my $key ( sort keys %tmp ) {
-		if ( $key =~ /DQ-02/ ) {
+		if ( $key =~ /DQ02/ ) {
 			$ref{$key} = "DQB1\\*02";
 		}
-		elsif ( $key =~ /DQ-03/ ) {
+		elsif ( $key =~ /DQ03/ ) {
 			$ref{$key} = "DQB1\\*03";
 		}
-		elsif ( $key =~ /DQ-04/ ) {
+		elsif ( $key =~ /DQ04/ ) {
 			$ref{$key} = "DQB1\\*04";
 		}
-		elsif ( $key =~ /DQ-05/ ) {
+		elsif ( $key =~ /DQ05/ ) {
 			$ref{$key} = "DQB1\\*05";
 		}
 		else {
@@ -204,7 +215,7 @@ sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
 	my $seq = "X" x 37;	#change the number of missing nucleotide
-#	$partial{ "DQ-0203" } = $seq;	# still partial
+#	$partial{ "DQ0203" } = $seq;	# still partial
 	$partial{ "general" } = $seq;
 	$partial{ "DQB1*06:05:01" } = "X";	# residue 1 M is missing
 	$partial{ "DQB1*06:06" } = "X" x 52;
@@ -216,11 +227,11 @@ sub PARTIAL {		# partial sequence
 sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL
 	my %known_cross;
 	my $known_cross_ref = \%known_cross;
-	$known_cross{ "DQ-0502" } = 0;
-	$known_cross{ "DQ-0503" } = 0;
-	$known_cross{ "DQ-0203" } = 0;
-	$known_cross{ "DQ-0608" } = 0;
-	$known_cross{ "DQ-0610" } = 0;
+	$known_cross{ "DQ0502" } = 0;
+	$known_cross{ "DQ0503" } = 0;
+	$known_cross{ "DQ0203" } = 0;
+	$known_cross{ "DQ0608" } = 0;
+	$known_cross{ "DQ0610" } = 0;
 	return $known_cross_ref;
 }
 

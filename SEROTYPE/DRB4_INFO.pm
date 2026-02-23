@@ -8,7 +8,7 @@
 
 # module: DRB4_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on October 24 2023
+# last modified and documented on February 1 2026
 
 package DRB4_INFO;
 use strict;
@@ -50,6 +50,15 @@ sub BASETYPE {
 	my @basetype = ("DR53");
 
 	my $basetype_ref = \@basetype;
+}
+
+sub PARENT {
+	my %parent;
+	my $parent_ref = \%parent;
+	foreach my $key ( keys %base ) {	# $key = A0101
+		$parent{ $key } = $base{ $key };	# $base( $key } = "A1";
+	}
+	return $parent_ref;
 }
 
 sub BROAD {

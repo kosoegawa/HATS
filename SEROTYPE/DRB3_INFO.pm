@@ -8,7 +8,7 @@
 
 # module: DRB3_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on November 14 2023
+# last modified and documented on February 1 2026
 
 package DRB3_INFO;
 use strict;
@@ -20,18 +20,18 @@ my @extra = (11,16,47,58,60,67,70,71,74);	# FULL only
 my %dr52;
 my %group;
 my %base;
-$dr52{"DR-5201"} = "HLA00887";		# DRB3*01:01:02:01
-$dr52{"DR-5202"} = "HLA00895";		# DRB3*02:02:01:01
-$dr52{"DR-5203"} = "HLA00902";		# DRB3*03:01:01:01
-$group{"DR-5201"} = "DR52";
-$group{"DR-5202"} = "DR52";
-$group{"DR-5203"} = "DR52";
-$base{"DR-5201"} = "DR52";
-$base{"DR-5202"} = "DR52";
-$base{"DR-5203"} = "DR52";
+$dr52{"DR5201"} = "HLA00887";		# DRB3*01:01:02:01
+$dr52{"DR5202"} = "HLA00895";		# DRB3*02:02:01:01
+$dr52{"DR5203"} = "HLA00902";		# DRB3*03:01:01:01
+$group{"DR5201"} = "DR52";
+$group{"DR5202"} = "DR52";
+$group{"DR5203"} = "DR52";
+$base{"DR5201"} = "DR52";
+$base{"DR5202"} = "DR52";
+$base{"DR5203"} = "DR52";
 
 
-my @subtype = ("DR-5202","DR-5203");	# modify here if serotype modified
+my @subtype = ("DR5202","DR5203");	# modify here if serotype modified
 
 sub DRB3 {
 	my $gene = "DRB3";
@@ -57,6 +57,15 @@ sub BASETYPE {
 	my @basetype = ("DR52");
 
 	my $basetype_ref = \@basetype;
+}
+
+sub PARENT {
+	my %parent;
+	my $parent_ref = \%parent;
+	foreach my $key ( keys %base ) {	# $key = A0101
+		$parent{ $key } = $base{ $key };	# $base( $key } = "A1";
+	}
+	return $parent_ref;
 }
 
 sub BROAD {
@@ -127,7 +136,7 @@ sub KEY {
 	my %ref;
 	my $key_ref = \%ref;
 	for my $key ( sort keys %tmp ) {
-		if ( $key =~ /DR-52/ ) {
+		if ( $key =~ /DR52/ ) {
 			$ref{$key} = "DRB3\\*";
 		}
 	}
@@ -149,8 +158,8 @@ sub PARTIAL {		# partial sequence
 sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL
 	my %known_cross;
 	my $known_cross_ref = \%known_cross;
-	$known_cross{ "DR-5202" } = 0;
-	$known_cross{ "DR-5203" } = 0;
+	$known_cross{ "DR5202" } = 0;
+	$known_cross{ "DR5203" } = 0;
 	return $known_cross_ref;
 }
 

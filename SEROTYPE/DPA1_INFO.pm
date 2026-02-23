@@ -8,7 +8,7 @@
 
 # module: DPA1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on January 8 2021
+# last reviewed, modified and documented on February 2 2026
 
 package DPA1_INFO;
 use strict;
@@ -19,11 +19,11 @@ my @dpa1 = (50,55,58 .. 60);	#DPA1*01 & DPA1*03
 my %group;
 my %base;
 my %dpa1;
-$dpa1{"DPA-01"} = "HLA00499";	# DPA1*01:03:01:01
-$dpa1{"DPA-02"} = "HLA00504";	# DPA1*02:01:01:01
+$dpa1{"DPA01"} = "HLA00499";	# DPA1*01:03:01:01
+$dpa1{"DPA02"} = "HLA00504";	# DPA1*02:01:01:01
 
-$group{"DPA-01"} = "DPA-01"; $group{"DPA-02"} = "DPA-01";
-$base{"DPA-01"} = "DPA-01"; $base{"DPA-02"} = "DPA-02";
+$group{"DPA01"} = "DPA01"; $group{"DPA02"} = "DPA01";
+$base{"DPA01"} = "DPA01"; $base{"DPA02"} = "DPA02";
 
 my @subtype = ();	# modify here if serotype modified
 
@@ -48,8 +48,17 @@ sub BASE {
 }
 
 sub BASETYPE {
-	my @basetype = ("DPA-01","DPA-02");
+	my @basetype = ("DPA01","DPA02");
 	my $basetype_ref = \@basetype;
+}
+
+sub PARENT {
+	my %parent;
+	my $parent_ref = \%parent;
+	foreach my $key ( keys %base ) {	# $key = A0101
+		$parent{ $key } = $base{ $key };	# $base( $key } = "A1";
+	}
+	return $parent_ref;
 }
 
 sub BROAD {
@@ -114,10 +123,10 @@ sub KEY {
 	my %ref;
 	my $key_ref = \%ref;
 	for my $key ( sort keys %tmp ) {
-		if ( $key =~ /DPA-01/ ) {
+		if ( $key =~ /DPA01/ ) {
 			$ref{$key} = "DPA1\\*01";
 		}
-		elsif ( $key =~ /DPA-02/ ) {
+		elsif ( $key =~ /DPA02/ ) {
 			$ref{$key} = "DPA1\\*02";
 		}
 	}

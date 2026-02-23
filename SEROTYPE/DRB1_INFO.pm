@@ -8,7 +8,7 @@
 
 # module: DRB1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last reviewed, modified and documented on April 28 2025
+# last reviewed, modified and documented on January 31 2026
 
 package DRB1_INFO;
 use strict;
@@ -22,7 +22,7 @@ my @dr9 = (9, 10, 11, 12, 13, 60, 74);	#60S is included. See DR7
 my @dr10 = (9, 10, 11, 12, 13);
 my @dr11 = (9, 10, 11, 12, 13, 58, 67, 70, 71);	# 70, 71 were added to distinguish DR1102
 my @dr12 = (9, 10, 11, 12, 13, 58, 60, 67, 71, 74);	# residue 71 is required to distinguish from DR1317, removed 47
-my @dr13 = (9, 10, 11, 12, 13, 58, 60, 67, 70, 71);	# residue 58 is required to distinguish from DR11 & DR1102
+my @dr13 = (9, 10, 11, 12, 13, 58, 60, 67, 70, 71, 74);	# residue 58 is required to distinguish from DR11 & DR1102, 74: DRB1*13:03 vs. DRB1*14:03
 my @dr14 = (9, 10, 11, 12, 13, 16, 58, 60, 67,70, 71, 74);
 my @dr15 = (9, 10, 11, 12, 13, 67, 70);
 my @dr16 = (9, 10, 11, 12, 13, 67, 70);
@@ -32,126 +32,128 @@ my %dr1;
 my %group;
 my %base;
 my @subtype;
-$dr1{"DR-0101"} = "HLA00664";		# DRB1*01:01:01:01
-$dr1{"DR-0103"} = "HLA00667";		# DRB1*01:03:01
-$group{"DR-0101"} = "DR1"; $group{"DR-0103"} = "DR1";
-$base{"DR-0101"} = "DR1"; $base{"DR-0103"} = "DR103";
-push @subtype, ("DR-103");
+$dr1{"DR0101"} = "HLA00664";		# DRB1*01:01:01:01
+$dr1{"DR0103"} = "HLA00667";		# DRB1*01:03:01
+$group{"DR0101"} = "DR1"; $group{"DR0103"} = "DR1";
+#$base{"DR0101"} = "DR1"; $base{"DR0103"} = "DR0103";
+$base{"DR0101"} = "DR1"; $base{"DR0103"} = "DR1";
+push @subtype, ("DR0103");
 
 my %dr3;
-$dr3{"DR-0301"} = "HLA00671";		# DRB1*03:01:01:01: DR17
-$dr3{"DR-0302"} = "HLA00673";		# DRB1*03:02:01: DR18
-$group{"DR-0301"} = "DR3"; $group{"DR-0302"} = "DR3";
-$base{"DR-0301"} = "DR17"; $base{"DR-0302"} = "DR18";
-push @subtype, ("DR-0302");
+$dr3{"DR0301"} = "HLA00671";		# DRB1*03:01:01:01: DR17
+$dr3{"DR0302"} = "HLA00673";		# DRB1*03:02:01: DR18
+$group{"DR0301"} = "DR3"; $group{"DR0302"} = "DR3";
+$base{"DR0301"} = "DR17"; $base{"DR0302"} = "DR18";
+push @subtype, ("DR0302");
 
 my %dr4;
-$dr4{"DR-0401"} = "HLA00685";		# DRB1*04:01:01:01
-$dr4{"DR-0404"} = "HLA00689";		# DRB1*04:04:01
-$dr4{"DR-0402"} = "HLA00687";		# DRB1*04:02:01
-$dr4{"DR-0403"} = "HLA00688";		# DRB1*04:03:01:01
-$dr4{"DR-0412"} = "HLA00698";		# DRB1*04:12
-$dr4{"DR-0415"} ="HLA00701";		# DRB1*04:15
-$dr4{"DR-1410"} = "HLA00842";		# DRB1*14:10
-$group{"DR-0401"} = "DR4"; $group{"DR-0404"} = "DR4"; $group{"DR-0402"} = "DR4"; $group{"DR-0403"} = "DR4"; $group{"DR-0412"} = "DR4"; $group{"DR-0415"} = "DR4";
-$group{"DR-1410"} = "DR4";
-$base{"DR-0401"} = "DR4"; $base{"DR-0404"} = "DR4"; $base{"DR-0402"} = "DR4"; $base{"DR-0403"} = "DR4"; $base{"DR-0412"} = "DR4"; $base{"DR-0415"} = "DR4";
-$base{"DR-1410"} = "DR4";
-push @subtype, ("DR-0404","DR-0402","DR403","DR-0412","DR-0415","DR-1410");
+$dr4{"DR0401"} = "HLA00685";		# DRB1*04:01:01:01
+#$dr4{"DR0404"} = "HLA00689";		# DRB1*04:04:01
+$dr4{"DR0402"} = "HLA00687";		# DRB1*04:02:01
+$dr4{"DR0403"} = "HLA00688";		# DRB1*04:03:01:01
+$dr4{"DR0412"} = "HLA00698";		# DRB1*04:12
+$dr4{"DR0415"} ="HLA00701";		# DRB1*04:15
+$dr4{"DR1410"} = "HLA00842";		# DRB1*14:10
+$group{"DR0401"} = "DR4"; $group{"DR0402"} = "DR4"; $group{"DR0403"} = "DR4"; $group{"DR0412"} = "DR4"; $group{"DR0415"} = "DR4";
+$group{"DR1410"} = "DR4";	# $group{"DR0404"} = "DR4";
+$base{"DR0401"} = "DR4"; $base{"DR0402"} = "DR4"; $base{"DR0403"} = "DR4"; $base{"DR0412"} = "DR4"; $base{"DR0415"} = "DR4";
+$base{"DR1410"} = "DR4";	# $base{"DR0404"} = "DR4";
+push @subtype, ("DR0402","DR403","DR0412","DR0415","DR1410");	#"DR0404",
 
 my %dr7;
-$dr7{"DR-0701"} = "HLA00719";		# DRB1*07:01:01:01
-$group{"DR-0701"} = "DR7";
-$base{"DR-0701"} = "DR7";
+$dr7{"DR0701"} = "HLA00719";		# DRB1*07:01:01:01
+$group{"DR0701"} = "DR7";
+$base{"DR0701"} = "DR7";
 
 my %dr8;
-$dr8{"DR-0801"} = "HLA00723";		# DRB1*08:01:01
-$dr8{"DR-0803"} = "HLA00727";		# DRB1*08:03:02:01 266 bp
-$dr8{"DR-0808"} = "HLA00734";		# DRB1*08:08 266 bp
-$dr8{"DR-0818"} = "HLA00744";		# DRB1*08:18, used to replace partial DRB1*08:05
-$group{"DR-0801"} = "DR8"; $group{"DR-0803"} = "DR8"; $group{"DR-0808"} = "DR8"; $group{"DR-0818"} = "DR8";
-$base{"DR-0801"} = "DR8"; $base{"DR-0803"} = "DR8"; $base{"DR-0808"} = "DR8"; $base{"DR-0818"} = "DR8";
-push @subtype, ("DR-0818","DR-0803","DR-0808");
+$dr8{"DR0801"} = "HLA00723";		# DRB1*08:01:01
+$dr8{"DR0803"} = "HLA00727";		# DRB1*08:03:02:01 266 bp
+$dr8{"DR0808"} = "HLA00734";		# DRB1*08:08 266 bp
+$dr8{"DR0818"} = "HLA00744";		# DRB1*08:18, used to replace partial DRB1*08:05
+$group{"DR0801"} = "DR8"; $group{"DR0803"} = "DR8"; $group{"DR0808"} = "DR8"; $group{"DR0818"} = "DR8";
+$base{"DR0801"} = "DR8"; $base{"DR0803"} = "DR8"; $base{"DR0808"} = "DR8"; $base{"DR0818"} = "DR8";
+push @subtype, ("DR0818","DR0803","DR0808");
 
 my %dr9;
-$dr9{"DR-0901"} = "HLA00749";		# DRB1*09:01:02:01
-#$dr9{"DR-0902"} = "HLA01513";		# DRB1*09:02:01
-$group{"DR-0901"} = "DR9";# $group{"DR-0902"} = "DR9";
-$base{"DR-0901"} = "DR9";# $base{"DR-0902"} = "DR9";
-#push @subtype, ("DR-0902");
+$dr9{"DR0901"} = "HLA00749";		# DRB1*09:01:02:01
+#$dr9{"DR0902"} = "HLA01513";		# DRB1*09:02:01
+$group{"DR0901"} = "DR9";# $group{"DR0902"} = "DR9";
+$base{"DR0901"} = "DR9";# $base{"DR0902"} = "DR9";
+#push @subtype, ("DR0902");
 
 my %dr10;
-$dr10{"DR-1001"} = "HLA00750";		# DRB1*10:01:01:01
-$group{"DR-1001"} = "DR10";
-$base{"DR-1001"} = "DR10";
+$dr10{"DR1001"} = "HLA00750";		# DRB1*10:01:01:01
+$group{"DR1001"} = "DR10";
+$base{"DR1001"} = "DR10";
 my %dr11;
-$dr11{"DR-1101"} = "HLA00751";		# DRB1*11:01:01:01
-$dr11{"DR-1102"} = "HLA00754";		# DRB1*11:02:01:01
-$dr11{"DR-1103"} = "HLA00755";		# DRB1*11:03:01 266 bp
-$dr11{"DR-1105"} = "HLA00758";		# DRB1*11:05
-$dr11{"DR-1107"} = "HLA00760";		# DRB1*11:07:01
-$dr11{"DR-1108"} = "HLA00761";		# DRB1*11:08:01 266 bp
-$dr11{"DR-1117"} = "HLA00771";		# DRB1*11:17
-$group{"DR-1101"} = "DR11"; $group{"DR-1102"} = "DR11"; $group{"DR-1103"} = "DR11"; $group{"DR-1105"} = "DR11"; $group{"DR-1107"} = "DR11"; $group{"DR-1108"} = "DR11"; $group{"DR-1117"} = "DR11";
-$base{"DR-1101"} = "DR11"; $base{"DR-1102"} = "DR11"; $base{"DR-1103"} = "DR11"; $base{"DR-1105"} = "DR11"; $base{"DR-1107"} = "DR11"; $base{"DR-1108"} = "DR11"; $base{"DR-1117"} = "DR11";
-push @subtype, ("DR-1102","DR-1103","DR-1105","DR-1107","DR-1108","DR-1117");
+$dr11{"DR1101"} = "HLA00751";		# DRB1*11:01:01:01
+$dr11{"DR1102"} = "HLA00754";		# DRB1*11:02:01:01
+$dr11{"DR1103"} = "HLA00755";		# DRB1*11:03:01 266 bp
+$dr11{"DR1105"} = "HLA00758";		# DRB1*11:05
+$dr11{"DR1107"} = "HLA00760";		# DRB1*11:07:01
+$dr11{"DR1108"} = "HLA00761";		# DRB1*11:08:01 266 bp
+$dr11{"DR1117"} = "HLA00771";		# DRB1*11:17
+$group{"DR1101"} = "DR11"; $group{"DR1102"} = "DR11"; $group{"DR1103"} = "DR11"; $group{"DR1105"} = "DR11"; $group{"DR1107"} = "DR11"; $group{"DR1108"} = "DR11"; $group{"DR1117"} = "DR11";
+$base{"DR1101"} = "DR11"; $base{"DR1102"} = "DR11"; $base{"DR1103"} = "DR11"; $base{"DR1105"} = "DR11"; $base{"DR1107"} = "DR11"; $base{"DR1108"} = "DR11"; $base{"DR1117"} = "DR11";
+push @subtype, ("DR1102","DR1103","DR1105","DR1107","DR1108","DR1117");
 
 my %dr12;
-$dr12{"DR-1201"} = "HLA00789";		# DRB1*12:01:01:01
-$dr12{"DR-1202"} = "HLA00790";		# DRB1*12:02:01:01 266 bp
-$group{"DR-1201"} = "DR12";$group{"DR-1202"} = "DR12";
-$base{"DR-1201"} = "DR12";$base{"DR-1202"} = "DR12";
+$dr12{"DR1201"} = "HLA00789";		# DRB1*12:01:01:01
+$dr12{"DR1202"} = "HLA00790";		# DRB1*12:02:01:01 266 bp
+$group{"DR1201"} = "DR12";$group{"DR1202"} = "DR12";
+$base{"DR1201"} = "DR12";$base{"DR1202"} = "DR12";
 
 my %dr13;
-$dr13{"DR-1301"} = "HLA00797";		# DRB1*13:01:01:01
-$dr13{"DR-1303"} = "HLA00799";		# DRB1*13:03:01
-$dr13{"DR-1305"} = "HLA00802";		# DRB1*13:05:01
-$dr13{"DR-1312"} = "HLA00810";		# DRB1*13:12:01 266 bp
-$dr13{"DR-1317"} = "HLA00815";		# DRB1*13:17
-$dr13{"DR-1320"} = "HLA00818";		# DRB1*13:20:01:01 266 bp
-$dr13{"DR-1339"} = "HLA01166";		# DRB1*13:39
-$dr13{"DR-1343"} = "HLA01237";		# DRB1*13:43
-$dr13{"DR-1349"} = "HLA30961";		# DRB1*13:49:02 183 bp
-$group{"DR-1301"} = "DR13"; $group{"DR-1303"} = "DR13"; $group{"DR-1305"} = "DR13"; $group{"DR-1312"} = "DR13"; $group{"DR-1317"} = "DR13";
-$group{"DR-1320"} = "DR13"; $group{"DR-1339"} = "DR13"; $group{"DR-1343"} = "DR13"; $group{"DR-1349"} = "DR13";
-$base{"DR-1301"} = "DR13"; $base{"DR-1303"} = "DR13"; $base{"DR-1305"} = "DR13"; $base{"DR-1312"} = "DR13"; $base{"DR-1317"} = "DR13";
-$base{"DR-1320"} = "DR13"; $base{"DR-1339"} = "DR13"; $base{"DR-1343"} = "DR13"; $base{"DR-1349"} = "DR13";
+$dr13{"DR1301"} = "HLA00797";		# DRB1*13:01:01:01
+$dr13{"DR1303"} = "HLA00799";		# DRB1*13:03:01
+$dr13{"DR1305"} = "HLA00802";		# DRB1*13:05:01
+#$dr13{"DR1312"} = "HLA00810";		# DRB1*13:12:01 266 bp
+$dr13{"DR1317"} = "HLA00815";		# DRB1*13:17
+#$dr13{"DR1320"} = "HLA00818";		# DRB1*13:20:01:01 266 bp
+$dr13{"DR1339"} = "HLA01166";		# DRB1*13:39
+$dr13{"DR1343"} = "HLA01237";		# DRB1*13:43
+#$dr13{"DR1349"} = "HLA30961";		# DRB1*13:49:02 183 bp
+$group{"DR1301"} = "DR13"; $group{"DR1303"} = "DR13"; $group{"DR1305"} = "DR13"; $group{"DR1317"} = "DR13";
+ $group{"DR1339"} = "DR13"; $group{"DR1343"} = "DR13";# $group{"DR1349"} = "DR13"; $group{"DR1312"} = "DR13";$group{"DR1320"} = "DR13";
+$base{"DR1301"} = "DR13"; $base{"DR1303"} = "DR13"; $base{"DR1305"} = "DR13"; $base{"DR1317"} = "DR13";
+ $base{"DR1339"} = "DR13"; $base{"DR1343"} = "DR13";# $base{"DR1349"} = "DR13"; $base{"DR1312"} = "DR13";$base{"DR1320"} = "DR13";
 
-push @subtype, ("DR-1202","DR-1303","DR-1305","DR-1312","DR-1317","DR-1320","DR-1339","DR-1343","DR-1349");
+push @subtype, ("DR1202","DR1303","DR1305","DR1317","DR1339","DR1343");	#"DR1312","DR1320","DR1349"
 
 my %dr14;
-$dr14{"DR-1401"} = "HLA02371";		# DRB1*14:54:01:01
-$dr14{"DR-1402"} = "HLA00834";		# DRB1*14:02:01:01
-$dr14{"DR-1403"} = "HLA00835";		# DRB1*14:03:01
-$dr14{"DR-1404"} = "HLA00836";		# DRB1*14:04:01:01
-$dr14{"DR-1405"} = "HLA00837";		# DRB1*14:05:01:01
-$dr14{"DR-1411"} = "HLA00843";		# DRB1*14:11
-$dr14{"DR-1414"} = "HLA00846";		# DRB1*14:14
-$dr14{"DR-1417"} = "HLA00849";		# DRB1*14:17 266 bp
-$dr14{"DR-1419"} = "HLA00851";		# DRB1*14:19
-$dr14{"DR-1422"} = "HLA00854";		# DRB1*14:22
-$dr14{"DR-1424"} = "HLA00856";		# DRB1*14:24
-$dr14{"DR-1448"} = "HLA01734";		# DRB1*14:48
-$group{"DR-1401"} = "DR14"; $group{"DR-1402"} = "DR14"; $group{"DR-1403"} = "DR14"; $group{"DR-1404"} = "DR14"; $group{"DR-1405"} = "DR14"; $group{"DR-1411"} = "DR14";
-$group{"DR-1414"} = "DR14"; $group{"DR-1417"} = "DR14"; $group{"DR-1419"} = "DR14"; $group{"DR-1422"} = "DR14"; $group{"DR-1424"} = "DR14"; $group{"DR-1448"} = "DR14";
-$base{"DR-1401"} = "DR14"; $base{"DR-1402"} = "DR14"; $base{"DR-1403"} = "DR1403"; $base{"DR-1404"} = "DR1404"; $base{"DR-1405"} = "DR14"; $base{"DR-1411"} = "DR14";
-$base{"DR-1414"} = "DR14"; $base{"DR-1417"} = "DR14"; $base{"DR-1419"} = "DR14"; $base{"DR-1422"} = "DR14"; $base{"DR-1424"} = "DR14"; $base{"DR-1448"} = "DR14";
+$dr14{"DR1401"} = "HLA02371";		# DRB1*14:54:01:01
+$dr14{"DR1402"} = "HLA00834";		# DRB1*14:02:01:01
+$dr14{"DR1403"} = "HLA00835";		# DRB1*14:03:01
+$dr14{"DR1404"} = "HLA00836";		# DRB1*14:04:01:01
+$dr14{"DR1405"} = "HLA00837";		# DRB1*14:05:01:01
+$dr14{"DR1411"} = "HLA00843";		# DRB1*14:11
+$dr14{"DR1414"} = "HLA00846";		# DRB1*14:14
+#$dr14{"DR1417"} = "HLA00849";		# DRB1*14:17 266 bp
+#$dr14{"DR1419"} = "HLA00851";		# DRB1*14:19
+$dr14{"DR1422"} = "HLA00854";		# DRB1*14:22
+$dr14{"DR1424"} = "HLA00856";		# DRB1*14:24
+$dr14{"DR1448"} = "HLA01734";		# DRB1*14:48
+$group{"DR1401"} = "DR14"; $group{"DR1402"} = "DR14"; $group{"DR1403"} = "DR14"; $group{"DR1404"} = "DR14"; $group{"DR1405"} = "DR14"; $group{"DR1411"} = "DR14";
+$group{"DR1414"} = "DR14"; $group{"DR1422"} = "DR14"; $group{"DR1424"} = "DR14"; $group{"DR1448"} = "DR14";	# $group{"DR1417"} = "DR14"; $group{"DR1419"} = "DR14";
+#$base{"DR1401"} = "DR14"; $base{"DR1402"} = "DR14"; $base{"DR1403"} = "DR1403"; $base{"DR1404"} = "DR1404"; $base{"DR1405"} = "DR14"; $base{"DR1411"} = "DR14";
+$base{"DR1401"} = "DR14"; $base{"DR1402"} = "DR14"; $base{"DR1403"} = "DR14"; $base{"DR1404"} = "DR14"; $base{"DR1405"} = "DR14"; $base{"DR1411"} = "DR14";
+$base{"DR1414"} = "DR14"; $base{"DR1422"} = "DR14"; $base{"DR1424"} = "DR14"; $base{"DR1448"} = "DR14";	# $base{"DR1417"} = "DR14"; $base{"DR1419"} = "DR14";
 
-push @subtype, ("DR-1402","DR-1403","DR-1404","DR-1405","DR-1411","DR-1414","DR-1417","DR-1419","DR-1422","DR-1424","DR-1448");	# modify here if serotype modified
+push @subtype, ("DR1402","DR1403","DR1404","DR1405","DR1411","DR1414","DR1422","DR1424","DR1448");	# "DR1417","DR1419",modify here if serotype modified
 
 my %dr15;
-$dr15{"DR-1501"} = "HLA00865";		# DRB1*15:01:01:01
-$dr15{"DR-1504"} = "HLA00871";		# DRB1*15:04 266 bp
-$dr15{"DR-1505"} = "HLA00872";		# DRB1*15:05
-$group{"DR-1501"} = "DR15";$group{"DR-1504"} = "DR15";$group{"DR-1505"} = "DR15";
-$base{"DR-1501"} = "DR15";$base{"DR-1504"} = "DR15";$base{"DR-1505"} = "DR15";
+$dr15{"DR1501"} = "HLA00865";		# DRB1*15:01:01:01
+$dr15{"DR1504"} = "HLA00871";		# DRB1*15:04 266 bp
+#$dr15{"DR1505"} = "HLA00872";		# DRB1*15:05
+$group{"DR1501"} = "DR15";$group{"DR1504"} = "DR15";#$group{"DR1505"} = "DR15";
+$base{"DR1501"} = "DR15";$base{"DR1504"} = "DR15";#$base{"DR1505"} = "DR15";
 my %dr16;
-$dr16{"DR-1601"} = "HLA00876";		# DRB1*16:01:01
-$dr16{"DR-1602"} = "HLA00878";		# DRB1*16:02:01:01 266 bp
-$dr16{"DR-1605"} = "HLA00882";		# DRB1*16:05:01 266 bp
-$group{"DR-1601"} = "DR16";$group{"DR-1602"} = "DR16";$group{"DR-1605"} = "DR16";
-$base{"DR-1601"} = "DR16";$base{"DR-1602"} = "DR16";$base{"DR-1605"} = "DR16";
-push @subtype, ("DR-1504","DR-1602","DR-1605","DR-1505");
+$dr16{"DR1601"} = "HLA00876";		# DRB1*16:01:01
+$dr16{"DR1602"} = "HLA00878";		# DRB1*16:02:01:01 266 bp
+#$dr16{"DR1605"} = "HLA00882";		# DRB1*16:05:01 266 bp
+$group{"DR1601"} = "DR16";$group{"DR1602"} = "DR16";#$group{"DR1605"} = "DR16";
+$base{"DR1601"} = "DR16";$base{"DR1602"} = "DR16";#$base{"DR1605"} = "DR16";
+push @subtype, ("DR1504","DR1602");	#,"DR1505","DR1605"
 
 
 sub DRB1 {
@@ -174,19 +176,43 @@ sub BASE {
 	return $base_ref;
 }
 
-sub BASETYPE {
-	my @basetype = ("DR1","DR103","DR15","DR16","DR17","DR18","DR4","DR7","DR8","DR9","DR10",
-		"DR11","DR12","DR13","DR14","DR1403","DR1404");
+#sub BASETYPE {
+#	my @basetype = ("DR1","DR0103","DR15","DR16","DR17","DR18","DR4","DR7","DR8","DR9","DR10",
+#	my @basetype = ("DR1","DR15","DR16","DR17","DR18","DR4","DR7","DR8","DR9","DR10",
+#		"DR11","DR12","DR13","DR14","DR1403","DR1404");
+##	my $basetype_ref = \@basetype;
+#}
+
+sub BASETYPE {		# populate WHO accepted type
+	my %unique;
+	my @basetype;
+	foreach my $value (sort values %base ) {	# value
+		unless ( exists $unique{ $value } ) {
+			push @basetype, $value;
+			$unique{ $value } = 0;
+		}
+	}
 	my $basetype_ref = \@basetype;
+	return $basetype_ref;		#######
+}
+
+
+sub PARENT {
+	my %parent;
+	my $parent_ref = \%parent;
+	foreach my $key ( keys %base ) {	# $key = A0101
+		$parent{ $key } = $base{ $key };	# $base( $key } = "A1";
+	}
+	return $parent_ref;
 }
 
 sub BROAD {
 	my %broad;
 	foreach my $base ( keys %base ) {
-		if (( $base{ $base } eq "DR1" ) || ( $base{ $base } eq "DR103" )) {
-			$broad{ $base } = "DR1";
-		}
-		elsif (( $base{ $base } eq "DR15" ) || ( $base{ $base } eq "DR16" )) {
+#		if (( $base{ $base } eq "DR1" ) || ( $base{ $base } eq "DR0103" )) {
+#			$broad{ $base } = "DR1";
+#		}
+		if (( $base{ $base } eq "DR15" ) || ( $base{ $base } eq "DR16" )) {
 			$broad{ $base } = "DR2";
 		}
 		elsif (( $base{ $base } eq "DR17" ) || ( $base{ $base } eq "DR18" )) {
@@ -195,7 +221,7 @@ sub BROAD {
 		elsif (( $base{ $base } eq "DR11" ) || ( $base{ $base } eq "DR12" )) {
 			$broad{ $base } = "DR5";
 		}
-		elsif (( $base{ $base } eq "DR13" ) || ( $base{ $base } eq "DR14" ) || ( $base{ $base } eq "DR1403" ) || ( $base{ $base } eq "DR1404" )) {
+		elsif (( $base{ $base } eq "DR13" ) || ( $base{ $base } eq "DR14" )) {
 			$broad{ $base } = "DR6";
 		}
 		else {
@@ -348,40 +374,41 @@ sub KEY {
 	my %ref;
 	my $key_ref = \%ref;
 	for my $key ( sort keys %tmp ) {
-		if (( $key eq "DR-0101" ) || ( $key eq "DR-0103" )) {
+		if ( $key =~ /DR01/ ) {
+#		if (( $key eq "DR0101" ) || ( $key eq "DR0103" )) {
 			$ref{$key} = "DRB1\\*01";
 		}
-		elsif ( $key =~ /DR-03/ ) {
+		elsif ( $key =~ /DR03/ ) {
 			$ref{$key} = "DRB1\\*03";
 		}
-		elsif ( $key =~ /DR-04/ ) {
+		elsif ( $key =~ /DR04/ ) {
 			$ref{$key} = "DRB1\\*04";
 		}
-		elsif ( $key =~ /DR-07/ ) {
+		elsif ( $key =~ /DR07/ ) {
 			$ref{$key} = "DRB1\\*07";
 		}
-		elsif ( $key =~ /DR-08/ ) {
+		elsif ( $key =~ /DR08/ ) {
 			$ref{$key} = "DRB1\\*08";
 		}
-		elsif ( $key =~ /DR-09/ ) {
+		elsif ( $key =~ /DR09/ ) {
 			$ref{$key} = "DRB1\\*09";
 		}
-		elsif ( $key =~ /DR-10/ ) {
+		elsif ( $key =~ /DR10/ ) {
 			$ref{$key} = "DRB1\\*10";
 		}
-		elsif ( $key =~ /DR-11/ ) {
+		elsif ( $key =~ /DR11/ ) {
 			$ref{$key} = "DRB1\\*11";
 		}
-		elsif ( $key =~ /DR-12/ ) {	# DR12, DR1209, DR1221
+		elsif ( $key =~ /DR12/ ) {	# DR12, DR1209, DR1221
 			$ref{$key} = "DRB1\\*12";
 		}
-		elsif ( $key =~ /DR-13/ ) {
+		elsif ( $key =~ /DR13/ ) {
 			$ref{$key} = "DRB1\\*13";
 		}
-		elsif ( $key =~ /DR-14/ ) {
+		elsif ( $key =~ /DR14/ ) {
 			$ref{$key} = "DRB1\\*14";
 		}
-		elsif ( $key =~ /DR-15/ ) {
+		elsif ( $key =~ /DR15/ ) {
 			$ref{$key} = "DRB1\\*15";
 		}
 		else {
@@ -402,14 +429,15 @@ sub PARTIAL {		# partial sequence
 	my $partial_ref = \%partial;
 	my $seq = "X" x 34;
 
-#	$partial{ "DR-0902" } = $seq;	# still partial
-	$partial{ "DR-1339" } = $seq;	# still partial
-	$partial{ "DR-1343" } = $seq;	# still partial
-	$partial{ "DR-1349" } = $seq;	# still partial
-	$partial{ "DR-1422" } = $seq;	# still partial
-	$partial{ "DR-1107" } = $seq;	# still partial
-	$partial{ "DR-1448" } = $seq;	# still partial
-	$partial{ "DR-1505" } = $seq;	# still partial
+#	IPD-IMGT/HLA 3.63.0
+#	$partial{ "DR0902" } = $seq;	# still partial
+	$partial{ "DR1339" } = $seq;	# still partial
+	$partial{ "DR1343" } = $seq;	# still partial
+#	$partial{ "DR1349" } = $seq;	# still partial
+	$partial{ "DR1422" } = $seq;	# still partial
+	$partial{ "DR1107" } = $seq;	# still partial
+	$partial{ "DR1448" } = $seq;	# still partial
+#	$partial{ "DR1505" } = $seq;	# still partial
 	$partial{ "DRB1*03:10" } = "X" x 29;	# still partial
 	$partial{ "DRB1*04:20" } = "X" x 42;	# unusual partial sequence
 	$partial{ "DRB1*04:22" } = "X" x 37;	# unusual partial sequence
@@ -422,22 +450,22 @@ sub PARTIAL {		# partial sequence
 	return $partial_ref;
 }
 
-sub WHO {
-	my %who;
-	my $whotype_ref = \%who;
-	$who{"DR-0101"} = "DR1"; $who{"DR-0103"} = "DR103"; $who{"DR-1501"} = "DR15"; $who{"DR-1601"} = "DR16"; $who{"DR-0301"} = "DR17";
-	$who{"DR-0302"} = "DR18"; $who{"DR-0401"} = "DR4"; $who{"DR-0701"} = "DR7"; $who{"DR-0801"} = "DR8"; $who{"DR-0901"} = "DR9";
-	$who{"DR-1001"} = "DR10"; $who{"DR-1101"} = "DR11"; $who{"DR-1201"} = "DR12"; $who{"DR-1301"} = "DR13"; $who{"DR-1401"} = "DR14";
-	$who{"DR-1403"} = "DR1403"; $who{"DR-1404"} = "DR1404";
+#sub WHO {
+#	my %who;
+#	my $whotype_ref = \%who;
+#	$who{"DR-0101"} = "DR1"; $who{"DR-0103"} = "DR103"; $who{"DR-1501"} = "DR15"; $who{"DR-1601"} = "DR16"; $who{"DR-0301"} = "DR17";
+#	$who{"DR-0302"} = "DR18"; $who{"DR-0401"} = "DR4"; $who{"DR-0701"} = "DR7"; $who{"DR-0801"} = "DR8"; $who{"DR-0901"} = "DR9";
+#	$who{"DR-1001"} = "DR10"; $who{"DR-1101"} = "DR11"; $who{"DR-1201"} = "DR12"; $who{"DR-1301"} = "DR13"; $who{"DR-1401"} = "DR14";
+#	$who{"DR-1403"} = "DR1403"; $who{"DR-1404"} = "DR1404";
 
-	return $whotype_ref;
-}
+#	return $whotype_ref;
+#}
 
 sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL
 	my %known_cross;
 	my $known_cross_ref = \%known_cross;
-	$known_cross{ "DR-1417" } = 0;
-	$known_cross{ "DR-1349" } = 0;
+	$known_cross{ "DR1417" } = 0;
+	$known_cross{ "DR1349" } = 0;
 	return $known_cross_ref;
 }
 

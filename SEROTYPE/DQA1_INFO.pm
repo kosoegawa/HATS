@@ -8,7 +8,7 @@
 
 # module: DQA1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on January 7 2021
+# last modified and documented on February 1 2026
 
 package DQA1_INFO;
 use strict;
@@ -20,18 +20,18 @@ my @dqa2456 = (25,51,52,53,74,75);	#DQA1*01 & DQA1*03
 my %group;
 my %base;
 my %dqa13;
-$dqa13{"DQA-01"} = "HLA00601";	# DQA1*01:01:01:01
-$dqa13{"DQA-03"} = "HLA00608";	# DQA1*03:01:01
+$dqa13{"DQA01"} = "HLA00601";	# DQA1*01:01:01:01
+$dqa13{"DQA03"} = "HLA00608";	# DQA1*03:01:01
 my %dqa2456;
-$dqa2456{"DQA-02"} = "HLA00607";	# DQA1*02:01:01:01
-$dqa2456{"DQA-04"} = "HLA00612";	# DQA1*04:01:01:01
-$dqa2456{"DQA-05"} = "HLA00613";	# DQA1*05:01:01:01
-$dqa2456{"DQA-06"} = "HLA00620";	# DQA1*06:01:01:01
+$dqa2456{"DQA02"} = "HLA00607";	# DQA1*02:01:01:01
+$dqa2456{"DQA04"} = "HLA00612";	# DQA1*04:01:01:01
+$dqa2456{"DQA05"} = "HLA00613";	# DQA1*05:01:01:01
+$dqa2456{"DQA06"} = "HLA00620";	# DQA1*06:01:01:01
 
-$group{"DQA-01"} = "DQA-01"; $group{"DQA-03"} = "DQA-01";
-$group{"DQA-02"} = "DQA-02"; $group{"DQA-04"} = "DQA-02"; $group{"DQA-05"} = "DQA-02"; $group{"DQA-06"} = "DQA-02";
-$base{"DQA-01"} = "DQA-01"; $base{"DQA-03"} = "DQA-03";
-$base{"DQA-02"} = "DQA-02"; $base{"DQA-04"} = "DQA-04"; $base{"DQA-05"} = "DQA-05"; $base{"DQA-06"} = "DQA-06";
+$group{"DQA01"} = "DQA01"; $group{"DQA03"} = "DQA01";
+$group{"DQA02"} = "DQA02"; $group{"DQA04"} = "DQA02"; $group{"DQA05"} = "DQA02"; $group{"DQA06"} = "DQA02";
+$base{"DQA01"} = "DQA01"; $base{"DQA03"} = "DQA03";
+$base{"DQA02"} = "DQA02"; $base{"DQA04"} = "DQA04"; $base{"DQA05"} = "DQA05"; $base{"DQA06"} = "DQA06";
 
 my @subtype = ();	# modify here if serotype modified
 
@@ -56,8 +56,17 @@ sub BASE {
 }
 
 sub BASETYPE {
-	my @basetype = ("DQA-01","DQA-02","DQA-03","DQA-04","DQA-05","DQA-06");
+	my @basetype = ("DQA01","DQA02","DQA03","DQA04","DQA05","DQA06");
 	my $basetype_ref = \@basetype;
+}
+
+sub PARENT {
+	my %parent;
+	my $parent_ref = \%parent;
+	foreach my $key ( keys %base ) {	# $key = A0101
+		$parent{ $key } = $base{ $key };	# $base( $key } = "A1";
+	}
+	return $parent_ref;
 }
 
 sub BROAD {
@@ -85,10 +94,10 @@ sub RESIDUES {
 	
 	my @residues = ();
 	my $residues_ref = \@residues;
-	if (( $serotype eq "DQA-01" ) || ( $serotype eq "DQA-03" )) {
+	if (( $serotype eq "DQA01" ) || ( $serotype eq "DQA03" )) {
 		@residues = @dqa13; 
 	}
-	elsif (( $serotype eq "DQA-02" ) || ( $serotype eq "DQA-04" ) || ( $serotype eq "DQA-05" ) || ( $serotype eq "DQA-06" )) {
+	elsif (( $serotype eq "DQA02" ) || ( $serotype eq "DQA04" ) || ( $serotype eq "DQA05" ) || ( $serotype eq "DQA06" )) {
 		@residues = @dqa2456;
 	}
 	else {
@@ -102,10 +111,10 @@ sub REF {
 	my %ref;
 	my $ref_ref = \%ref;
 
-	if (( $serotype eq "DQA-01" ) || ( $serotype eq "DQA-03" )) {
+	if (( $serotype eq "DQA01" ) || ( $serotype eq "DQA03" )) {
 		%ref = %dqa13; 
 	}
-	elsif (( $serotype eq "DQA-02" ) || ( $serotype eq "DQA-04") || ( $serotype eq "DQA-05" ) || ( $serotype eq "DQA-06" )) {
+	elsif (( $serotype eq "DQA02" ) || ( $serotype eq "DQA04") || ( $serotype eq "DQA05" ) || ( $serotype eq "DQA06" )) {
 		%ref = %dqa2456;
 	}
 	else {
@@ -134,19 +143,19 @@ sub KEY {
 	my %ref;
 	my $key_ref = \%ref;
 	for my $key ( sort keys %tmp ) {
-		if ( $key =~ /DQA-01/ ) {
+		if ( $key =~ /DQA01/ ) {
 			$ref{$key} = "DQA1\\*01";
 		}
-		elsif ( $key =~ /DQA-02/ ) {
+		elsif ( $key =~ /DQA02/ ) {
 			$ref{$key} = "DQA1\\*02";
 		}
-		elsif ( $key =~ /DQA-03/ ) {
+		elsif ( $key =~ /DQA03/ ) {
 			$ref{$key} = "DQA1\\*03";
 		}
-		elsif ( $key =~ /DQA-04/ ) {
+		elsif ( $key =~ /DQA04/ ) {
 			$ref{$key} = "DQA1\\*04";
 		}
-		elsif ( $key =~ /DQA-05/ ) {
+		elsif ( $key =~ /DQA05/ ) {
 			$ref{$key} = "DQA1\\*05";
 		}
 		else {
