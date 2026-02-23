@@ -8,7 +8,7 @@
 
 # module: BC1C2.pm 
 # This module was developed to capture Bw4 and Bw6 alleles
-# last reviewed on November 14 2023
+# last reviewed on February 20 2026
 
 package BC1C2;
 use strict;
@@ -16,15 +16,15 @@ use strict;
 my @c1c2 = (76,77,80,81,82,83);		#used 79 instead of 80
 my %ref;
 my %c1c2;
-$ref{"C-0102"} = "HLA00401";	# C*01:02:01:01
-$ref{"C-0202"} = "HLA00404";	# C*02:02:01
-$ref{"C-0310"} = "HLA01076";	# C*03:10
-$ref{"C-1404"} = "HLA00465";	# C*14:04
-$ref{"B-7301"} = "HLA00392";	# B*73:01:01:01
-$c1c2{"C-0102"} = "C1"; $c1c2{"C-0202"} = "C2";
-$c1c2{"C-0310"} = "Uncertain";
-$c1c2{"C-1404"} = "Uncertain";
-$c1c2{"B-7301"} = "C1";
+$ref{"Cw0102"} = "HLA00401";	# C*01:02:01:01
+$ref{"Cw0202"} = "HLA00404";	# C*02:02:01
+$ref{"Cw0310"} = "HLA01076";	# C*03:10
+$ref{"Cw1404"} = "HLA00465";	# C*14:04
+$ref{"B7301"} = "HLA00392";	# B*73:01:01:01
+$c1c2{"Cw0102"} = "C1"; $c1c2{"Cw0202"} = "C2";
+$c1c2{"Cw0310"} = "Uncertain";
+$c1c2{"Cw1404"} = "Uncertain";
+$c1c2{"B7301"} = "C1";
 
 sub HLAB_LEADER {
 	my $leader = 23;		# A specific
