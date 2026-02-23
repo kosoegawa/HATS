@@ -8,22 +8,24 @@
 
 # module: RESIDUES.pm 
 # This module was developed to print key residues
-# last reviewed on December 7 2024
+# last reviewed on February 20 2026
 
 package RESIDUES;
 use strict;
-use ASSIGNED_SHORT;
+use COMBINE;
 use POSIX qw(strftime);
 
 my $date = strftime "%Y-%m-%d", localtime;
 #my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
-my $header = "Serotype,WHOAccepted,Allele,CIWD3.0,CWD2.0,EURCWD";
+my $header = "Antigen,Protein,CIWD3.0,CWD2.0,EURCWD";
 
 sub pattern {
-	my ( $fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref, $basetype_ref, $base_ref, $ciwd_ref, $cwd_ref, $ecwd_ref ) = @_;
+	my ( $fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref, $base_ref, $ciwd_ref, $cwd_ref, $ecwd_ref ) = @_;
 	open(FILE, ">output/target_" . $gene . "_" . $date . ".csv");
 	print FILE $header . ",";
+
+	my $antigen_ref = COMBINE::ANTIGEN();
 
 	# print residues
 	for (my $index = 0; $index < scalar @$residues_ref; $index++) {
@@ -39,75 +41,113 @@ sub pattern {
 	my %elements_full;
 	my $elements_full_ref = \%elements_full;
 	my %org_fasta;
-	foreach my $base ( @$basetype_ref ) {
-		foreach my $type ( sort keys %$base_ref ) {
-			my $line = "FULL,";
-			if ( $base_ref->{ $type } eq $base ) {
-				print FILE $type . "," . $base . ",";
 
-				foreach my $head ( keys %$fasta_ref ) {	# go through fasta
-					my $allele = "";
-					my $twoField = "";
-					if ( $head =~ /$ref_ref->{ $type }/ ) {		# check accession number
-						if ( $head =~ /HLA:\S+ ($gene\*\d+:\d+:*\d*:*\d*\S*) \d+ bp/ ) {	# allele name
-							$org_fasta{ $type } =  $fasta_ref->{ $head };
-							$allele = $1;
-							if ( $allele =~ /($gene\*\d+:\d+)/ ) {
-								$twoField = $1;
-							}
-							if ( exists $ciwd_ref->{ $twoField } ) {
-								print FILE $allele . "," . $ciwd_ref->{ $twoField } . ",";
-							}
-							else {
-								print FILE $allele . ",,";
-							}
+	foreach my $type ( sort keys %$base_ref ) {	#type is serotype	
+		my $line = "FULL,";
+		if ( exists $antigen_ref->{ $type } ) {
+			print FILE $antigen_ref->{ $type } . ",";
+		}
+		else {
+			print FILE $type . ",";
+		}
 
-							if ( exists $cwd_ref->{ $twoField } ) {
-								print FILE $cwd_ref->{ $twoField } . ",";
-							}
-							else {
-								print FILE ",";
-							}
-							if ( exists $ecwd_ref->{ $twoField } ) {
-								print FILE $ecwd_ref->{ $twoField } . ",";
-							}
-							else {
-								print FILE ",";
-							}
-						}
-						my $elements = scalar @$residues_ref;
-						for ( my $index = 0; $index < $elements; $index++ ) {
-							my $position = $residues_ref->[ $index ] + $leader;
-					
-							my $seq = "";
-							$seq =  $fasta_ref->{ $head };
-							unless ( $seq =~ /^M[A-Z]+/ ) {
-								$seq = $partial_ref->{ $type } . $seq;
-							}
+		foreach my $head ( keys %$fasta_ref ) {	# go through fasta
+			my $allele = "";
+			my $twoField = "";
+			if ( $head =~ /$ref_ref->{ $type }/ ) {		# check accession number
+				if ( $head =~ /HLA:\S+ ($gene\*\d+:\d+:*\d*:*\d*\S*) \d+ bp/ ) {	# allele name
+					$org_fasta{ $type } =  $fasta_ref->{ $head };
+					$allele = $1;
+					$twoField = $allele;
+					if ( $allele =~ /($gene\*\d+:\d+)/ ) {
+						$twoField = $1;
+					}
+					if ( exists $ciwd_ref->{ $twoField } ) {
+						print FILE $twoField . "," . $ciwd_ref->{ $twoField } . ",";
+					}
+					else {
+						print FILE $twoField . ",,";
+					}
 
-							print FILE substr($seq, $position, 1);
-							$line = $line . substr($seq, $position, 1);
-							if ( $index != $elements - 1 ) {
-								print FILE ",";
-								$line = $line . ",";
-							}
-						}
-						$line = $line . "\n";
+					if ( exists $cwd_ref->{ $twoField } ) {
+						print FILE $cwd_ref->{ $twoField } . ",";
+					}
+					else {
+						print FILE ",";
+					}
+					if ( exists $ecwd_ref->{ $twoField } ) {
+						print FILE $ecwd_ref->{ $twoField } . ",";
+					}
+					else {
+						print FILE ",";
 					}
 				}
-				print FILE "\n";
-				$elements_full{ $type } = $line;
+				my $elements = scalar @$residues_ref;
+				for ( my $index = 0; $index < $elements; $index++ ) {
+					my $position = $residues_ref->[ $index ] + $leader;
+					
+					my $seq = "";
+					$seq =  $fasta_ref->{ $head };
+					unless ( $seq =~ /^M[A-Z]+/ ) {
+						$seq = $partial_ref->{ $type } . $seq;
+					}
+
+					my $aa = substr($seq, $position, 1);		# AA residue at target position
+					if (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 67 )) {
+						if (( $aa eq "S" ) || ( $aa eq "C" )) {
+							$aa= "S/C";
+						}
+						elsif (( $aa eq "Y" ) || ( $aa eq "F" )) {
+							$aa= "Y/F";
+						}
+					}
+					elsif (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 167) && (( $aa eq "S" ) || ( $aa eq "G" ))) {
+						$aa = "S/G";
+					}
+					elsif (( $gene =~ /DRB/ ) && ( $residues_ref->[ $index ] == 67 ) && (( $aa eq "I" ) || ( $aa eq "L" ))) {
+						$aa= "I/L";
+					}
+					elsif (((( $gene =~ /DRB/ ) && ( $residues_ref->[ $index ] == 71 )) || (( $gene eq "DPB1" ) && ( $residues_ref->[ $index ] == 69 ))) && (( $aa eq "K" ) || ( $aa eq "R" ))) {
+						$aa= "R/K";
+					}
+					elsif (( $gene =~ /DRB/ ) && (!( $type eq "DR0301")) && (!( $type eq "DR0302" )) && ( $residues_ref->[ $index ] == 47 ) && (( $aa eq "F" ) || ( $aa eq "Y" ))) {
+						$aa= "F/Y";
+					}
+					elsif (($gene eq "DQB1") && ($residues_ref->[ $index ] == 57) && (!( $type eq "DQ0302")) && (!( $type eq "DQ0303" ))) {
+						if ((( $aa eq "D" ) || ( $aa eq "V" ) || ( $aa eq "S" )) || ( $aa eq "A" )) {
+							$aa = "D/V/S/A";
+						}
+					}
+					elsif (( $gene eq "DPB1" ) && ( $residues_ref->[ $index ] == 84 ) && (( $aa eq "G" ) || ( $aa eq "V" ))) {
+						$aa= "G/V";
+					}
+
+					print FILE $aa;
+					$line = $line . substr($seq, $position, 1);	# needs to fix later
+					if ( $index != $elements - 1 ) {
+						print FILE ",";
+						$line = $line . ",";
+					}
+				}
+				$line = $line . "\n";
 			}
 		}
+		print FILE "\n";
+		$elements_full{ $type } = $line;
 	}
+
 	close FILE;
 	return $elements_full_ref;
 }
 
 sub LAX {
-	my ( $fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref, $basetype_ref, $base_ref, $group_ref, $ciwd_ref, $cwd_ref, $ecwd_ref ) = @_;
+#	my ( $fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref, $basetype_ref, $base_ref, $group_ref, $ciwd_ref, $cwd_ref, $ecwd_ref ) = @_;
+	my ( $fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref, $base_ref, $group_ref, $ciwd_ref, $cwd_ref, $ecwd_ref ) = @_;
 	open(FILE, ">output/target_LAX_" . $gene . "_" . $date . ".csv");
 	print FILE $header . ",";
+
+	my $antigen_ref = COMBINE::ANTIGEN();
+
 	# print residues
 	for (my $index = 0; $index < scalar @$residues_ref; $index++) {
 		print FILE $residues_ref->[ $index ];
@@ -120,12 +160,18 @@ sub LAX {
 		}
 	}
 	
-
 	my %ref;
-	foreach my $base ( @$basetype_ref ) {
+
 		foreach my $type ( sort keys %$base_ref ) {
-			if ( $base_ref->{ $type } eq $base ) {
-				print FILE $type . "," . $base . ",";
+#			if ( $base_ref->{ $type } eq $base ) {
+#				print FILE $type . "," . $base . ",";
+#				print FILE $type . ",";
+				if ( exists $antigen_ref->{ $type } ) {
+					print FILE $antigen_ref->{ $type } . ",";
+				}
+				else {
+					print FILE $type . ",";
+				}
 				my $target = "";	# define target
 				my $lax_res_ref;
 				# LAX residues
@@ -167,15 +213,17 @@ sub LAX {
 						if ( $head =~ /HLA:\S+ ($gene\*\d+:\d+:*\d*:*\d*\S*) \d+ bp/ ) {
 							my $allele = $1;
 
-							my $twoField = "";
+							my $twoField = $allele;
 							if ( $allele =~ /($gene\*\d+:\d+)/ ) {
 								$twoField = $1;
 							}
 							if ( exists $ciwd_ref->{ $twoField } ) {
-								print FILE $allele . "," . $ciwd_ref->{ $twoField } . ",";
+#								print FILE $allele . "," . $ciwd_ref->{ $twoField } . ",";
+								print FILE $twoField . "," . $ciwd_ref->{ $twoField } . ",";
 							}
 							else {
-								print FILE $allele . ",,";
+#								print FILE $allele . ",,";
+								print FILE $twoField . ",,";
 							}
 							if ( exists $cwd_ref->{ $twoField } ) {
 								print FILE $cwd_ref->{ $twoField } . ",";
@@ -212,7 +260,44 @@ sub LAX {
 									$seq = $partial_ref->{ $type } . $seq;
 								}
 
-								print FILE substr($seq, $position, 1);
+								my $aa = substr($seq, $position, 1);		# AA residue at target position
+								if (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 67 )) {
+									if (( $aa eq "S" ) || ( $aa eq "C" )) {
+										$target = $target . "[S,C]";
+									}
+									elsif (( $aa eq "Y" ) || ( $aa eq "F" )) {
+										$target = $target . "[Y,F]";
+									}
+									else {
+										$target = $target . $aa;		# AA residue at target position
+									}
+								}
+#								if (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 67 ) && (( $aa eq "S" ) || ( $aa eq "C" ))) {
+#									$aa= "S/C";
+#								}
+								elsif (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 167) && (( $aa eq "S" ) || ( $aa eq "G" ))) {
+									$aa = "S/G";
+								}
+								elsif (( $gene =~ /DRB/ ) && ( $residues_ref->[ $index ] == 67 ) && (( $aa eq "I" ) || ( $aa eq "L" ))) {
+									$aa= "I/L";
+								}
+								elsif (( $gene =~ /DRB/ ) && ( $residues_ref->[ $index ] == 71 ) && (( $aa eq "K" ) || ( $aa eq "R" ))) {
+									$aa= "R/K";
+								}
+								elsif (( $gene =~ /DRB/ ) && (!( $type eq "DR0301")) && (!( $type eq "DR0302" )) && ( $residues_ref->[ $index ] == 47 ) && (( $aa eq "F" ) || ( $aa eq "Y" ))) {
+									$aa= "F/Y";
+								}
+								elsif (($gene eq "DQB1") && ($residues_ref->[ $index ] == 57) && (!( $type eq "DQ0302")) && (!( $type eq "DQ0303" ))) {
+									if ((( $aa eq "D" ) || ( $aa eq "V" ) || ( $aa eq "S" )) || ( $aa eq "A" )) {
+										$aa = "D/V/S/A";
+									}
+								}
+								elsif (( $gene eq "DPB1" ) && ( $residues_ref->[ $index ] == 84 ) && (( $aa eq "G" ) || ( $aa eq "V" ))) {
+									$aa= "G/V";
+								}
+
+								print FILE $aa;
+#								print FILE substr($seq, $position, 1);
 								if ( $index != $str_num - 1 ) {
 									print FILE ",";
 								}
@@ -226,26 +311,35 @@ sub LAX {
 					}
 				}
 				print FILE "\n";
-			}
+#			}
 		}
-	}
+
+#	foreach my $base ( @$basetype_ref ) {
+#	}
 	close FILE;
 
 	open(FILE, ">output/target_position_LAX_" . $gene . "_" . $date . ".csv");
 	print FILE $header . "\n";
-	foreach my $base ( @$basetype_ref ) {
+
+
 		foreach my $type ( sort keys %$base_ref ) {
-			if ( $base_ref->{ $type } eq $base ) {
-				
-				my $twoField = "";
+#			if ( $base_ref->{ $type } eq $base ) {
+				if ( exists $antigen_ref->{ $type } ) {
+					print FILE $antigen_ref->{ $type } . ",";
+				}
+				else {
+					print FILE $type . ",";
+				}
+
+				my $twoField = $ref{ $type };
 				if ( $ref{ $type } =~ /($gene\*\d+:\d+)/ ) {
 					$twoField = $1;
 				}
 				if ( exists $ciwd_ref->{ $twoField } ) {
-					print FILE $type . "," . $base . "," . $ref{ $type } . "," . $ciwd_ref->{ $twoField } . ",";
+					print FILE $twoField . "," . $ciwd_ref->{ $twoField } . ",";
 				}
 				else {
-					print FILE $type . "," . $base . "," . $ref{ $type } . ",,";
+					print FILE $twoField . ",,";
 				}
 				if ( exists $cwd_ref->{ $twoField } ) {
 					print FILE $cwd_ref->{ $twoField } . ",";
@@ -302,18 +396,18 @@ sub LAX {
 					}
 				}
 				print FILE "\n";
-			}
+#			}
 		}
-	}
+
+#	foreach my $base ( @$basetype_ref ) {
+#	}
 	close FILE;
 }
 
 sub ELEMENTS {
 	my ( $elements_full_ref,$fasta_ref,$gene,$null_ref,$qallele_ref,$residues_ref,$leader,$partial_ref,$assigned_ref,$short_ref) = @_;
 	
-	my %antigen;
-	my $antigen_ref = \%antigen;
-	$antigen_ref = ASSIGNED_SHORT::ANTIGEN();
+	my $antigen_ref = COMBINE::ANTIGEN();
 	my %elements2;
 	my $elements2_ref = \%elements2;
 	foreach my $head ( sort keys %$fasta_ref ) {	# go through fasta
@@ -363,13 +457,15 @@ sub ELEMENTS {
 					if ( exists $assigned_ref->{ $allele } ) {
 						if ( exists $elements_full_ref->{ $assigned_ref->{ $allele } } ) {	# elements_ref contains FULL serotype
 							$elements2_ref->{ $twoField }->[0] = $assigned_ref->{ $allele };	# $type
-							$elements2_ref->{ $twoField }->[1] = $elements_full_ref->{ $assigned_ref->{ $allele } };	#residues
+							$line = "F," . $line;
+							$elements2_ref->{ $twoField }->[1] = $line . "\n";
+#							$elements2_ref->{ $twoField }->[1] = $elements_full_ref->{ $assigned_ref->{ $allele } };	#residues
 						}
 						elsif ( $assigned_ref->{ $allele } =~ /(\S+-*\d+)_(LAX)/ ) {	# LAX
 							$type = $1;
 							my $lax = $2;
 							$elements2_ref->{ $twoField }->[0] = $type;	# $type
-							$line = "SEROTYPE," . $line;
+							$line = "S," . $line;
 							$elements2_ref->{ $twoField }->[1] = $line . "\n";
 						}
 					}
@@ -378,7 +474,8 @@ sub ELEMENTS {
 							my $num = scalar @{$short_ref->{ $allele }};
 							if ( $allele =~ /(\S+)\*(\d+):\d+:*\d*:*\d*/ ) {		#[1-9]+0* was important, B40
 								my $residue = 0;
-								my $sero = $1 . "-" . $2;
+							#	my $sero = $1 . "-" . $2;
+								my $sero = $1 . $2;
 								$sero =~ s/DRB1/DR/;
 								$sero =~ s/DQB1/DQ/;
 								my $group = "";
@@ -390,8 +487,8 @@ sub ELEMENTS {
 										$type = $group;
 										if ( $group =~ /$sero/ ) {		# allele name and sero type matches
 											$test = 1;
-											if ( exists $antigen{ $group } ) {
-												$type = $antigen{ $group };
+											if ( exists $antigen_ref->{ $group } ) {
+												$type = $antigen_ref->{ $group };
 											}
 											last;
 										}
@@ -404,24 +501,24 @@ sub ELEMENTS {
 										$group = $1;
 										$residue = $2;
 										$type = $group;
-										if ( exists $antigen{ $group } ) {
-											$type = $antigen{ $group };
+										if ( exists $antigen_ref->{ $group } ) {
+											$type = $antigen_ref->{ $group };
 										}
 									}
 								}
 								$elements2_ref->{ $twoField }->[0] = $type;	# $type
-								$line = "INCOMPLETE," . $line;
+								$line = "I," . $line;
 								$elements2_ref->{ $twoField }->[1] = $line . "\n";
 							}
 						}
 						else {
 							if ( $allele eq "DRB1*04:20" ) {
-								$type = "DR-0403";
+								$type = "DR0403";
 								$line = "InSilico," . $line;
 							}
 							else {
 								$type = "UNA";
-								$line = "UNASSIGNED," . $line;
+								$line = "U," . $line;
 							}
 							$elements2_ref->{ $twoField }->[0] = $type;	# $type
 							$elements2_ref->{ $twoField }->[1] = $line . "\n";
