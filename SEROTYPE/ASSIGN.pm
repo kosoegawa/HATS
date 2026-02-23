@@ -8,7 +8,7 @@
 
 # module: ASSIGN.pm 
 # This module was developed to convert HLA allele to HLA serotype using relaxed mode
-# last reviewed, modified and documented on December 7 2023
+# last reviewed, modified and documented on October 31 2025
 
 package ASSIGN;
 use strict;
@@ -50,7 +50,43 @@ sub ASSIGN {		# deal with remaining serotypes with strict mode
 					unless ( $seq =~ /^M[A-Z]+/ ) {
 						$seq = $partial_ref->{ $key } . $seq;
 					}
-					$target = $target . substr($seq, $position, 1);
+
+					my $aa = substr($seq, $position, 1);		# AA residue at target position
+					if (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 67 )) {
+						if (( $aa eq "S" ) || ( $aa eq "C" )) {
+							$target = $target . "[S,C]";
+						}
+						elsif (( $aa eq "Y" ) || ( $aa eq "F" )) {
+							$target = $target . "[Y,F]";
+						}
+						else {
+							$target = $target . $aa;		# AA residue at target position
+						}
+					}
+					elsif (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 167) && (( $aa eq "S" ) || ( $aa eq "G" ))) {
+						$target = $target . "[S,G]";
+					}
+					elsif (( $gene =~ /DRB/ ) && ( $residues_ref->[ $index ] == 67 ) && (( $aa eq "I" ) || ( $aa eq "L" ))) {
+						$target = $target . "[I,L]";
+					}
+					elsif (((( $gene =~ /DRB/ ) && ( $residues_ref->[ $index ] == 71 )) || (( $gene =~ /DPB/ ) && ( $residues_ref->[ $index ] == 69 ))) && (( $aa eq "K" ) || ( $aa eq "R" ))) {
+						$target = $target . "[K,R]";
+					}
+					elsif (( $gene =~ /DRB/ ) && (!( $key eq "DR0301")) && (!( $key eq "DR0302" )) && ( $residues_ref->[ $index ] == 47 ) && (( $aa eq "F" ) || ( $aa eq "Y" ))) {
+						$target = $target . "[F,Y]";
+					}
+					elsif (($gene eq "DQB1") && ($residues_ref->[ $index ] == 57) && (!( $key eq "DQ0302")) && (!( $key eq "DQ0303" ))) {
+						if ((( $aa eq "D" ) || ( $aa eq "V" ) || ( $aa eq "S" )) || ( $aa eq "A" )) {
+							$target = $target . "[D,V,S,A]";
+						}
+					}
+					elsif (( $gene eq "DPB1" ) && ( $residues_ref->[ $index ] == 84 ) && (( $aa eq "G" ) || ( $aa eq "V" ))) {
+						$target = $target . "[G,V]";
+					}
+					else {
+						$target = $target . $aa;		# AA residue at target position
+					}
+
 					if ( $index != $elements - 1 ) {
 						# calculate the number of AA between key residues => any AA sequence, but length is important
 						my $num = $residues_ref->[ $index + 1 ] - $residues_ref->[ $index ] - 1;
@@ -150,7 +186,47 @@ sub CROSS {	# populate cross-reactive alleles
 					unless ( $seq =~ /^M[A-Z]+/ ) {
 						$seq = $partial_ref->{ $key } . $seq;
 					}
-					$target = $target . substr($seq, $position, 1);
+
+					my $aa = substr($seq, $position, 1);		# AA residue at target position
+					if (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 67 )) {
+						if (( $aa eq "S" ) || ( $aa eq "C" )) {
+							$target = $target . "[S,C]";
+						}
+						elsif (( $aa eq "Y" ) || ( $aa eq "F" )) {
+							$target = $target . "[Y,F]";
+						}
+						else {
+							$target = $target . $aa;		# AA residue at target position
+						}
+					}
+#					if (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 67 ) && (( $aa eq "S" ) || ( $aa eq "C" ))) {
+#						$target = $target . "[S,C]";
+#					}
+					elsif (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 167) && (( $aa eq "S" ) || ( $aa eq "G" ))) {
+						$target = $target . "[S,G]";
+					}
+					elsif (( $gene =~ /DRB/ ) && ( $residues_ref->[ $index ] == 67 ) && (( $aa eq "I" ) || ( $aa eq "L" ))) {
+						$target = $target . "[I,L]";
+					}
+					elsif (( $gene =~ /DRB/ ) && ( $residues_ref->[ $index ] == 71 ) && (( $aa eq "K" ) || ( $aa eq "R" ))) {
+						$target = $target . "[K,R]";
+					}
+					elsif (( $gene =~ /DRB/ ) && (!( $key eq "DR0301")) && (!( $key eq "DR0302" )) && ( $residues_ref->[ $index ] == 47 ) && (( $aa eq "F" ) || ( $aa eq "Y" ))) {
+						$target = $target . "[F,Y]";
+					}
+					elsif (($gene eq "DQB1") && ($residues_ref->[ $index ] == 57) && (!( $key eq "DQ0302")) && (!( $key eq "DQ0303" ))) {
+						if ((( $aa eq "D" ) || ( $aa eq "V" ) || ( $aa eq "S" )) || ( $aa eq "A" )) {
+							$target = $target . "[D,V,S,A]";
+						}
+					}
+					elsif (( $gene eq "DPB1" ) && ( $residues_ref->[ $index ] == 84 ) && (( $aa eq "G" ) || ( $aa eq "V" ))) {
+						$target = $target . "[G,V]";
+					}
+					else {
+						$target = $target . $aa;		# AA residue at target position
+					}
+
+#					$target = $target . substr($seq, $position, 1);
 					if ( $index != $elements - 1 ) {
 						# calculate the number of AA between key residues => any AA sequence, but length is important
 						my $num = $residues_ref->[ $index + 1 ] - $residues_ref->[ $index ] - 1;
@@ -236,7 +312,45 @@ sub SHORT {
 						unless ( $seq =~ /^M[A-Z]+/ ) {
 							$seq = $partial_ref->{ $key } . $seq;
 						}
-						$target = $target . substr($seq, $position, 1);
+
+						#use @tmp array here
+						my $aa = substr($seq, $position, 1);		# AA residue at target position
+						if (( $gene eq "B" ) && ( $residues_ref->[ $index ] == 67 )) {
+							if (( $aa eq "S" ) || ( $aa eq "C" )) {
+								$target = $target . "[S,C]";
+							}
+							elsif (( $aa eq "Y" ) || ( $aa eq "F" )) {
+								$target = $target . "[Y,F]";
+							}
+							else {
+								$target = $target . $aa;		# AA residue at target position
+							}
+						}
+						elsif (( $gene eq "B" ) && ( $tmp[ $index ] == 167) && (( $aa eq "S" ) || ( $aa eq "G" ))) {
+							$target = $target . "[S,G]";
+						}
+						elsif (( $gene =~ /DRB/ ) && ( $tmp[ $index ] == 67 ) && (( $aa eq "I" ) || ( $aa eq "L" ))) {
+							$target = $target . "[I,L]";
+						}
+						elsif (( $gene =~ /DRB/ ) && ( $tmp[ $index ] == 71 ) && (( $aa eq "K" ) || ( $aa eq "R" ))) {
+							$target = $target . "[K,R]";
+						}
+						elsif (( $gene =~ /DRB/ ) && (!( $key eq "DR0301")) && (!( $key eq "DR0302" )) && ( $tmp[ $index ] == 47 ) && (( $aa eq "F" ) || ( $aa eq "Y" ))) {
+							$target = $target . "[F,Y]";
+						}
+						elsif (($gene eq "DQB1") && ($residues_ref->[ $index ] == 57) && (!( $key eq "DQ0302")) && (!( $key eq "DQ0303" ))) {
+							if ((( $aa eq "D" ) || ( $aa eq "V" ) || ( $aa eq "S" )) || ( $aa eq "A" )) {
+								$target = $target . "[D,V,S,A]";
+							}
+						}
+						elsif (( $gene eq "DPB1" ) && ( $residues_ref->[ $index ] == 84 ) && (( $aa eq "G" ) || ( $aa eq "V" ))) {
+							$target = $target . "[G,V]";
+						}
+						else {
+							$target = $target . $aa;		# AA residue at target position
+						}
+
+#						$target = $target . substr($seq, $position, 1);
 						if ( $index != $elements - 1 ) {
 							my $num = $tmp[ $index + 1 ] - $tmp[ $index ] - 1;
 							$target = $target . "[A-Z]{$num}";
@@ -245,7 +359,7 @@ sub SHORT {
 				}
 			}
 			unless ( $target eq "" ) {
-			#	print $target . "\n";
+#				print $key . "," .  $target . "\n";
 				my @alleles;
 				foreach my $head ( keys %$fasta_ref ) {
 					if ( $fasta_ref->{ $head } =~ /$target/ ) {
@@ -264,6 +378,7 @@ sub SHORT {
 						# when 58E does not exist, it is not considered as DR11 group
 						unless (( $value =~ /DR11\d*_58/ ) || ( $value eq "A265_144")) {	
 							$short_ref->{ $allele }->[0] = $value;
+
 						}
 					}
 					else {		# exists
@@ -271,6 +386,9 @@ sub SHORT {
 						my $value = $key . "_". $removed;
 						unless (( $value =~ /DR11\d*_58/ ) || ( $value eq "A265_144")) {	
 							$short_ref->{ $allele }->[ $num ] = $value;
+#							if ( $allele =~/DRB1\*04:24/ ) {
+#								print$allele . "\t" .  $value . "\n";
+#							}
 						}
 					}
 				}
