@@ -9,7 +9,7 @@
 # module: runDRB1.pl 
 # Driver for HLA-DRB1
 # If partial sequences are used as a reference, add the optional argument
-# last modified and documented on February 8 2026
+# last modified and documented on February 26 2026
 #
 use strict;
 use lib 'SEROTYPE';
@@ -192,13 +192,13 @@ $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$dr5231_ref,$dr5231_ref2 );
 @csv = glob("output/" . $gene . "_Allele_Antigen_Practical_Table_IMGT_HLA_*");
 foreach my $csv ( @csv ) {
 	my $out_name = "_Allele_Antigen_Count_";
-	SUMCOUNT::SUMMARY($csv, $gene, $null_ref, $qallele_ref, $out_name);
+	SUMCOUNT::SUMMARY($csv, $gene, $null_ref, $qallele_ref, $out_name, $residues_all_ref);
 }
 
 @csv = glob("output/" . $gene . "_Protein_Antigen_Practical_Table_IMGT_HLA_*");
 foreach my $csv ( @csv ) {
 	my $out_name = "_Protein_Antigen_Count_";
-	SUMCOUNT::SUMMARY($csv, $gene, $null_ref, $qallele_ref, $out_name);
+	SUMCOUNT::SUMMARY($csv, $gene, $null_ref, $qallele_ref, $out_name, $residues_all_ref);
 }
 
 COPYRESULT::COPYRESULT( $gene, $database, $date );

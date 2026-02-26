@@ -9,7 +9,7 @@
 # module: SUMCOUNT.pm 
 # This module was developed to generate Summary table
 # Separated from COUNT.pm
-# last reviewed on February 20 2026
+# last reviewed on February 26 2026
 
 package SUMCOUNT;
 use strict;
@@ -24,7 +24,7 @@ chomp $date;    # remove newline character
 
 
 sub SUMMARY {
-	my ( $csv_ref, $gene, $null_ref, $qallele_ref, $out_name ) = @_;
+	my ( $csv_ref, $gene, $null_ref, $qallele_ref, $out_name, $residues_all_ref ) = @_;	# added $ref_re to generate number of residues used
 	my @list = Openfile::open_file_from_list($csv_ref);
 
 	my $header = shift @list;
@@ -52,7 +52,6 @@ sub SUMMARY {
 		my $type = $elements[1];
 #		print $type . "\n";
 		if (( $type eq "NULL" ) || ( $type eq "Questionable" )) {
-#		if (( $type eq "N" ) || ( $type eq "Q" )) {
 			next;
 		}
 		unless ( exists $full_ref->{ $type } ) {
@@ -121,6 +120,7 @@ sub SUMMARY {
 	}
 
 	open(FILE, ">output/" . $gene . $out_name . $date . ".csv"); 
+	print FILE "Number of residues used for FULL," . scalar @$residues_all_ref . "\n\n";
 	print FILE "ANTIGEN,FULL,SEROTYPE,INCOMPLETE,InSilico\n";
 	my $full = 0;
 	my $sero = 0;

@@ -8,7 +8,7 @@
 
 # module: RESIDUES.pm 
 # This module was developed to print key residues
-# last reviewed on February 20 2026
+# last reviewed on February 26 2026
 
 package RESIDUES;
 use strict;
@@ -16,7 +16,6 @@ use COMBINE;
 use POSIX qw(strftime);
 
 my $date = strftime "%Y-%m-%d", localtime;
-#my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 my $header = "Antigen,Protein,CIWD3.0,CWD2.0,EURCWD";
 
@@ -141,7 +140,6 @@ sub pattern {
 }
 
 sub LAX {
-#	my ( $fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref, $basetype_ref, $base_ref, $group_ref, $ciwd_ref, $cwd_ref, $ecwd_ref ) = @_;
 	my ( $fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $partial_ref, $base_ref, $group_ref, $ciwd_ref, $cwd_ref, $ecwd_ref ) = @_;
 	open(FILE, ">output/target_LAX_" . $gene . "_" . $date . ".csv");
 	print FILE $header . ",";
@@ -163,9 +161,6 @@ sub LAX {
 	my %ref;
 
 		foreach my $type ( sort keys %$base_ref ) {
-#			if ( $base_ref->{ $type } eq $base ) {
-#				print FILE $type . "," . $base . ",";
-#				print FILE $type . ",";
 				if ( exists $antigen_ref->{ $type } ) {
 					print FILE $antigen_ref->{ $type } . ",";
 				}
