@@ -9,7 +9,7 @@
 # module: runDPB1.pl 
 # Driver for DPB1
 # If partial sequences are used as a reference, add the optional argument
-# last reviewed, modified and documented on February26 2026
+# last modified and documented on March 8 2026
 # Two field allele duplicate massage shows after the adtion of residue 96, because some alleles are missing exon 3 sequences
 
 use strict;
@@ -29,6 +29,7 @@ use SUMCOUNT;
 use COMBINE;
 use LEGACY_REPORT;
 use PRACTICAL;
+use HATS_VERSION;
 
 my $date = strftime "%Y-%m-%d", localtime;
 chomp $date;    # remove newline character
@@ -36,7 +37,7 @@ chomp $date;    # remove newline character
 #capture input file
 my @file = glob('input/*');
 my $database = "3.39.0";	# IPD-IMGT/HLA database version
-my $hats = "HATSv3.0.0";	# HATS version
+my $hats = HATS_VERSION::VERSION();	# HATS version
 my $file = "";
 foreach my $tmp ( @file ) {
 	print $tmp . "\n";
@@ -44,9 +45,6 @@ foreach my $tmp ( @file ) {
 	# capture database version
 		$database = $1;
 		$file = $tmp;
-	}
-	elsif ( $tmp =~ /(HATSv.*)/ ) {
-		$hats = $1;
 	}
 }	
 
@@ -83,10 +81,8 @@ my $base_ref = DPB1_INFO::BASE();
 my $basetype_ref = DPB1_INFO::BASETYPE();
 
 #print target residues
-#my $elements_ref = RESIDUES::pattern( $fasta_ref, $gene, $leader, $ref_ref, $residues_all_ref, $partial_ref, $basetype_ref, $base_ref, $ciwd_ref, $cwd_ref, $ecwd_ref );
 my $elements_ref = RESIDUES::pattern( $fasta_ref, $gene, $leader, $ref_ref, $residues_all_ref, $partial_ref, $base_ref, $ciwd_ref, $cwd_ref, $ecwd_ref );
 #print relax target residues
-#RESIDUES::LAX( $fasta_ref, $gene, $leader, $ref_ref, $residues_all_ref, $partial_ref, $basetype_ref, $base_ref, $group_ref, $ciwd_ref, $cwd_ref, $ecwd_ref );
 RESIDUES::LAX( $fasta_ref, $gene, $leader, $ref_ref, $residues_all_ref, $partial_ref, $base_ref, $group_ref, $ciwd_ref, $cwd_ref, $ecwd_ref );
 
 #print null alleles
@@ -155,16 +151,9 @@ my $broad_ref = DPB1_INFO::BROAD();
 
 LEGACY_REPORT::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
-#$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$dr5231_ref,$dr5231_ref2 );
 LEGACY_REPORT::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
-#$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$dr5231_ref,$dr5231_ref2 );
 my $parent_ref = DPB1_INFO::PARENT();
-
-#ASSIGNED_SHORT::COMBINED( $database,$null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$basetype_ref,$cross_ref,
-#$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
-#ASSIGNED_SHORT::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$basetype_ref,$cross_ref,
-#$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
 
 COMBINE::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );

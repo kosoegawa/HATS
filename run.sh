@@ -29,4 +29,6 @@
 
 ./runBw46.pl
 
+./runHATSversion.pl
+
 exit 0

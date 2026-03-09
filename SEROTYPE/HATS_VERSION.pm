@@ -1,4 +1,26 @@
+#!/usr/bin/perl -w
+
+# Author: Kazutoyo Osoegawa, Ph.D.
+# Developed at Stanford Blood Center
+# email: kazutoyo@stanford.edu
+# © 2022 Stanford Blood Center L.L.C.
+# SPDX-License-Identifier: BSD-3-Clause
+
+# module: HATS_VERSION.pm 
+# This module was developed to show HATS version
+# last modified and documented on March 8 2026
+
+package HATS_VERSION;
+use strict;
+
+sub VERSION {
+	my $version = "HATSv4.0.2";
+	return $version;
+}
+
+
 # From HATSv3.1.0 to HATSv3.1.1 
+#
 # Added B-6701 as associated antigen to avoid confusion because of the presence of B-6702
 # commented out $antigen{ "B-6701" } = "B67" line
 # The following lines were added:
@@ -69,3 +91,15 @@
 # #############################################################################
 # v4.0.1 Note:
 # Number of residues used for FULL was added on top of the Count files saved in COUNT directory
+#
+# ############################################################################################
+# v4.0.2
+# For DPB1 alleles that lack exon 3 sequence, it is impossible to distinguish the following antigens:
+# DPB01 vs. DPB31, DPB0401 vs. DPB15, DPB0402 vs. DPB18, DPB06 vs. DPB17, DPB13 vs. DPB30
+# Forced DPB15, DPB17, DPB18, DPB30 and DPB31 to be FULL assignment only
+# DPB01, DPB0401, DPB0402, DPB06 and DPB13 SEROTYPE cannot be distinguished from DPB31, DPB15, DPB18, DPB17 and DPB31, respectively
+#
+# HATS_VERSION.pm is created to generate HATS version file.
+# input/HATS file was deleted
+#
+1;

@@ -9,7 +9,7 @@
 # module: runDRB3.pl 
 # Driver for HLA-DRB3
 # If partial sequences are used as a reference, add the optional argument
-# last modified and documented on February 26 2026
+# last modified and documented on March 8 2026
 
 use strict;
 use lib 'SEROTYPE';
@@ -28,6 +28,7 @@ use SUMCOUNT;
 use COMBINE;
 use LEGACY_REPORT;
 use PRACTICAL;
+use HATS_VERSION;
 
 my $date = strftime "%Y-%m-%d", localtime;
 chomp $date;    # remove newline character
@@ -35,7 +36,7 @@ chomp $date;    # remove newline character
 #capture input file
 my @file = glob('input/*');
 my $database = "3.39.0";	# IPD-IMGT/HLA database version
-my $hats = "HATSv3.0.0";	# HATS version
+my $hats = HATS_VERSION::VERSION();	# HATS version
 my $file = "";
 foreach my $tmp ( @file ) {
 	print $tmp . "\n";
@@ -43,9 +44,6 @@ foreach my $tmp ( @file ) {
 	# capture database version
 		$database = $1;
 		$file = $tmp;
-	}
-	elsif ( $tmp =~ /(HATSv.*)/ ) {
-		$hats = $1;
 	}
 }	
 
