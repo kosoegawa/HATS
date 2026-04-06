@@ -9,7 +9,7 @@
 # module: runDRB5.pl 
 # Driver for HLA-DRB5
 # If partial sequences are used as a reference, add the optional argument
-# last modified and documented on March 8 2026
+# last modified and documented on April 5 2026
 
 use strict;
 use lib 'SEROTYPE';
@@ -136,8 +136,10 @@ for ( my $index = 0; $index < scalar @group; $index++ ) {
 	$short_ref = ASSIGN::SHORT($fasta_ref, $assigned_ref, $gene, $leader, $ref_ref, $residues_ref, $short_ref, $partial_ref  );
 }
 
+my $ref_allele = DRB5_INFO::REF_ALLELE();
+my $msf_ref = DRB5_INFO::MSF();
 # generates residues for all two-field alleles
-my $elements2_ref = RESIDUES::ELEMENTS ( $elements_ref,$fasta_ref,$gene,$null_ref,$qallele_ref,$residues_all_ref,$leader,$partial_ref,$assigned_ref,$short_ref );
+my $elements2_ref = RESIDUES::ELEMENTS ( $elements_ref,$fasta_ref,$gene,$null_ref,$qallele_ref,$residues_all_ref,$leader,$partial_ref,$assigned_ref,$short_ref,$ref_allele,$msf_ref );
 ASSIGNED_SHORT::PRINT_RESIDUES( $elements2_ref,$gene,$residues_all_ref,$database );
 
 # assign SHORT
@@ -145,20 +147,20 @@ ASSIGNED_SHORT::PRINT( $unassigned_ref, $short_ref );
 # generate final table
 my $broad_ref = DRB5_INFO::BROAD();
 
-LEGACY_REPORT::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
-$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
 LEGACY_REPORT::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
+LEGACY_REPORT::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
 my $parent_ref = DRB5_INFO::PARENT();
 
-COMBINE::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
-$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
 COMBINE::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
-
-PRACTICAL::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
+COMBINE::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
+
 PRACTICAL::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
+PRACTICAL::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
 
 @csv = glob("output/" . $gene . "_Allele_Antigen_Practical_Table_IMGT_HLA_*");

@@ -14,7 +14,7 @@ package HATS_VERSION;
 use strict;
 
 sub VERSION {
-	my $version = "HATSv4.0.2";
+	my $version = "HATSv4.0.3";
 	return $version;
 }
 
@@ -101,5 +101,26 @@ sub VERSION {
 #
 # HATS_VERSION.pm is created to generate HATS version file.
 # input/HATS file was deleted
+#
+###################################################################################################################################
+# v4.0.3
+# For DPB1 alleles that lack exon 3 sequence, antigen assignments were made to be INCOMPLETE:
+# DPB1*482:01:01 (partial) and DPB1*482:01:02 (full) had different assignment, DPB0401 and DPB15, respectively
+# Modified DPB1_INFO.pm
+# Added STRASSIGN::PROTEIN
+# Modified COMBINE.pm
+# Modified PRACTICAL.pm
+# Modified LEGACY_REPORT.pm
+# Modified ASSIGN.pm: added DPB1 residue 69 K/R equivalency logic
+# Cleaned up RESIDUES.pm
+# Added residue 77 for futur improvement, and commented for now in DRB1_INFO.pm
+#
+# The alleles that contain partial exon 1 sequence had misalignment in DEP file. Fixed the issue when the allele has FULL assignment
+# Modified RESIDUES.pm
+# Added READ_MSF.pm to read msf file
+# The .msf files are aligned against the reference.
+#
+#
+#
 #
 1;

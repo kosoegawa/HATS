@@ -8,7 +8,7 @@
 
 # module: DPA1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last reviewed, modified and documented on February 2 2026
+# last modified and documented on April 5 2026
 
 package DPA1_INFO;
 use strict;
@@ -143,6 +143,18 @@ sub PARTIAL {		# partial sequence
 	$partial{ "DPA1*01:03:02" } = $seq2;
 		
 	return $partial_ref;
+}
+
+
+sub REF_ALLELE {
+	my $ref_allele = "DPA1*01:03:01:01";
+	return $ref_allele;
+}
+
+sub MSF {
+	my $file = "input/DPA1_prot.msf";
+	my $msf_ref = $file;
+	return $msf_ref;
 }
 
 sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL

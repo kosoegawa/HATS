@@ -9,7 +9,7 @@
 # module: runDRB1.pl 
 # Driver for HLA-DRB1
 # If partial sequences are used as a reference, add the optional argument
-# last modified and documented on March 8 2026
+# last modified and documented on April 5 2026
 #
 use strict;
 use lib 'SEROTYPE';
@@ -150,8 +150,10 @@ for ( my $index = 0; $index < scalar @group; $index++ ) {
 	$short_ref = ASSIGN::SHORT($fasta_ref, $assigned_ref, $gene, $leader, $ref_ref, $residues_ref, $short_ref, $partial_ref  );
 }
 
+my $ref_allele = DRB1_INFO::REF_ALLELE();
+my $msf_ref = DRB1_INFO::MSF();
 # generates residues for all two-field alleles
-my $elements2_ref = RESIDUES::ELEMENTS ( $elements_ref,$fasta_ref,$gene,$null_ref,$qallele_ref,$residues_all_ref,$leader,$partial_ref,$assigned_ref,$short_ref );
+my $elements2_ref = RESIDUES::ELEMENTS ( $elements_ref,$fasta_ref,$gene,$null_ref,$qallele_ref,$residues_all_ref,$leader,$partial_ref,$assigned_ref,$short_ref,$ref_allele,$msf_ref );
 ASSIGNED_SHORT::PRINT_RESIDUES( $elements2_ref,$gene,$residues_all_ref,$database );
 
 # assign SHORT
@@ -171,29 +173,31 @@ foreach my $key ( keys %$ref_ref ) {
 	%dr5231 = ( %dr5231, %$tmp_ref );
 }
 
-LEGACY_REPORT::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
-$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$dr5231_ref,$dr5231_ref2 );
 LEGACY_REPORT::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$dr5231_ref,$dr5231_ref2 );
+LEGACY_REPORT::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$dr5231_ref,$dr5231_ref2 );
 my $parent_ref = DRB1_INFO::PARENT();
 
-COMBINE::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
-$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
 COMBINE::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
+COMBINE::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
 
-PRACTICAL::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
-$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$dr5231_ref,$dr5231_ref2 );
 PRACTICAL::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$dr5231_ref,$dr5231_ref2 );
+PRACTICAL::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$dr5231_ref,$dr5231_ref2 );
 
 @csv = glob("output/" . $gene . "_Allele_Antigen_Practical_Table_IMGT_HLA_*");
+print "Allele COUNT\n";
 foreach my $csv ( @csv ) {
 	my $out_name = "_Allele_Antigen_Count_";
 	SUMCOUNT::SUMMARY($csv, $gene, $null_ref, $qallele_ref, $out_name, $residues_all_ref);
 }
 
 @csv = glob("output/" . $gene . "_Protein_Antigen_Practical_Table_IMGT_HLA_*");
+print "Protein COUNT\n";
 foreach my $csv ( @csv ) {
 	my $out_name = "_Protein_Antigen_Count_";
 	SUMCOUNT::SUMMARY($csv, $gene, $null_ref, $qallele_ref, $out_name, $residues_all_ref);

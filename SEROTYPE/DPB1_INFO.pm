@@ -8,18 +8,17 @@
 
 # module: DPB1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last reviewed, modified and documented on March 7 2026
+# last modified and documented on April 5 2026
 
 package DPB1_INFO;
 use strict;
 
-my @dpb01 = (56,57,69,84,85,86);	# required for the alleles missing exon 3
-my @dpb15 = (56,57,69,84,85,86,96);
+my @dpb01 = (56,57,69,84,85,86,96);	# required for the alleles missing exon 3
 
 my %group;
 my %base;
 my %dpb01;
-my %dpb15;
+#my %dpb15;
 $dpb01{"DPB01"} = "HLA00514";	# DP-B1*01:01:01:01 
 $dpb01{"DPB0201"} = "HLA00517";	# DP-B1*02:01:02:01
 $dpb01{"DPB0202"} = "HLA00519";	# DP-B1*02:02:01:01
@@ -33,16 +32,16 @@ $dpb01{"DPB45"} = "HLA00564";	# DP-B1*45:01
 $dpb01{"DPB46"} = "HLA00565";	# DP-B1*46:01:01
 $dpb01{"DPB80"} = "HLA00599";	# DP-B1*80:01
 
-$dpb15{"DPB15"} = "HLA00532";	# DP-B1*15:01:01:01
-$dpb15{"DPB17"} = "HLA00534";	# DPB1*17:01:01:01 258 bp
-$dpb15{"DPB18"} = "HLA00535";	# DP-B1*18:01:01:01
-$dpb15{"DPB30"} = "HLA00549";	# DPB1*30:01:01:01 258 bp
-$dpb15{"DPB31"} = "HLA00550";	# DPB1*31:01:01:01 258 bp
+$dpb01{"DPB15"} = "HLA00532";	# DP-B1*15:01:01:01
+$dpb01{"DPB17"} = "HLA00534";	# DPB1*17:01:01:01 258 bp
+$dpb01{"DPB18"} = "HLA00535";	# DP-B1*18:01:01:01
+$dpb01{"DPB30"} = "HLA00549";	# DPB1*30:01:01:01 258 bp
+$dpb01{"DPB31"} = "HLA00550";	# DPB1*31:01:01:01 258 bp
  
 $group{"DPB01"} = "DPB01"; $group{"DPB0201"} = "DPB01"; $group{"DPB0202"} = "DPB01"; $group{"DPB03"} = "DPB01"; $group{"DPB0401"} = "DPB01"; $group{"DPB0402"} = "DPB01";
 $group{"DPB06"} = "DPB01"; $group{"DPB10"} = "DPB01"; $group{"DPB13"} = "DPB01"; $group{"DPB45"} = "DPB01"; $group{"DPB46"} = "DPB01"; $group{"DPB80"} = "DPB01";
 
-$group{"DPB15"} = "DPB15"; $group{"DPB17"} = "DPB15"; $group{"DPB18"} = "DPB15"; $group{"DPB30"} = "DPB15"; $group{"DPB31"} = "DPB15";
+$group{"DPB15"} = "DPB01"; $group{"DPB17"} = "DPB01"; $group{"DPB18"} = "DPB01"; $group{"DPB30"} = "DPB01"; $group{"DPB31"} = "DPB01";
 
 $base{"DPB01"} = "DPB01"; $base{"DPB0201"} = "DPB0201"; $base{"DPB0202"} = "DPB0202"; $base{"DPB03"} = "DPB03"; $base{"DPB0401"} = "DPB0401"; $base{"DPB0402"} = "DPB0402";
 $base{"DPB06"} = "DPB06"; $base{"DPB10"} = "DPB10"; $base{"DPB13"} = "DPB13"; $base{"DPB45"} = "DPB45"; $base{"DPB46"} = "DPB46"; $base{"DPB80"} = "DPB80";
@@ -87,40 +86,17 @@ sub PARENT {
 
 sub BROAD {
 	my %broad;
-	foreach my $base ( keys %base ) {
-		$broad{ $base } = $base{ $base };
-	}
 	my $broad_ref = \%broad;
+	%broad = %base;
 	return $broad_ref;
 }
 
 sub RESIDUES {
 	my ( $serotype ) = @_;
 	
-	my @combined = ();
-	push @combined, @dpb01;
-	push @combined, @dpb15;
-	my %seen;
-	my @unique;
-	foreach my $value ( sort { $a <=> $b } @combined ) {
-		unless ( exists $seen{ $value } ) {
-			push @unique, $value;
-			$seen{ $value } = 0;
-		}
-	}
-	
 	my @residues = ();
 	my $residues_ref = \@residues;
 	@residues = @dpb01;
-		if ( $serotype eq "DPB01" ) {
-		@residues = @dpb01;
-	}
-	elsif ( $serotype eq "DPB15" ) {
-		@residues = @dpb15;
-	}
-	else {
-		@residues = @unique;
-	}
 	return $residues_ref;
 }
 
@@ -129,22 +105,13 @@ sub REF {
 	my %ref;
 	my $ref_ref = \%ref;
 	
-	if ( $serotype eq "DPB01" ) {
-		%ref = %dpb01;
-	}
-	elsif ( $serotype eq "DPB15" ) {
-		%ref = %dpb15;
-	}
-	else {	# all together
-		%ref = (%dpb01,%dpb15);
-	}
-
+	%ref = %dpb01;
 	return $ref_ref;
 }
 
 sub SERO {
 	my @sero;
-	my %ref = (%dpb01,%dpb15);
+	my %ref = (%dpb01);
 	my @tmp = sort keys %ref;
 	for ( my $index = 0; $index < scalar @tmp; $index++ ) {
 		$sero[0][$index] = $tmp[$index];
@@ -157,7 +124,7 @@ sub SERO {
 }
 
 sub KEY {
-	my %tmp = (%dpb01,%dpb15);
+	my %tmp = (%dpb01);
 	my %ref;
 	my $key_ref = \%ref;
 	for my $key ( sort keys %tmp ) {
@@ -224,6 +191,18 @@ sub PARTIAL {		# partial sequence
 	$partial{ "tail" } = "X" x 100;
 		
 	return $partial_ref;
+}
+
+
+sub REF_ALLELE {
+	my $ref_allele = "DPB1*01:01:01:01";
+	return $ref_allele;
+}
+
+sub MSF {
+	my $file = "input/DPB1_prot.msf";
+	my $msf_ref = $file;
+	return $msf_ref;
 }
 
 sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL

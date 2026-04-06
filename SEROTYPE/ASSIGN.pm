@@ -8,7 +8,7 @@
 
 # module: ASSIGN.pm 
 # This module was developed to convert HLA allele to HLA serotype using relaxed mode
-# last reviewed, modified and documented on October 31 2025
+# last reviewed, modified and documented on April 5 2026
 
 package ASSIGN;
 use strict;
@@ -332,7 +332,7 @@ sub SHORT {
 						elsif (( $gene =~ /DRB/ ) && ( $tmp[ $index ] == 67 ) && (( $aa eq "I" ) || ( $aa eq "L" ))) {
 							$target = $target . "[I,L]";
 						}
-						elsif (( $gene =~ /DRB/ ) && ( $tmp[ $index ] == 71 ) && (( $aa eq "K" ) || ( $aa eq "R" ))) {
+						elsif (((( $gene =~ /DRB/ ) && ( $tmp[ $index ] == 71 )) || (( $gene =~ /DPB/ ) && ( $tmp[ $index ] == 69 ))) && (( $aa eq "K" ) || ( $aa eq "R" ))) {
 							$target = $target . "[K,R]";
 						}
 						elsif (( $gene =~ /DRB/ ) && (!( $key eq "DR0301")) && (!( $key eq "DR0302" )) && ( $tmp[ $index ] == 47 ) && (( $aa eq "F" ) || ( $aa eq "Y" ))) {

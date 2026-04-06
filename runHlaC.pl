@@ -9,7 +9,7 @@
 # module: runHlaC.pl
 # Driver for HLA-C
 # If partial sequences are used as a reference, add the optional argument
-# last modified and documented on March 8 2026
+# last modified and documented on April 5 2026
 
 use strict;
 use lib 'SEROTYPE';
@@ -144,8 +144,10 @@ for ( my $index = 0; $index < scalar @group; $index++ ) {
 	$short_ref = ASSIGN::SHORT($fasta_ref, $assigned_ref, $gene, $leader, $ref_ref, $residues_ref, $short_ref, $partial_ref  );
 }
 
+my $ref_allele = HLAC_INFO::REF_ALLELE();
+my $msf_ref = HLAC_INFO::MSF();
 # generates residues for all two-field alleles
-my $elements2_ref = RESIDUES::ELEMENTS ( $elements_ref,$fasta_ref,$gene,$null_ref,$qallele_ref,$residues_all_ref,$leader,$partial_ref,$assigned_ref,$short_ref );
+my $elements2_ref = RESIDUES::ELEMENTS ( $elements_ref,$fasta_ref,$gene,$null_ref,$qallele_ref,$residues_all_ref,$leader,$partial_ref,$assigned_ref,$short_ref,$ref_allele,$msf_ref );
 ASSIGNED_SHORT::PRINT_RESIDUES( $elements2_ref,$gene,$residues_all_ref,$database );
 
 # assign SHORT
@@ -166,22 +168,21 @@ $residues_ref = CC1C2::RESIDUES();
 my $c1c2 = CC1C2::C1C2();
 my $c1c2_ref = Bw46ASSIGN::all( $fasta_ref, $gene, $leader, $ref_ref, $residues_ref, $c1c2 );
 
-LEGACY_REPORT::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
-$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2,$c1c2_ref );
-
 LEGACY_REPORT::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2,$c1c2_ref );
+LEGACY_REPORT::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$base_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2,$c1c2_ref );
 
 my $parent_ref = HLAC_INFO::PARENT();
 
-COMBINE::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
-$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
 COMBINE::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
+COMBINE::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref );
 
-PRACTICAL::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
-$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2,$c1c2_ref );
 PRACTICAL::COMBINED_TWO( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
+$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2,$c1c2_ref );
+PRACTICAL::COMBINED( $database, $null_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
 $broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref,$bw_ref,$bw_ref2,$c1c2_ref );
 
 @csv = glob("output/" . $gene . "_Allele_Antigen_Practical_Table_IMGT_HLA_*");

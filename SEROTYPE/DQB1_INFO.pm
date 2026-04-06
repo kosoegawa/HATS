@@ -8,7 +8,7 @@
 
 # module: DQB1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last reviewed, modified and documented on October 31 2025
+# last modified and documented on April 5 2026
 
 package DQB1_INFO;
 use strict;
@@ -221,6 +221,18 @@ sub PARTIAL {		# partial sequence
 	$partial{ "DQB1*06:06" } = "X" x 52;
 	$partial{ "tail" } = "X" x 100;
 	return $partial_ref;
+}
+
+
+sub REF_ALLELE {
+	my $ref_allele = "DQB1*05:01:01:01";
+	return $ref_allele;
+}
+
+sub MSF {
+	my $file = "input/DQB1_prot.msf";
+	my $msf_ref = $file;
+	return $msf_ref;
 }
 
 

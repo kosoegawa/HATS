@@ -8,7 +8,7 @@
 
 # module: DRB1_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last reviewed, modified and documented on January 31 2026
+# last modified and documented on April 5 2026
 
 package DRB1_INFO;
 use strict;
@@ -26,6 +26,7 @@ my @dr13 = (9, 10, 11, 12, 13, 58, 60, 67, 70, 71, 74);	# residue 58 is required
 my @dr14 = (9, 10, 11, 12, 13, 16, 58, 60, 67,70, 71, 74);
 my @dr15 = (9, 10, 11, 12, 13, 67, 70);
 my @dr16 = (9, 10, 11, 12, 13, 67, 70);
+#my @extra = (77);	# FULL only, added residue 90
 
 my %dr5231;
 my %dr1;
@@ -248,6 +249,8 @@ sub RESIDUES {
 	push @combined, @dr14;
 	push @combined, @dr15;
 	push @combined, @dr16;
+#	push @combined, @extra; 
+
 	my %seen;
 	my @unique;
 	foreach my $value ( sort { $a <=> $b } @combined ) {
@@ -448,6 +451,18 @@ sub PARTIAL {		# partial sequence
 	$partial{ "general" } = $seq;
 		
 	return $partial_ref;
+}
+
+
+sub REF_ALLELE {
+	my $ref_allele = "DRB1*01:01:01:01";
+	return $ref_allele;
+}
+
+sub MSF {
+	my $file = "input/DRB_prot.msf";
+	my $msf_ref = $file;
+	return $msf_ref;
 }
 
 #sub WHO {

@@ -8,12 +8,13 @@
 
 # module: COMBINE.pm 
 # This module was developed to print table
-# last reviewed, modified and documented on February 19 2026
+# last reviewed, modified and documented on April 5 2026
 
 package COMBINE;
 use strict;
 use GROUP_SORT;
 use POSIX qw(strftime);
+use STRASSIGN;
 
 my $date = strftime "%Y-%m-%d", localtime;
 chomp $date;    # remove newline character
@@ -85,6 +86,7 @@ sub COMBINED {
 	push @combined, keys %$assigned_ref;
 	push @combined, @$unassigned_ref;
 	my $alleles_sorted_ref = GROUP_SORT::SORT( $combined_ref );	# sort allele numerically
+	my $protein_ref = STRASSIGN::PROTEIN( $assigned_ref ); 
 
 	open(FILE, ">output/" . $gene . "_Allele_Antigen_Table_IMGT_HLA_" . $database . "_" . $date . ".csv");
 	print FILE "Allele,Qualifier,Associated,Split,Broad,CIWD3.0,CWD2.0,EURCWD\n";
@@ -105,7 +107,6 @@ sub COMBINED {
 		elsif ( exists $assigned_ref->{ $allele } ) {	# assigned
 			if ( $assigned_ref->{ $allele } =~ /(\S+_*\S*)_(LAX)/ ) {	# LAX
 				my $group = $1;
-#				my $serotype = $1;
 				my $lax = $2;
 				my $serotype = $group;
 				if ( exists $antigen{ $serotype } ) {
@@ -229,108 +230,130 @@ sub COMBINED {
 				print FILE "\n";
 			}
 		}
-		elsif ( exists $short_ref->{ $allele } ) {	# short
+		elsif ( exists $short_ref->{ $allele } ) {	# INCOMPLETE
 			print FILE $allele . ",";
 			my $num = scalar @{$short_ref->{ $allele }};
-			if ( $allele =~ /(\S+)\*(\d+):\d+:*\d*:*\d*/ ) {		#[1-9]+0* was important, B40
-				my $residue = 0;
-				my $sero = $1 . $2;	# need to modify here
-				$sero =~ s/DRB1/DR/;
-				$sero =~ s/C/Cw/;	#added here 2/20/26 to fix bug
-				my $serotype = "";
-				my $group = "";
-				my $test = 0;
-				foreach my $short ( sort @{$short_ref->{ $allele }} ) {
+			my $serotype = "";
+			my $group = "";
+			my $residue = 0;
+
+			if ( $num == 1 ) {	#short
+				my $short = $short_ref->{ $allele }->[0];
+				if ( $short =~ /(\S+)_(\d+)/ ) {
+					$group = $1;
+					$serotype = $group;
+					if ( exists $antigen{ $group } ) {
+						$serotype = $antigen{ $group };
+					}
+					$residue = $2;
+				}
+			}
+			else {			#short cross-reactive
+				if ( $allele =~ /(\S+)\*(\d+):\d+:*\d*:*\d*/ ) {		#[1-9]+0* was important, B40
+					my $test = 0;
+					my $sero = $1 . $2;	# need to modify here, problem for DPB
+					$sero =~ s/DRB1/DR/;
+					$sero =~ s/C/Cw/;	#added here 2/20/26 to fix bug
+					$sero =~ s/DPB1/DPB/;
+					
+					my @sorted_short = sort @{$short_ref->{ $allele }};
+					my $short = $sorted_short[0];
 					if ( $short =~ /(\S+)_(\d+)/ ) {
-						$group = $1;
-						$serotype = $group;
-						$residue = $2;
-						if ( $group =~ /$sero/ ) {		# allele name and sero type matches
-							$test = 1;
-							last;
-						}
-					}
-				}
-				
-				if ( exists $antigen{ $group } ) {
-					$serotype = $antigen{ $group };
-				}
-				# go through three different conditions: $base_type and $type is identical
-				if ( $test == 1 ) {
-					if ( $serotype eq $broad_ref->{ $group } ) {	# ASSOCIATED & SPLIT: BLANK
-						print FILE "I,," . "," . $broad_ref->{ $group } . ",";
-					}
-					elsif ( $serotype eq $parent_ref->{ $group } ) {	#ASSOCIATED BLANK
-						if ( $serotype eq "B4005" ) {
-							print FILE "I," . $serotype . ",," . $broad_ref->{ $group } . ",";
-						}
-						else {
-							print FILE "I,," . $parent_ref->{ $group } . "," . $broad_ref->{ $group } . ",";
-						}
-					}
-					elsif ( $parent_ref->{ $group } eq $broad_ref->{ $group } ) {	# No split, e.g., A2
-						print FILE  "I," . $serotype .",," . $broad_ref->{ $group } . ",";
-					}
-					else {
-						print FILE "I," . $serotype . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group } . ",";
-					}
-				}
-				else {		# no match => capture the first element
-					my @tmp = sort @{$short_ref->{ $allele }};
-					my $first_name = $tmp[0];
-					if ( $first_name =~ /(\S+)_(\d+)/ ) {
 						$group = $1;
 						$serotype = $group;
 						if ( exists $antigen{ $group } ) {
 							$serotype = $antigen{ $group };
 						}
-
 						$residue = $2;
 					}
-					if ( $serotype eq $broad_ref->{ $group } ) {	# ASSOCIATED & SPLIT: BLANK
-						print FILE "I,," . "," . $broad_ref->{ $group } . ",";
-					}
-					elsif ( $serotype eq $parent_ref->{ $group } ) {	#ASSOCIATED BLANK
-						if ( $serotype eq "B4005" ) {
-							print FILE "I," . $serotype . ",," . $broad_ref->{ $group } . ",";
-						}
-						else {
-							print FILE "I,," . $parent_ref->{ $group } . "," . $broad_ref->{ $group } . ",";
-						}
-					}
-					elsif ( $parent_ref->{ $group } eq $broad_ref->{ $group } ) {	# No split, e.g., A2
-						print FILE  "I," . $serotype .",," . $broad_ref->{ $group } . ",";
-					}
-					else {
-						print FILE "I," . $serotype . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group } . ",";
-					}
-				}
 
-				if ( exists $ciwd_ref->{ $twoField } ) {
-					print FILE $ciwd_ref->{ $twoField} . ",";
-				}
-				else {
-					print FILE ",";
-				}
-				if ( exists $cwd_ref->{ $twoField } ) {
-					print FILE $cwd_ref->{ $twoField } . ",";
-				}
-				else {
-					print FILE ",";
-				}
-				if ( exists $ecwd_ref->{ $twoField } ) {
-					print FILE $ecwd_ref->{ $twoField } . ",";
-				}
-				else {
-					print FILE ",";
-				}
+					if ( exists $protein_ref->{ $twoField } ) {	# resolve exon 3 missing sequence issue
+						$serotype = $protein_ref->{ $twoField };
+						$group = $serotype;
+					}
 
+					unless ( $sero =~ /DPB/ ) {
+						foreach my $short ( sort @{$short_ref->{ $allele }} ) {
+							if ( $short =~ /(\S+)_(\d+)/ ) {
+								$group = $1;		# problematic
+								$residue = $2;
+								if ( $group =~ /$sero/ ) {		# allele name and sero type matches, this is important
+									if ( exists $antigen{ $group } ) {
+										$serotype = $antigen{ $group };
+									}
+									else {
+										$serotype = $group;
+									}
+
+									$test = 1;
+									last;
+								}
+							}
+						}
+						if ( $test == 0 ) {
+							my @sorted_short = sort @{$short_ref->{ $allele }};
+							my $short = $sorted_short[0];
+							if ( $short =~ /(\S+)_(\d+)/ ) {
+								$group = $1;
+								$residue = $2;
+							}
+						}
+					}
+
+				}
 			}
 
+			# go through three different conditions: $base_type and $type is identical
+			if ( $serotype eq $broad_ref->{ $group } ) {	# ASSOCIATED & SPLIT: BLANK
+				print FILE "I,," . "," . $broad_ref->{ $group } . ",";
+			}
+			elsif ( $serotype eq $parent_ref->{ $group } ) {	#ASSOCIATED BLANK
+				if ( $serotype eq "B4005" ) {
+					print FILE "I," . $serotype . ",," . $broad_ref->{ $group } . ",";
+				}
+				else {
+					print FILE "I,," . $parent_ref->{ $group } . "," . $broad_ref->{ $group } . ",";
+				}
+			}
+			elsif ( $parent_ref->{ $group } eq $broad_ref->{ $group } ) {	# No split, e.g., A2
+				print FILE  "I," . $serotype .",," . $broad_ref->{ $group } . ",";
+			}
+			else {
+				print FILE "I," . $serotype . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group } . ",";
+			}
+
+			if ( exists $ciwd_ref->{ $twoField } ) {
+				print FILE $ciwd_ref->{ $twoField} . ",";
+			}
+			else {
+				print FILE ",";
+			}
+			if ( exists $cwd_ref->{ $twoField } ) {
+				print FILE $cwd_ref->{ $twoField } . ",";
+			}
+			else {
+				print FILE ",";
+			}
+			if ( exists $ecwd_ref->{ $twoField } ) {
+				print FILE $ecwd_ref->{ $twoField } . ",";
+			}
+			else {
+				print FILE ",";
+			}
 
 			my $index = 0;
 			foreach my $short ( sort @{$short_ref->{ $allele }} ) {
-				print FILE $short;
+				my $short_num = $short;
+				if ( $short =~ /(\S+)_(\d+)/ ) {
+					$group = $1;
+					$serotype = $group;
+					if ( exists $antigen{ $group } ) {
+						$serotype = $antigen{ $group };
+					}
+					$residue = $2;
+					$short_num = $serotype . "_" . $residue;
+				}
+				print FILE $short_num;
 				if ( $index < $num - 1) {
 					print FILE ",";
 				}
@@ -343,16 +366,13 @@ sub COMBINED {
 		else {		# no match
 			print FILE $allele;
 			if (( $allele =~ /DRB1\*08:04:02/ ) || ( $allele =~ /DRB1\*04:20/ ) ||
-			( $allele =~ /DQB1\*05:03:02/ ) || ( $allele =~ /DQB1\*06:01:02/ ) || ( $allele =~ /DQB1\*06:05:02/ ) ||
-			( $allele =~ /DQB1\*06:06/ )) {	# missing key residues 9 - 14
+			 ( $allele =~ /DQB1\*06:01:02/ ) || ( $allele =~ /DQB1\*06:05:02/ ) ||
+			( $allele =~ /DQB1\*06:06/ )) {	# missing key residues 9 - 14, removed DQB1*05:03:02
 				if ( $allele =~ /DRB1\*08:04:02/ ) {
 					print FILE ",InSilico,DR0801,,DR8";
 				}
 				elsif ( $allele =~ /DRB1\*04:20/ ) {	# missing key residues 9 - 14
 					print FILE ",InSilico,DR0403,,DR4";
-				}
-				elsif ( $allele =~ /DQB1\*05:03:02/ ) {	# sequence extended
-					print FILE ",InSilico,,DQ5,DQ1";
 				}
 				elsif ( $allele =~ /DQB1\*06:01:02/ ) {
 					print FILE ",InSilico,,DQ6,DQ1";
@@ -398,12 +418,12 @@ sub COMBINED {
 					print FILE ",";
 				}
 				if ( exists $ecwd_ref->{ $twoField } ) {
-					print FILE $ecwd_ref->{ $twoField } . ",";
+					print FILE $ecwd_ref->{ $twoField } . "\n";
 				}
 				else {
-					print FILE ",";
+					print FILE "\n";
 				}
-				print FILE "\n";
+#				print FILE "\n";
 
 			}
 		}
@@ -411,220 +431,156 @@ sub COMBINED {
 	close FILE;
 }
 
+
 sub COMBINED_TWO {
 	my ($database,$nullAllele_ref,$qallele_ref,$assigned_ref,$unassigned_ref,$short_ref,$gene,$parent_ref,$cross_ref,
 	$broad_ref,$ciwd_ref,$cwd_ref,$ecwd_ref) = @_;
 	print "TWO FIELD COMBINED\n";
+
+	my $protein_ref = STRASSIGN::PROTEIN( $assigned_ref ); 
+	#array ref
+	my @proteins = keys %$protein_ref;
+	my $proteins_ref = \@proteins;
+	my $protein_sorted_ref = GROUP_SORT::SORT( $proteins_ref );
+	my %short_removed;
+	my $short_removed_ref = \%short_removed;
+
+	foreach my $allele ( keys %$short_ref ) {
+		my $duplicated = 0;
+		my $twoField = "";
+		if ( $allele =~ /($gene\*\d+:\d+)/ ) {
+			$twoField = $1;
+		}
+
+		foreach my $protein ( @$protein_sorted_ref ) {		#go through all alleles
+			if ( $twoField eq $protein ) {
+				$duplicated++;
+			}
+		}
+
+		if ( $duplicated == 0 ) {
+			$short_removed_ref->{ $twoField } = $short_ref->{ $allele };
+		}
+	}
+
 	my @combined;
 	my $combined_ref = \@combined;
-	push @combined, keys %$nullAllele_ref;
-	push @combined, keys %$qallele_ref;
-	push @combined, keys %$assigned_ref;
-	push @combined, @$unassigned_ref;
-	my $alleles_sorted_ref = GROUP_SORT::SORT( $combined_ref );
+	push @combined, @$protein_sorted_ref;
+	push @combined, (keys %short_removed);
+
+	foreach my $allele ( @$unassigned_ref ) {
+		my $duplicated = 0;
+		my $twoField = "";
+		if ( $allele =~ /(\w+\*\d+:\d+)/ ) {
+			$twoField = $1;
+		}
+
+		foreach my $protein ( @$protein_sorted_ref ) {		#go through all alleles
+			if ( $twoField eq $protein ) {
+				$duplicated++;
+			}
+		}
+
+		if ( $duplicated == 0 ) {
+			push @combined, $twoField;
+		}
+	}
+
+	my $proteins_sorted_ref = GROUP_SORT::SORT( $combined_ref );
 
 	open(FILE, ">output/" . $gene . "_Protein_Antigen_Table_IMGT_HLA_" . $database . "_" . $date . ".csv");
 	print FILE "Protein,Qualifier,Associated,Split,Broad,CIWD3.0,CWD2.0,EURCWD\n";
-	my %twoField;
 
-	foreach my $allele ( @$alleles_sorted_ref ) {		#go through all alleles
-		my $twoField = "";
+	foreach my $twoField ( @$proteins_sorted_ref ) {		#go through all alleles
 		my $qualifier = "I";
-		unless (( exists $nullAllele_ref->{ $allele } ) || ( exists $qallele_ref->{ $allele })) {		# Null
-			if ( $allele =~ /(\w+\*\d+:\d+)/ ) {
-				$twoField = $1;
-			}
-		}
-		if ( exists $twoField{$twoField} ) {
-			next;
-		}
-		if ( exists $nullAllele_ref->{ $allele } ) {		# Null
-			next;
-		}
-		elsif ( exists $qallele_ref->{ $allele } ) {		# Questionable
-			next;
-		}
-		elsif ( exists $assigned_ref->{ $allele } ) {	# assigned
-			if ( $assigned_ref->{ $allele } =~ /(\S+_*\S*)_(LAX)/ ) {	# LAX
-				if ( $twoField eq "DPB1*26:01" ) {	# DPB1*26:01:01 is partial sequence, but DPB1*26:01:02:01 is full length
-					next;
-				}
-				my $group = $1;
+		my $serotype = "";
+		my $group ="";
+		if ( exists $protein_ref->{ $twoField } ) {	# resolve exon 3 missing sequence issue
+			$serotype = $protein_ref->{ $twoField };
+			if ( $serotype =~ /(\S+_*\S*)_(LAX)/ ) {	# LAX
+				$group = $1;
+				$serotype = $group;
 				my $lax = $2;
-				my $serotype = $group;
 				if ( exists $antigen{ $group } ) {
 					$serotype = $antigen{ $group };
 				}
 				if ( $lax eq "LAX" ) {
 					$qualifier = "S";
 				}
-				if ( exists $cross_ref->{ $allele } ) {		# cross-reactivity
-					print FILE $twoField . "," . $serotype . "," . $qualifier . "_C," . $parent_ref->{ $group } . "," . $broad_ref->{ $group };
-					my $cross = "";
-					for ( my $index = 0; $index < scalar @{$cross_ref->{ $allele }}; $index++ ) {
-						if ( $index == 0 ) {
-							$cross = $cross_ref->{ $allele }->[$index];
-						}
-						else {
-							$cross = $cross . "," . $cross_ref->{ $allele }->[$index];
-						}
-					}
-					if ( exists $ciwd_ref->{ $twoField } ) {
-						print FILE "," . $ciwd_ref->{ $twoField};
-					}
-					else {
-						print FILE ",";
-					}
-					if ( exists $cwd_ref->{ $twoField } ) {
-						print FILE "," . $cwd_ref->{ $twoField };
-					}
-					else {
-						print FILE ",";
-					}
-					if ( exists $ecwd_ref->{ $twoField } ) {
-						print FILE "," . $ecwd_ref->{ $twoField };
-					}
-					else {
-						print FILE ",";
-					}
-					print FILE "," . $cross
-				}
-				else {	# no cross-reactive
-					if ( $serotype eq $broad_ref->{ $group } ) {	# No ASSOCIATED & SPLIT, e.g., A36 
-						print FILE $twoField . "," . $qualifier . "," . "," . "," . $broad_ref->{ $group };
-					}
-					elsif ( $serotype eq $parent_ref->{ $group } ) {	# No associated antigen, e.g., A25
-						if ( $serotype eq "B4005" ) {
-							print FILE $twoField . "," . $qualifier . "," . $serotype . "," . "," . $broad_ref->{ $group };
-						}
-						else {
-							print FILE $twoField . "," . $qualifier . "," . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group };
-						}
-					}
-					elsif ( $parent_ref->{ $group } eq $broad_ref->{ $group } ) {	# No split, e.g., A2
-						print FILE $twoField . "," . $qualifier . "," . $serotype . "," . "," . $broad_ref->{ $group };
-					}
-					else {
-						print FILE $twoField . "," . $qualifier . "," . $serotype . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group };
-					}
-					if ( exists $ciwd_ref->{ $twoField } ) {
-						print FILE "," . $ciwd_ref->{ $twoField};
-					}
-					else {
-						print FILE ",";
-					}
-					if ( exists $cwd_ref->{ $twoField } ) {
-						print FILE "," . $cwd_ref->{ $twoField };
-					}
-					else {
-						print FILE ",";
-					}
-					if ( exists $ecwd_ref->{ $twoField } ) {
-						print FILE "," . $ecwd_ref->{ $twoField };
-					}
-					else {
-						print FILE ",";
-					}
-				}
-				print FILE "\n";
 			}
-			else {		# stringent
-				my $group = $assigned_ref->{ $allele };
-				my $serotype = $group;
+			else {		#FULL
+				$group = $protein_ref->{ $twoField };
+				$serotype = $group;
 				if ( exists $antigen{ $group } ) {
 					$serotype = $antigen{ $group };
 				}
 				$qualifier = "F";
-				if ( $serotype eq $broad_ref->{ $group } ) {	# ASSOCIATED & SPLIT: BLANK
-					print FILE $twoField . "," . $qualifier . "," . "," . "," . $broad_ref->{ $group };
-				}
-				elsif ( $serotype eq $parent_ref->{ $group } ) {
-					if ( $serotype eq "B4005" ) {
-						print FILE $twoField . "," . $qualifier . "," . $serotype . "," . "," . $broad_ref->{ $group };
-					}
-					else {
-						print FILE $twoField . "," . $qualifier . "," . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group };
-					}
-				}
-				elsif ( $parent_ref->{ $group } eq $broad_ref->{ $group } ) {	# No split, e.g., A2
+			}
+
+			if ( $serotype eq $broad_ref->{ $group } ) {	# No ASSOCIATED & SPLIT, e.g., A36 
+				print FILE $twoField . "," . $qualifier . "," . "," . "," . $broad_ref->{ $group };
+			}
+			elsif ( $serotype eq $parent_ref->{ $group } ) {	# No associated antigen, e.g., A25
+				if ( $serotype eq "B4005" ) {
 					print FILE $twoField . "," . $qualifier . "," . $serotype . "," . "," . $broad_ref->{ $group };
 				}
 				else {
-					print FILE $twoField . "," . $qualifier . "," . $serotype . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group };
+					print FILE $twoField . "," . $qualifier . "," . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group };
 				}
-				if ( exists $ciwd_ref->{ $twoField } ) {
-					print FILE "," . $ciwd_ref->{ $twoField};
-				}
-				else {
-					print FILE ",";
-				}
-				if ( exists $cwd_ref->{ $twoField } ) {
-					print FILE "," . $cwd_ref->{ $twoField };
-				}
-				else {
-					print FILE ",";
-				}
-				if ( exists $ecwd_ref->{ $twoField } ) {
-					print FILE "," . $ecwd_ref->{ $twoField };
-				}
-				else {
-					print FILE ",";
-				}
-				print FILE "\n";
 			}
+			elsif ( $parent_ref->{ $group } eq $broad_ref->{ $group } ) {	# No split, e.g., A2
+				print FILE $twoField . "," . $qualifier . "," . $serotype . "," . "," . $broad_ref->{ $group };
+			}
+			else {
+				print FILE $twoField . "," . $qualifier . "," . $serotype . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group };
+			}
+			if ( exists $ciwd_ref->{ $twoField } ) {
+				print FILE "," . $ciwd_ref->{ $twoField};
+			}
+			else {
+				print FILE ",";
+			}
+			if ( exists $cwd_ref->{ $twoField } ) {
+				print FILE "," . $cwd_ref->{ $twoField };
+			}
+			else {
+				print FILE ",";
+			}
+			if ( exists $ecwd_ref->{ $twoField } ) {
+				print FILE "," . $ecwd_ref->{ $twoField };
+			}
+			else {
+				print FILE ",";
+			}
+			print FILE "\n";
+
 		}
-		elsif ( exists $short_ref->{ $allele } ) {	# short
-			if ( $twoField eq "DPB1*26:01" ) {	# DPB1*26:01:01 is partial sequence, but DPB1*26:01:02:01 is full length
-				next;
+		elsif ( exists $short_removed_ref->{ $twoField } ) {	#INCOMPLETE
+			my $num = scalar @{$short_removed_ref->{ $twoField }};
+			my $residue = 0;
+
+			if ( $num == 1 ) {	#short
+				my $short = $short_removed_ref->{ $twoField }->[0];
+				if ( $short =~ /(\S+)_(\d+)/ ) {
+					$group = $1;
+					$residue = $2;
+					$serotype = $group;
+					if ( exists $antigen{ $group } ) {
+						$serotype = $antigen{ $group };
+					}
+				}
 			}
-			print FILE $twoField . ",";
-			my $num = scalar @{$short_ref->{ $allele }};
-			if ( $allele =~ /(\S+)\*(\d+):\d+:*\d*:*\d*/ ) {		#[1-9]+0* was important, B40
-				my $residue = 0;
-				my $sero = $1 . $2;
-				$sero =~ s/DRB1/DR/;
-				$sero =~ s/C/Cw/;	#added here 2/20/26 to fix bug
-				my $serotype = "";
-				my $group = "";
-				my $test = 0;
-				foreach my $short ( sort @{$short_ref->{ $allele }} ) {
+			else {			#short cross-reactive
+				if ( $twoField =~ /(\S+)\*(\d+)/ ) {		#[1-9]+0* was important, B40
+					my $test = 0;
+					my $sero = $1 . $2;	# need to modify here, problem for DPB
+					$sero =~ s/DRB1/DR/;
+					$sero =~ s/C/Cw/;	#added here 2/20/26 to fix bug
+					$sero =~ s/DPB1/DPB/;
+					
+					my @sorted_short = sort @{$short_removed_ref->{ $twoField }};
+					my $short = $sorted_short[0];
 					if ( $short =~ /(\S+)_(\d+)/ ) {
-						$group = $1;
-						$serotype = $group;
-						$residue = $2;
-						if ( $group =~ /$sero/ ) {		# allele name and sero type matches
-							$test = 1;
-							last;
-						}
-					}
-				}
-				
-				if ( exists $antigen{ $group } ) {
-					$serotype = $antigen{ $group };
-				}
-				if ( $test == 1 ) {
-					if ( $serotype eq $broad_ref->{ $group } ) {	# ASSOCIATED & SPLIT: BLANK
-						print FILE $qualifier . "," . "," . "," . $broad_ref->{ $group } . ",";
-					}
-					elsif ( $serotype eq $parent_ref->{ $group } ) {
-						if ( $serotype eq "B4005" ) {
-							print FILE $qualifier . "," .$serotype . "," .  "," . $broad_ref->{ $group } . ",";
-						}
-						else {
-							print FILE $qualifier . "," . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group } . ",";
-						}
-					}
-					elsif ( $parent_ref->{ $group } eq $broad_ref->{ $group } ) {	# No split, e.g., A2
-						print FILE $qualifier . "," . $serotype . "," . "," . $broad_ref->{ $group } . ",";
-					}
-					else {
-						print FILE $qualifier . "," . $serotype . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group } . ",";
-					}
-				}
-				else {		# no match => capture the first element
-					my @tmp = sort @{$short_ref->{ $allele }};
-					my $first_name = $tmp[0];
-					if ( $first_name =~ /(\S+)_(\d+)/ ) {
 						$group = $1;
 						$residue = $2;
 						$serotype = $group;
@@ -633,50 +589,91 @@ sub COMBINED_TWO {
 						}
 					}
 
-					if ( $serotype eq $broad_ref->{ $group } ) {	# ASSOCIATED & SPLIT: BLANK
-						print FILE $qualifier . "," . "," . "," . $broad_ref->{ $group } . ",";
-					}
-					elsif ( $serotype eq $parent_ref->{ $group } ) {
-						if ( $serotype eq "B4005" ) {
-							print FILE $qualifier . "," .$serotype . "," .  "," . $broad_ref->{ $group } . ",";
+					unless ( $sero =~ /DPB/ ) {
+						foreach my $short ( sort @{$short_removed_ref->{ $twoField }} ) {
+							if ( $short =~ /(\S+)_(\d+)/ ) {
+								$group = $1;		# problematic
+								$residue = $2;
+								if ( $group =~ /$sero/ ) {		# allele name and sero type matches, this is important
+									if ( exists $antigen{ $group } ) {
+										$serotype = $antigen{ $group };
+									}
+									else {
+										$serotype = $group;
+									}
+
+									$test = 1;
+									last;
+								}
+							}
 						}
-						else {
-							print FILE $qualifier . "," . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group } . ",";
+						if ( $test == 0 ) {
+							my @sorted_short = sort @{$short_removed_ref->{ $twoField }};
+							my $short = $sorted_short[0];
+							if ( $short =~ /(\S+)_(\d+)/ ) {
+								$group = $1;
+								$residue = $2;
+							}
+							if ( exists $antigen{ $group } ) {
+								$serotype = $antigen{ $group };
+							}
+							else {
+								$serotype = $group;
+							}
 						}
 					}
-					elsif ( $parent_ref->{ $group } eq $broad_ref->{ $group } ) {	# No split, e.g., A2
-						print FILE $qualifier . "," . $serotype . "," . "," . $broad_ref->{ $group } . ",";
-					}
-					else {
-						print FILE $qualifier . "," . $serotype . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group } . ",";
-					}
 
 				}
-
-				if ( exists $ciwd_ref->{ $twoField } ) {
-					print FILE $ciwd_ref->{ $twoField} . ",";
-				}
-				else {
-					print FILE ",";
-				}
-				if ( exists $cwd_ref->{ $twoField } ) {
-					print FILE $cwd_ref->{ $twoField } . ",";
-				}
-				else {
-					print FILE ",";
-				}
-				if ( exists $ecwd_ref->{ $twoField } ) {
-					print FILE $ecwd_ref->{ $twoField } . ",";
-				}
-				else {
-					print FILE ",";
-				}
-
 			}
-			
+			if ( $serotype eq $broad_ref->{ $group } ) {	# No ASSOCIATED & SPLIT, e.g., A36 
+				print FILE $twoField . "," . $qualifier . "," . "," . "," . $broad_ref->{ $group };
+			}
+			elsif ( $serotype eq $parent_ref->{ $group } ) {	# No associated antigen, e.g., A25
+				if ( $serotype eq "B4005" ) {
+					print FILE $twoField . "," . $qualifier . "," . $serotype . "," . "," . $broad_ref->{ $group };
+				}
+				else {
+					print FILE $twoField . "," . $qualifier . "," . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group };
+				}
+			}
+			elsif ( $parent_ref->{ $group } eq $broad_ref->{ $group } ) {	# No split, e.g., A2
+				print FILE $twoField . "," . $qualifier . "," . $serotype . "," . "," . $broad_ref->{ $group };
+			}
+			else {
+				print FILE $twoField . "," . $qualifier . "," . $serotype . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group };
+			}
+			if ( exists $ciwd_ref->{ $twoField } ) {
+				print FILE "," . $ciwd_ref->{ $twoField};
+			}
+			else {
+				print FILE ",";
+			}
+			if ( exists $cwd_ref->{ $twoField } ) {
+				print FILE "," . $cwd_ref->{ $twoField };
+			}
+			else {
+				print FILE ",";
+			}
+			if ( exists $ecwd_ref->{ $twoField } ) {
+				print FILE "," . $ecwd_ref->{ $twoField } . ",";
+			}
+			else {
+				print FILE ",,";
+			}
+
 			my $index = 0;
-			foreach my $short ( sort @{$short_ref->{ $allele }} ) {
-				print FILE $short;
+			foreach my $short ( sort @{$short_removed_ref->{ $twoField }} ) {
+				my $short_num = $short;
+				if ( $short =~ /(\S+)_(\d+)/ ) {
+					$group = $1;
+					$serotype = $group;
+					if ( exists $antigen{ $group } ) {
+						$serotype = $antigen{ $group };
+					}
+					$residue = $2;
+					$short_num = $serotype . "_" . $residue;
+				}
+				print FILE $short_num;
 				if ( $index < $num - 1) {
 					print FILE ",";
 				}
@@ -685,28 +682,15 @@ sub COMBINED_TWO {
 				}
 				$index++;
 			}
-		}
+
+		}	# INCOMPLETE
 		else {		# no match
 			print FILE $twoField;
-			if (( $allele =~ /DRB1\*08:04:02/ ) || ( $allele =~ /DRB1\*04:20/ ) ||
-			( $allele =~ /DQB1\*05:03:02/ ) || ( $allele =~ /DQB1\*06:01:02/ ) || ( $allele =~ /DQB1\*06:05:02/ ) ||
-			( $allele =~ /DQB1\*06:06/ )) {	# missing key residues 9 - 14
-				if ( $allele =~ /DRB1\*08:04:02/ ) {
-					print FILE ",InSilico,DR0801,,DR8";
-				}
-				elsif ( $allele =~ /DRB1\*04:20/ ) {	# missing key residues 9 - 14
+			if (( $twoField =~ /DRB1\*04:20$/ ) || ( $twoField =~ /DQB1\*06:06/ )) {	# missing key residues 9 - 14
+				if ( $twoField =~ /DRB1\*04:20$/ ) {	# missing key residues 9 - 14
 					print FILE ",InSilico,DR0403,,DR4";
 				}
-				elsif ( $allele =~ /DQB1\*05:03:02/ ) {
-					print FILE ",InSilico,,DQ5,DQ1";
-				}
-				elsif ( $allele =~ /DQB1\*06:01:02/ ) {
-					print FILE ",InSilico,,DQ6,DQ1";
-				}
-				elsif ( $allele =~ /DQB1\*06:05:02/ ) {
-					print FILE ",InSilico,,DQ6,DQ1";
-				}
-				elsif ( $allele =~ /DQB1\*06:06/ ) {
+				elsif ( $twoField =~ /DQB1\*06:06/ ) {
 					print FILE ",InSilico,,DQ6,DQ1";
 				}
 				if ( exists $ciwd_ref->{ $twoField } ) {
@@ -744,18 +728,20 @@ sub COMBINED_TWO {
 					print FILE ",";
 				}
 				if ( exists $ecwd_ref->{ $twoField } ) {
-					print FILE $ecwd_ref->{ $twoField } . ",";
+					print FILE $ecwd_ref->{ $twoField } . "\n";
 				}
 				else {
-					print FILE ",";
+					print FILE "\n";
 				}
-				print FILE "\n";
+
 			}
 		}
-		$twoField{$twoField} = 0;
+
 	}
 	close FILE;
+
 }
+
 
 sub ANTIGEN {
 	return $antigen_ref;

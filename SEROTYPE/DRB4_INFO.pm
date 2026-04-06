@@ -8,7 +8,7 @@
 
 # module: DRB4_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on February 1 2026
+# last modified and documented on April 5 2026
 
 package DRB4_INFO;
 use strict;
@@ -144,6 +144,18 @@ sub PARTIAL {		# partial sequence
 	$partial{ "general" } = $seq;
 		
 	return $partial_ref;
+}
+
+
+sub REF_ALLELE {
+	my $ref_allele = "DRB4*01:01:01:01";
+	return $ref_allele;
+}
+
+sub MSF {
+	my $file = "input/DRB_prot.msf";
+	my $msf_ref = $file;
+	return $msf_ref;
 }
 
 sub KNOWN_CROSS {	# trick to make SEROTYPE to FULL

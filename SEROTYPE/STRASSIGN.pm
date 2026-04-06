@@ -9,7 +9,7 @@
 # module: STRASSIGN.pm
 # stringent assign
 # This module was developed to convert HLA allele to HLA serotype using strict mode
-# last modified and documented on February 22 2026
+# last modified and documented on April 5 2026
 #
 
 package STRASSIGN;
@@ -17,7 +17,6 @@ use strict;
 use POSIX qw(strftime);
 
 my $date = strftime "%Y-%m-%d", localtime;
-#my $date = `date +%F`;          # invoke bash date command
 chomp $date;    # remove newline character
 
 sub all {		# deal with remaining serotypes with strict mode
@@ -146,5 +145,57 @@ sub all {		# deal with remaining serotypes with strict mode
 
 	return $assigned_ref;
 }
+
+# added this to handle DPB1 alleles lacking exon 3 sequence
+# DPB1*04:01:01:01 (full) and DPB1*04:02:01 (partial) to be same antigen assignment
+# TwoField (protein) assignment
+sub PROTEIN {
+	my ($assigned_ref ) = @_;
+	my %protein;
+	my $protein_ref = \%protein;
+	my @alleles = keys %$assigned_ref;
+	my $alleles_ref = \@alleles;
+
+	my $alleles_sorted_ref = GROUP_SORT::SORT( $alleles_ref );
+	foreach my $allele ( @$alleles_sorted_ref ) {
+		my $twoField = "";
+		if ( $allele =~ /(\w+\*\d+:\d+)/ ) {
+			$twoField = $1;
+		}
+		if ( exists $protein{ $twoField } ) {
+			next;
+		}
+		else {
+			$protein{ $twoField } = $assigned_ref->{ $allele }
+		}
+
+	}
+	return $protein_ref;
+}
+
+
+sub PROTEIN_ALLELE_REF {
+	my ($assigned_ref ) = @_;
+	my %protein_allele;
+	my $protein_allele_ref = \%protein_allele;
+	my @alleles = keys %$assigned_ref;
+	my $alleles_ref = \@alleles;
+
+	my $alleles_sorted_ref = GROUP_SORT::SORT( $alleles_ref );
+	foreach my $allele ( @$alleles_sorted_ref ) {
+		my $twoField = "";
+		if ( $allele =~ /(\w+\*\d+:\d+)/ ) {
+			$twoField = $1;
+		}
+		if ( exists $protein_allele{ $twoField } ) {
+			next;
+		}
+		else {
+			$protein_allele{ $twoField } = $allele;
+		}
+	}
+	return $protein_allele_ref;
+}
+
 
 1;

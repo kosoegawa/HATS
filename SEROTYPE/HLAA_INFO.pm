@@ -8,7 +8,7 @@
 
 # module: HLAA_INFO.pm 
 # This module was developed to convert HLA allele to HLA serotype
-# last modified and documented on January 22 2026
+# last modified and documented on April 5 2026
 
 package HLAA_INFO;
 use strict;
@@ -584,6 +584,7 @@ sub BW {
 	return $bw_ref;
 }
 
+# This should be replaced with MSF below
 sub PARTIAL {		# partial sequence
 	my %partial;
 	my $partial_ref = \%partial;
@@ -595,6 +596,17 @@ sub PARTIAL {		# partial sequence
 	$partial{ "general" } = $seq;
 		
 	return $partial_ref;
+}
+
+sub REF_ALLELE {
+	my $ref_allele = "A*01:01:01:01";
+	return $ref_allele;
+}
+
+sub MSF {
+	my $file = "input/A_prot.msf";
+	my $msf_ref = $file;
+	return $msf_ref;
 }
 
 # Do I need this?

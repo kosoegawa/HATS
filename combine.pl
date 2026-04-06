@@ -8,7 +8,7 @@
 
 # module: combine.pl
 # This is to merge all serotype tables in RESULTS directory
-# last modified and documented on February 17 2026
+# last modified and documented on April 5 2026
 
 use strict;
 use lib 'SEROTYPE';
@@ -21,9 +21,7 @@ use PRACTICAL_COMBINE;
 my $combined_dir = "COMBINED/";
 my @csv = glob($combined_dir . "*.csv");
 foreach my $csv ( @csv ) {
-	if ( $csv =~ /combined/ ) {
-		unlink $csv;
-	}
+	unlink $csv;
 }
 
 my $results_dir = "RESULTS/";
