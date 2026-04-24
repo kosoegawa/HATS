@@ -11,7 +11,7 @@
 # last modified and documented on February 19 2026
 
 use strict;
-use lib '/data/kazu/workplace/serotype/SEROTYPE';
+use lib 'SEROTYPE';
 use HLAA_INFO;
 use HLAB_INFO;
 use CBw;

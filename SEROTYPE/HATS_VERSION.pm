@@ -14,7 +14,7 @@ package HATS_VERSION;
 use strict;
 
 sub VERSION {
-	my $version = "HATSv4.0.3";
+	my $version = "HATSv4.0.4";
 	return $version;
 }
 
@@ -119,6 +119,23 @@ sub VERSION {
 # Modified RESIDUES.pm
 # Added READ_MSF.pm to read msf file
 # The .msf files are aligned against the reference.
+#
+###################################################################################################################################
+# v4.04
+# To reflect the current number of antigens,
+# In SEROTYPE/SUMCOUNT.pm
+# The following lines were added
+#	my %una_deleted = %full;
+#	if ( exists $una_deleted{"UNA"}) {
+#		delete($una_deleted{"UNA"});
+#	}
+#	print FILE "Number of Antigens exluding UNA," . scalar (keys %una_deleted) . "\n";
+#
+#'/data/kazu/workplace/serotype/SEROTYPE'; with use lib 'SEROTYPE'; in file runBw46.pl
+#
+#
+#
+#
 #
 #
 #
