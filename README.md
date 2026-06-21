@@ -125,38 +125,48 @@ If you prefer to generate files for each locus separately, use the following exe
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-## REFERENCES
-Osoegawa K, Marsh SGE, Holdsworth R, Heidt S, Fischer G, Murphey C, Maiers M, Fernández Viňa MA. A new strategy for systematically classifying HLA alleles into serological specificities. HLA. 2022 Sep;100(3):193-231. doi: 10.1111/tan.14662. Epub 2022 Jun 22. PMID: 35538616.
-Osoegawa K, Yim K, Jeracki M, Nguyen TN, Wang L, Cho A, David R, Son J, Mankey A, Marsh SGE, Gendzekhadze K, Murphey C, Fernández Viňa MA. A new strategy for systematically classifying HLA alleles into serological specificities: Update and refinement. HLA. 2024 Oct;104(4):e15702. doi: 10.1111/tan.15702. PMID: 39435845.
-Osoegawa K, Son J, Yim K, Marsh SGE, Fernández Viňa MA. Replacements at Structural or Functional Dimorphisms 103, 109 and 167 Distinguish HLA Class I Serologically Defined Antigens. HLA. 2025 Sep;106(3):e70387. doi: 10.1111/tan.70387. PMID: 40944463; PMCID: PMC12432678.
-Marsh SGE, Osoegawa K, Bodmer WF, Bontrop RE, Carrington MN, Erlich HA, Heidt S, Holdsworth R, Mayr WR, Maiers M, Parham P, Petersdorf EW, Robinson J, Trowsdale J, Fernández-Viña M. Nomenclature for Factors of the HLA System, 2026. HLA. 2026 Mar;107(3):e70595. doi: 10.1111/tan.70595. PMID: 41742599; PMCID: PMC12936402.
+📚 References & Catalogues
+Core HATS Methodologies
 
-## input directory:
-# The following files: hla_prot.fasta, A_prot.msf, B_prot.msf, C_prot.msf, DRB_prot.msf, DPA1_prot.msf, DPB1_prot.msf, DQA1_prot.msf and DQB1_prot.msf are downloaded from https://github.com/ANHIG/IMGTHLA/ and saved in input directory for test.
+    Osoegawa K, Marsh SGE, Holdsworth R, Heidt S, Fischer G, Murphey C, Maiers M, Fernández Viňa MA. A new strategy for systematically classifying HLA alleles into serological specificities. HLA. 2022 Sep;100(3):193-231. doi:10.1111/tan.14662. Epub 2022 Jun 22. PMID: 35538616.
 
-#IPD-IMGT/HLA Database reference:
-Robinson J, Barker DJ, Georgiou X, Cooper MA, Flicek P, Marsh SGE. IPD-IMGT/HLA Database. Nucleic Acids Res. 2020 Jan 8;48(D1):D948-D955. doi: 10.1093/nar/gkz950. PMID: 31667505; PMCID: PMC7145640.
+    Osoegawa K, Yim K, Jeracki M, Nguyen TN, Wang L, Cho A, David R, Son J, Mankey A, Marsh SGE, Gendzekhadze K, Murphey C, Fernández Viňa MA. A new strategy for systematically classifying HLA alleles into serological specificities: Update and refinement. HLA. 2024 Oct;104(4):e15702. doi:10.1111/tan.15702. PMID: 39435845.
 
-#CWD2.0, CIWD3.0 and European CWD catalogues were downloaded from the following literatures, formatted and saved in CWD2, CIWD and EURCWD directories, respectively.
+    Osoegawa K, Son J, Yim K, Marsh SGE, Fernández Viňa MA. Replacements at Structural or Functional Dimorphisms 103, 109 and 167 Distinguish HLA Class I Serologically Defined Antigens. HLA. 2025 Sep;106(3):e70387. doi:10.1111/tan.70387. PMID: 40944463; PMCID: PMC12432678.
 
-#CWD 2.0 catalogue:
-Mack SJ, Cano P, Hollenbach JA, He J, Hurley CK, Middleton D, Moraes ME, Pereira SE, Kempenich JH, Reed EF, Setterholm M, Smith AG, Tilanus MG, Torres M, Varney MD, Voorter CE, Fischer GF, Fleischhauer K, Goodridge D, Klitz W, Little AM, Maiers M, Marsh SG, Müller CR, Noreen H, Rozemuller EH, Sanchez-Mazas A, Senitzer D, Trachtenberg E, Fernandez-Vina M. Common and well-documented HLA alleles: 2012 update to the CWD catalogue. Tissue Antigens. 2013 Apr;81(4):194-203. doi: 10.1111/tan.12093. PMID: 23510415; PMCID: PMC3634360.
+    Marsh SGE, Osoegawa K, Bodmer WF, Bontrop RE, Carrington MN, Erlich HA, Heidt S, Holdsworth R, Mayr WR, Maiers M, Parham P, Petersdorf EW, Robinson J, Trowsdale J, Fernández-Viña M. Nomenclature for Factors of the HLA System, 2026. HLA. 2026 Mar;107(3):e70595. doi:10.1111/tan.70595. PMID: 41742599; PMCID: PMC12936402.
 
-#CIWD 3.0 catalogue:
-Hurley CK, Kempenich J, Wadsworth K, Sauter J, Hofmann JA, Schefzyk D, Schmidt AH, Galarza P, Cardozo MBR, Dudkiewicz M, Houdova L, Jindra P, Sorensen BS, Jagannathan L, Mathur A, Linjama T, Torosian T, Freudenberger R, Manolis A, Mavrommatis J, Cereb N, Manor S, Shriki N, Sacchi N, Ameen R, Fisher R, Dunckley H, Andersen I, Alaskar A, Alzahrani M, Hajeer A, Jawdat D, Nicoloso G, Kupatawintu P, Cho L, Kaur A, Bengtsson M, Dehn J. Common, intermediate and well-documented HLA alleles in world populations: CIWD version 3.0.0. HLA. 2020 Jun;95(6):516-531. doi: 10.1111/tan.13811. Epub 2020 Jan 31. PMID: 31970929; PMCID: PMC7317522.
+Reference Databases
 
-#European CWD catalogue:
-Sanchez-Mazas A, Nunes JM, Middleton D, Sauter J, Buhler S, McCabe A, Hofmann J, Baier DM, Schmidt AH, Nicoloso G, Andreani M, Grubic Z, Tiercy JM, Fleischhauer K. Common and well-documented HLA alleles over all of Europe and within European sub-regions: A catalogue from the European Federation for Immunogenetics. HLA. 2017 Feb;89(2):104-113. doi: 10.1111/tan.12956. PMID: 28102034.
+    IPD-IMGT/HLA Database: Robinson J, Barker DJ, Georgiou X, Cooper MA, Flicek P, Marsh SGE. IPD-IMGT/HLA Database. Nucleic Acids Res. 2020 Jan 8;48(D1):D948-D955. doi:10.1093/nar/gkz950. PMID: 31667505; PMCID: PMC7145640.
 
-## License
-© 2022 Stanford Blood Center L.L.C.
+        Note: The necessary source sequence files (hla_prot.fasta, A_prot.msf, B_prot.msf, C_prot.msf, DRB_prot.msf, DPA1_prot.msf, DPB1_prot.msf, DQA1_prot.msf, and DQB1_prot.msf) must be downloaded from the ANHIG/IMGTHLA GitHub Repository and saved into your project's local input/ directory for testing.
 
-Please cite this work as:
-Osoegawa, Kazutoyo et al. “A new strategy for systematically classifying HLA alleles into serological specificities.” HLA vol. 100,3 (2022): 193-231. doi:10.1111/tan.14662
+Allele Catalogues
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+The CWD2.0, CIWD3.0, and European CWD catalogues should be sourced from the literature below, properly formatted, and saved in your local CWD2/, CIWD/, and EURCWD/ directories respectively.
+
+    CWD 2.0 Catalogue: Mack SJ, Cano P, Hollenbach JA, He J, Hurley CK, Middleton D, Moraes ME, Pereira SE, Kempenich JH, Reed EF, Setterholm M, Smith AG, Tilanus MG, Torres M, Varney MD, Voorter CE, Fischer GF, Fleischhauer K, Goodridge D, Klitz W, Little AM, Maiers M, Marsh SG, Müller CR, Noreen H, Rozemuller EH, Sanchez-Mazas A, Senitzer D, Trachtenberg E, Fernandez-Vina M. Common and well-documented HLA alleles: 2012 update to the CWD catalogue. Tissue Antigens. 2013 Apr;81(4):194-203. doi:10.1111/tan.12093. PMID: 23510415; PMCID: PMC3634360.  
+
+    CIWD 3.0 Catalogue: Hurley CK, Kempenich J, Wadsworth K, Sauter J, Hofmann JA, Schefzyk D, Schmidt AH, Galarza P, Cardozo MBR, Dudkiewicz M, Houdova L, Jindra P, Sorensen BS, Jagannathan L, Mathur A, Linjama T, Torosian T, Freudenberger R, Manolis A, Mavrommatis J, Cereb N, Manor S, Shriki N, Sacchi N, Ameen R, Fisher R, Dunckley H, Andersen I, Alaskar A, Alzahrani M, Hajeer A, Jawdat D, Nicoloso G, Kupatawintu P, Cho L, Kaur A, Bengtsson M, Dehn J. Common, intermediate and well-documented HLA alleles in world populations: CIWD version 3.0.0. HLA. 2020 Jun;95(6):516-531. doi:10.1111/tan.13811. Epub 2020 Jan 31. PMID: 31970929; PMCID: PMC7317522.  
+
+    European CWD Catalogue: Sanchez-Mazas A, Nunes JM, Middleton D, Sauter J, Buhler S, McCabe A, Hofmann J, Baier DM, Schmidt AH, Nicoloso G, Andreani M, Grubic Z, Tiercy JM, Fleischhauer K. Common and well-documented HLA alleles over all of Europe and within European sub-regions: A catalogue from the European Federation for Immunogenetics. HLA. 2017 Feb;89(2):104-113. doi:10.1111/tan.12956. PMID: 28102034.
+
+
+📝 License
+
+© 2022 Stanford Blood Center L.L.C.  
+
+Please cite this work as:  
+
+    Osoegawa, Kazutoyo et al. “A new strategy for systematically classifying HLA alleles into serological specificities.” HLA vol. 100,3 (2022): 193-231. doi:10.1111/tan.14662  
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:  
+
+    Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+    Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
