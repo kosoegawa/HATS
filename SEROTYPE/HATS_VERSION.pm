@@ -8,13 +8,18 @@
 
 # module: HATS_VERSION.pm 
 # This module was developed to show HATS version
-# last modified and documented on March 8 2026
+# last modified and documented on June 19 2026
 
 package HATS_VERSION;
 use strict;
 
 sub VERSION {
-	my $version = "HATSv4.0.4";
+	my $version = "HATSv4.1.0";
+	return $version;
+}
+
+sub IMGT_HLA_VERSION {
+	my $version = "3.64.0";
 	return $version;
 }
 
@@ -121,7 +126,7 @@ sub VERSION {
 # The .msf files are aligned against the reference.
 #
 ###################################################################################################################################
-# v4.04
+# v4.0.4
 # To reflect the current number of antigens,
 # In SEROTYPE/SUMCOUNT.pm
 # The following lines were added
@@ -133,8 +138,29 @@ sub VERSION {
 #
 #'/data/kazu/workplace/serotype/SEROTYPE'; with use lib 'SEROTYPE'; in file runBw46.pl
 #
+###################################################################################################################################
+# v4.1.0
+# Decided to jump to 4.1.0, since the structual change of the output files
+# Fixed a bug in PRACTICAL.pm file
+# Deleted the following duplicated segment
+#			if ( exists $bw_ref2->{ $allele }) {
+#				print FILE "," . $bw_ref2->{ $allele };
+#			}
+#			elsif ( exists $bw_ref->{ $group }) {
+#				print FILE "," . $bw_ref->{ $group };
+#			}
+#			else {
+#				print FILE ",";
+#			}
 #
+# Added
+# sub IMGT_HLA_VERSION in this module
+# 
+# Changed PRACTICAL_PRO to TWOPRACTICAL to be consistent
+# Moved COMBINED COUNT LEGACY PRACTICAL RESIDUES RESULTS TWOPRACTICAL TWORESULTS under output directory
+# Modified all run files.
 #
+# Added rm output/*csv to clean up output directory
 #
 #
 #

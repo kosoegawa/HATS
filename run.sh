@@ -31,4 +31,6 @@
 
 ./runHATSversion.pl
 
+rm output/*csv
+
 exit 0

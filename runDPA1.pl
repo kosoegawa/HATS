@@ -8,8 +8,7 @@
 
 # module: runDPA1.pl 
 # Driver for DPA1
-# If partial sequences are used as a reference, add the optional argument
-# last modified and documented on April 5 2026
+# last modified and documented on June 19 2026
 
 use strict;
 use lib 'SEROTYPE';
@@ -35,14 +34,12 @@ chomp $date;    # remove newline character
 
 #capture input file
 my @file = glob('input/*');
-my $database = "3.39.0";	# IPD-IMGT/HLA database version
+my $database =  HATS_VERSION::IMGT_HLA_VERSION();	# IPD-IMGT/HLA database version
 my $hats = HATS_VERSION::VERSION();	# HATS version
 my $file = "";
 foreach my $tmp ( @file ) {
 	print $tmp . "\n";
-	if ( $tmp =~ /hla_prot\.fasta\.(.*+)/ ) {
-	# capture database version
-		$database = $1;
+	if ( $tmp =~ /hla_prot\.fasta/ ) {
 		$file = $tmp;
 	}
 }	

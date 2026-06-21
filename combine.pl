@@ -18,23 +18,24 @@ use RESULT_COMBINE;
 use PRACTICAL_COMBINE;
 
 
-my $combined_dir = "COMBINED/";
+my $output = "output/";
+my $combined_dir = $output . "COMBINED/";
 my @csv = glob($combined_dir . "*.csv");
 foreach my $csv ( @csv ) {
 	unlink $csv;
 }
 
-my $results_dir = "RESULTS/";
-RESULT_COMBINE::COMBINE( $results_dir );
+my $results_dir = $output . "RESULTS/";
+RESULT_COMBINE::COMBINE( $results_dir, $combined_dir );
 
-$results_dir = "TWORESULTS/";
-RESULT_COMBINE::COMBINE( $results_dir );
+$results_dir = $output . "TWORESULTS/";
+RESULT_COMBINE::COMBINE( $results_dir, $combined_dir  );
 
-$results_dir = "PRACTICAL/";
-PRACTICAL_COMBINE::COMBINE( $results_dir );
+$results_dir = $output . "PRACTICAL/";
+PRACTICAL_COMBINE::COMBINE( $results_dir, $combined_dir  );
 
-$results_dir = "PRACTICAL_PRO/";
-PRACTICAL_COMBINE::COMBINE( $results_dir );
+$results_dir = $output . "TWOPRACTICAL/";
+PRACTICAL_COMBINE::COMBINE( $results_dir, $combined_dir  );
 
 
 

@@ -8,11 +8,11 @@
 
 # module: RESULT_COMBINE.pm 
 # This module was developed to generate Summary table
-# last modified and documented on February 20 2026
+# last modified and documented on June 19 2026
 
 package RESULT_COMBINE;
 use strict;
-use lib '/data/kazu/workplace/serotype/SEROTYPE';
+use lib 'SEROTYPE';
 use Openfile;
 use GROUP_SORT;
 use POSIX qw(strftime);
@@ -21,7 +21,7 @@ my $date = strftime "%Y-%m-%d", localtime;
 chomp $date;    # remove newline character
 
 sub COMBINE {		# deal with remaining serotypes with strict mode
-	my ($results_dir) = @_;
+	my ($results_dir,$combined_dir) = @_;
 	my @csv = glob($results_dir . "*.csv");
 
 	my $header = "";
@@ -67,7 +67,7 @@ sub COMBINE {		# deal with remaining serotypes with strict mode
 	}
 
 	print $gene . "\n";
-	open( FILE, ">COMBINED/combined" . $gene . "_" . $db . "_" . $date . ".csv" );
+	open( FILE, ">" . $combined_dir . "combined" . $gene . "_" . $db . "_" . $date . ".csv" );
 	print FILE $header . "\n";
 	my $alleles_sorted_ref = GROUP_SORT::SORT( $alleles_ref );
 	foreach my $allele ( @$alleles_sorted_ref ) {

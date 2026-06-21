@@ -8,12 +8,13 @@
 
 # module: PRACTICAL.pm 
 # This module was developed to print table
-# last reviewed, modified and documented on April 3 2026
+# last reviewed, modified and documented on June 19 2026
 
 package PRACTICAL;
 use strict;
 use GROUP_SORT;
 use COMBINE;
+use STRASSIGN;
 use POSIX qw(strftime);
 
 #my $date = `date +%F`;          # invoke bash date command
@@ -683,6 +684,11 @@ sub COMBINED_TWO {
 			}
 
 			print FILE $twoField . "," . $serotype . "," . $qualifier . "," . $parent_ref->{ $group } . "," . $broad_ref->{ $group };
+
+
+
+
+
 			if ( exists $ciwd_ref->{ $twoField } ) {
 				print FILE "," . $ciwd_ref->{ $twoField};
 			}
@@ -696,20 +702,10 @@ sub COMBINED_TWO {
 				print FILE ",";
 			}
 			if ( exists $ecwd_ref->{ $twoField } ) {
-				print FILE "," . $ecwd_ref->{ $twoField };
+				print FILE "," . $ecwd_ref->{ $twoField } . ",";
 			}
 			else {
-				print FILE ",";
-			}
-
-			if ( exists $bw_ref2->{ $allele }) {
-				print FILE "," . $bw_ref2->{ $allele };
-			}
-			elsif ( exists $bw_ref->{ $group }) {
-				print FILE "," . $bw_ref->{ $group };
-			}
-			else {
-				print FILE ",";
+				print FILE ",,";
 			}
 
 			if (( $gene eq "B" ) || ( $gene eq "C" )) {	# HLA-B

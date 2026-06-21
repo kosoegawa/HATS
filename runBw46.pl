@@ -8,7 +8,7 @@
 
 # module:runBw46.pl 
 # Driver for Bw4 and Bw6
-# last modified and documented on February 19 2026
+# last modified and documented on June 19 2026
 
 use strict;
 use lib 'SEROTYPE';
@@ -17,11 +17,14 @@ use HLAB_INFO;
 use CBw;
 use POSIX qw(strftime);
 use COMBINE;
+use HATS_VERSION;
 
 
 my $date = strftime "%Y-%m-%d", localtime;
 chomp $date;    # remove newline character
 
+my $output = "output/";
+my $combined = "COMBINED/";
 
 my @bw4bw6 = glob('COMBINED/Antigen_Bw4Bw6_*');
 my $bw4bw6_count = scalar @bw4bw6;
@@ -29,29 +32,24 @@ if ( $bw4bw6_count > 0 ) {
 	unlink @bw4bw6;
 }
 
-
 #capture input file
 my @file = glob('input/*');
-my $database = "3.39.0";	# IPD-IMGT/HLA database version
-my $hats = "HATSv3.0.0";	# HATS version
+my $database =  HATS_VERSION::IMGT_HLA_VERSION();	# IPD-IMGT/HLA database version
+my $hats = HATS_VERSION::VERSION();	# HATS version
+my $file = "";
 foreach my $tmp ( @file ) {
 	print $tmp . "\n";
-	if ( $tmp =~ /hla_prot\.fasta\.(.*+)/ ) {
-	# capture database version
-		$database = $1;
-	}
-	elsif ( $tmp =~ /(HATSv.*)/ ) {
-		$hats = $1;
+	if ( $tmp =~ /hla_prot\.fasta/ ) {
+		$file = $tmp;
 	}
 }	
-
 
 my $a_bw_ref = HLAA_INFO::BW();
 my $b_bw_ref = HLAB_INFO::BW();
 my $c_bw_ref = CBw::BW();
 my $antigen_ref = COMBINE::ANTIGEN();
 
-open ( FILE, ">COMBINED/Antigen_Bw4Bw6_" . $database . "_" . $date . "_.csv" );	#create an empty file to tage database version	
+open ( FILE, ">" . $output . $combined . "Antigen_Bw4Bw6_" . $database . "_" . $date . ".csv" );	#create an empty file to tage database version	
 print FILE "B Antigen,Bw4/Bw6 Inclusion\n";
 foreach my $antigen ( sort keys %$b_bw_ref ) {
 	if ( exists $antigen_ref->{$antigen} ) {

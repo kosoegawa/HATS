@@ -9,7 +9,7 @@
 # module: SUMCOUNT.pm 
 # This module was developed to generate Summary table
 # Separated from COUNT.pm
-# last reviewed on February 26 2026
+# last reviewed on April 14 2026
 
 package SUMCOUNT;
 use strict;
@@ -120,6 +120,11 @@ sub SUMMARY {
 	}
 
 	open(FILE, ">output/" . $gene . $out_name . $date . ".csv"); 
+	my %una_deleted = %full;
+	if ( exists $una_deleted{"UNA"}) {
+		delete($una_deleted{"UNA"});
+	}
+	print FILE "Number of Antigens exluding UNA," . scalar (keys %una_deleted) . "\n";
 	print FILE "Number of residues used for FULL," . scalar @$residues_all_ref . "\n\n";
 	print FILE "ANTIGEN,FULL,SEROTYPE,INCOMPLETE,InSilico\n";
 	my $full = 0;
