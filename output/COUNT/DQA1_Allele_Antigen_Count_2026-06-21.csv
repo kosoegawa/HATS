@@ -1,0 +1,21 @@
+Number of Antigens exluding UNA,6
+Number of residues used for FULL,8
+
+ANTIGEN,FULL,SEROTYPE,INCOMPLETE,InSilico
+DQA01,291,80,6,0
+DQA02,88,1,1,0
+DQA03,156,7,1,0
+DQA04,55,0,1,0
+DQA05,270,3,4,0
+DQA06,22,0,0,0
+
+AssignedTotal,882,91,13,0
+CommonTotal,0,0,0,0
+IntermediateTotal,0,0,0,0
+WellDocumentedTotal,0,0,0,0
+RareTotal,882,91,13,0
+
+TOTAL EXPRESSED ALLELES,986
+Null alleles,25
+Q alleles,15
+TOTAL ALLELES,1026

@@ -8,7 +8,7 @@
 
 # module: COPYRESULT.pm 
 # This module was developed to copy result files
-# last reviewed on June 19 2026
+# last reviewed on June 21 2026
 
 package COPYRESULT;
 use strict;
@@ -25,7 +25,7 @@ sub COPYRESULT {
 	}
 	copy($output . $gene . "_Allele_Antigen_Table_IMGT_HLA_" . $database . "_" . $date . ".csv", $output . "RESULTS/") or die "Copy failed: $!";
 
-	@csv = glob("COUNT/" . $gene . "_Allele_Antigen_Count_*");
+	@csv = glob($output . "COUNT/" . $gene . "_Allele_Antigen_Count_*");
 	$csvs = scalar @csv;
 	if ( $csvs > 0 ) {
 		unlink @csv;
@@ -42,7 +42,7 @@ sub COPYTWORESULT {
 	}
 	copy($output . $gene . "_Protein_Antigen_Table_IMGT_HLA_" . $database . "_" . $date . ".csv", $output . "TWORESULTS/") or die "Copy failed: $!";
 
-	@csv = glob("COUNT/" . $gene . "_Protein_Antigen_Count_*");
+	@csv = glob($output . "COUNT/" . $gene . "_Protein_Antigen_Count_*");
 	$csvs = scalar @csv;
 	if ( $csvs > 0 ) {
 		unlink @csv;
@@ -59,7 +59,7 @@ sub COPYPRACTICAL {
 	}
 	copy($output . $gene . "_Allele_Antigen_Practical_Table_IMGT_HLA_" . $database . "_" . $date . ".csv", $output . "PRACTICAL/") or die "Copy failed: $!";
 
-	@csv = glob("PRACTICAL_PRO/" . $gene . "*_Table_IMGT_HLA_*");
+	@csv = glob($output . "TWOPRACTICAL/" . $gene . "*_Table_IMGT_HLA_*");
 	$csvs = scalar @csv;
 	if ( $csvs > 0 ) {
 		unlink @csv;
