@@ -80,7 +80,6 @@ To compute serotype mappings for all 11 HLA loci globally in a single invocation
 
 ### Run Loci Separately
 If you prefer to generate files for each locus separately, use the following execution scripts:
-```perl
 # Generate HLA-A allele to serotype table
 ./runHlaA.pl
 
