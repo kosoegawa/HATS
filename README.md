@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/License-SBC%20BSD--3--Clause-green.svg)](#license)
 
 ## 📌 Introduction
-The **HLA Allele To Serotype (HATS)** tool generates various HLA allele-to-serotype conversion mapping files using the reference sequences provided by the **IPD-IMGT/HLA Database**. 
+The **HLA Allele To Serotype (HATS)** tool generates various HLA allele-to-serotype conversion mapping files using the reference sequences provided by the **IPD-IMGT/HLA Database**. The IPD-IMGT/HLA Database uses the “main" branch for any HATS assignments in the tools and outputs it provides. Any specifications generated using the “dev” branch may provide alternative assignments.  
 
 HATS was developed using **Perl 5 (v5.26.3)** on **Red Hat Enterprise Linux 8.6**.
 
